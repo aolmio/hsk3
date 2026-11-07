@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>HSK 2.0 & 3.0/3.1 Pro Hub | Complete Chinese Learning Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+<style>
+:root {
+--primary: #e11d48;
+--primary-hover: #be123c;
+--primary-soft: rgba(225, 29, 72, 0.1);
+--accent: #f59e0b;
+--bg-body: #f8fafc;
+--bg-surface: #ffffff;
+--bg-elevated: #f1f5f9;
+--text-main: #0f172a;
+--text-muted: #64748b;
+--border: #e2e8f0;
+--radius-lg: 16px;
+--radius-md: 12px;
+--radius-sm: 8px;
+--shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+--sidebar-w: 280px;
+--header-h: 64px;
+--bottom-nav-h: 68px;
+}
+
+html[data-theme="dark"],
+body[data-theme="dark"] {
+--primary: #fb7185;
+--primary-hover: #f43f5e;
+--primary-soft: rgba(251, 113, 133, 0.16);
+--accent: #fbbf24;
+--bg-body: #090d16;
+--bg-surface: #111827;
+--bg-elevated: #1e293b;
+--text-main: #f8fafc;
+--text-muted: #94a3b8;
+--border: #1f2937;
+--shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.5);
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+-webkit-tap-highlight-color: transparent;
+}
+
+body {
+font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background-color: var(--bg-body);
+color: var(--text-main);
+line-height: 1.6;
+overflow-x: hidden;
+transition: background-color 0.25s, color 0.25s;
+}
+
+.app-shell {
+display: flex;
+min-height: 100vh;
+}
+
+.pc-sidebar {
+width: var(--sidebar-w);
+background: var(--bg-surface);
+border-right: 1px solid var(--border);
+position: fixed;
+top: 0;
+left: 0;
+bottom: 0;
+display: flex;
+flex-direction: column;
+z-index: 200;
+padding: 1.25rem;
+}
+
+.brand-box {
+display: flex;
+align-items: center;
+gap: 0.75rem;
+padding-bottom: 1.25rem;
+border-bottom: 1px solid var(--border);
+margin-bottom: 1rem;
+}
+
+.brand-logo {
+width: 42px;
+height: 42px;
+border-radius: 12px;
+background: linear-gradient(135deg, #e11d48, #f97316);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.35rem;
+font-weight: 800;
+box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+}
+
+.brand-title {
+font-weight: 800;
+font-size: 1.15rem;
+letter-spacing: -0.3px;
+}
+
+.brand-sub {
+font-size: 0.75rem;
+color: var(--text-muted);
+display: block;
+}
+
+.nav-section-label {
+font-size: 0.72rem;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+color: var(--text-muted);
+font-weight: 700;
+margin: 0.75rem 0 0.4rem 0.5rem;
+}
+
+.side-nav-list {
+display: flex;
+flex-direction: column;
+gap: 0.25rem;
+flex: 1;
+overflow-y: auto;
+}
+
+.side-btn {
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+padding: 0.65rem 0.85rem;
+border: none;
+background: transparent;
+color: var(--text-main);
+font-size: 0.9rem;
+font-weight: 600;
+border-radius: var(--radius-sm);
+cursor: pointer;
+transition: all 0.18s;
+text-align: left;
+}
+
+.side-btn:hover {
+background: var(--bg-elevated);
+}
+
+.side-btn.active {
+background: var(--primary-soft);
+color: var(--primary);
+}
+
+.side-badge {
+font-size: 0.7rem;
+padding: 0.15rem 0.5rem;
+border-radius: 99px;
+background: var(--bg-elevated);
+color: var(--text-muted);
+font-weight: 700;
+}
+
+.side-btn.active .side-badge {
+background: var(--primary);
+color: #fff;
+}
+
+.sidebar-footer {
+border-top: 1px solid var(--border);
+padding-top: 0.9rem;
+font-size: 0.76rem;
+color: var(--text-muted);
+}
+
+.main-workspace {
+flex: 1;
+margin-left: var(--sidebar-w);
+display: flex;
+flex-direction: column;
+min-width: 0;
+}
+
+.top-header {
+height: var(--header-h);
+background: var(--bg-surface);
+border-bottom: 1px solid var(--border);
+position: sticky;
+top: 0;
+z-index: 150;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 1.75rem;
+gap: 1rem;
+}
+
+.header-title-group {
+display: flex;
+align-items: center;
+gap: 0.65rem;
+font-weight: 800;
+font-size: 0.95rem;
+}
+
+.status-pill {
+display: inline-flex;
+align-items: center;
+gap: 0.45rem;
+font-size: 0.78rem;
+font-weight: 700;
+padding: 0.32rem 0.75rem;
+border-radius: 99px;
+background: var(--bg-elevated);
+color: var(--text-main);
+border: 1px solid var(--border);
+}
+
+.header-actions {
+display: flex;
+align-items: center;
+gap: 0.65rem;
+}
+
+.icon-btn {
+background: var(--bg-elevated);
+border: 1px solid var(--border);
+color: var(--text-main);
+padding: 0.48rem 0.85rem;
+border-radius: var(--radius-sm);
+font-size: 0.84rem;
+font-weight: 600;
+cursor: pointer;
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
+transition: all 0.2s;
+}
+
+.icon-btn:hover {
+border-color: var(--primary);
+color: var(--primary);
+}
+
+.mobile-level-strip {
+display: none;
+overflow-x: auto;
+white-space: nowrap;
+background: var(--bg-surface);
+border-bottom: 1px solid var(--border);
+padding: 0.55rem 0.85rem;
+gap: 0.45rem;
+position: sticky;
+top: var(--header-h);
+z-index: 140;
+scrollbar-width: none;
+}
+
+.mobile-level-strip::-webkit-scrollbar {
+display: none;
+}
+
+.lvl-chip {
+padding: 0.4rem 0.9rem;
+border-radius: 99px;
+border: 1px solid var(--border);
+background: var(--bg-elevated);
+color: var(--text-main);
+font-size: 0.82rem;
+font-weight: 700;
+cursor: pointer;
+flex-shrink: 0;
+}
+
+.lvl-chip.active {
+background: var(--primary);
+color: #fff;
+border-color: var(--primary);
+}
+
+.content-container {
+max-width: 1280px;
+width: 100%;
+margin: 0 auto;
+padding: 1.75rem;
+}
+
+.hero-banner {
+background: linear-gradient(135deg, #be123c 0%, #e11d48 55%, #f97316 100%);
+color: #fff;
+border-radius: var(--radius-lg);
+padding: 2rem;
+margin-bottom: 1.75rem;
+box-shadow: var(--shadow);
+position: relative;
+overflow: hidden;
+}
+
+.hero-banner h1 {
+font-size: 1.85rem;
+font-weight: 800;
+margin-bottom: 0.5rem;
+letter-spacing: -0.02em;
+}
+
+.hero-banner p {
+max-width: 760px;
+opacity: 0.94;
+font-size: 0.96rem;
+margin-bottom: 1.15rem;
+}
+
+.repo-pills {
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+}
+
+.repo-pill {
+background: rgba(0, 0, 0, 0.28);
+color: #fff;
+text-decoration: none;
+font-size: 0.76rem;
+font-weight: 600;
+padding: 0.35rem 0.75rem;
+border-radius: 99px;
+border: 1px solid rgba(255, 255, 255, 0.25);
+transition: background 0.2s;
+}
+
+.repo-pill:hover {
+background: rgba(255, 255, 255, 0.22);
+}
+
+.grid-cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 1.25rem;
+margin-bottom: 1.75rem;
+}
+
+.surface-card {
+background: var(--bg-surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-lg);
+padding: 1.5rem;
+box-shadow: var(--shadow);
+}
+
+.surface-card h2 {
+font-size: 1.18rem;
+font-weight: 800;
+margin-bottom: 0.85rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+color: var(--text-main);
+}
+
+.fact-badge {
+display: inline-block;
+background: var(--primary-soft);
+color: var(--primary);
+font-size: 0.72rem;
+font-weight: 800;
+padding: 0.2rem 0.55rem;
+border-radius: 6px;
+text-transform: uppercase;
+margin-bottom: 0.5rem;
+}
+
+.fact-list {
+list-style: none;
+display: flex;
+flex-direction: column;
+gap: 0.75rem;
+}
+
+.fact-list li {
+font-size: 0.9rem;
+padding-left: 1.1rem;
+position: relative;
+}
+
+.fact-list li::before {
+content: "•";
+color: var(--primary);
+font-weight: 900;
+position: absolute;
+left: 0;
+}
+
+.table-responsive {
+width: 100%;
+overflow-x: auto;
+}
+
+table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.86rem;
+}
+
+th, td {
+padding: 0.8rem 0.9rem;
+text-align: left;
+border-bottom: 1px solid var(--border);
+}
+
+th {
+background: var(--bg-elevated);
+color: var(--text-main);
+font-weight: 700;
+white-space: nowrap;
+}
+
+.toolbar-box {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+align-items: center;
+gap: 0.85rem;
+background: var(--bg-elevated);
+padding: 0.9rem 1.1rem;
+border-radius: var(--radius-md);
+margin-bottom: 1.35rem;
+}
+
+.segmented-tabs {
+display: flex;
+flex-wrap: wrap;
+background: var(--bg-surface);
+padding: 0.25rem;
+border-radius: var(--radius-sm);
+border: 1px solid var(--border);
+gap: 0.25rem;
+}
+
+.seg-btn {
+border: none;
+background: transparent;
+color: var(--text-muted);
+padding: 0.45rem 0.85rem;
+border-radius: 6px;
+font-size: 0.84rem;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.18s;
+}
+
+.seg-btn.active {
+background: var(--primary);
+color: #fff;
+}
+
+.filter-controls {
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+flex: 1;
+justify-content: flex-end;
+}
+
+.input-modern, .select-modern {
+padding: 0.52rem 0.8rem;
+border-radius: var(--radius-sm);
+border: 1px solid var(--border);
+background: var(--bg-surface);
+color: var(--text-main);
+font-size: 0.85rem;
+outline: none;
+}
+
+.input-modern {
+min-width: 210px;
+flex: 1;
+max-width: 320px;
+}
+
+.input-modern:focus, .select-modern:focus {
+border-color: var(--primary);
+}
+
+.vocab-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+gap: 0.95rem;
+}
+
+.vocab-card {
+background: var(--bg-surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+padding: 1.05rem;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s;
+cursor: pointer;
+}
+
+.vocab-card:hover {
+transform: translateY(-2px);
+border-color: var(--primary);
+box-shadow: var(--shadow);
+}
+
+.vocab-card-head {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+gap: 0.4rem;
+margin-bottom: 0.3rem;
+}
+
+.hanzi-lg {
+font-size: 1.6rem;
+font-weight: 800;
+color: var(--text-main);
+line-height: 1.2;
+}
+
+.card-actions {
+display: flex;
+gap: 0.3rem;
+}
+
+.mini-btn {
+border: 1px solid var(--border);
+background: var(--bg-elevated);
+color: var(--text-main);
+width: 28px;
+height: 28px;
+border-radius: 6px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+cursor: pointer;
+}
+
+.mini-btn:hover {
+background: var(--primary);
+color: #fff;
+border-color: var(--primary);
+}
+
+.pinyin-text {
+color: var(--primary);
+font-weight: 700;
+font-size: 0.92rem;
+margin-bottom: 0.35rem;
+}
+
+.meaning-text {
+font-size: 0.84rem;
+color: var(--text-muted);
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+
+.badge-row {
+display: flex;
+flex-wrap: wrap;
+gap: 0.35rem;
+margin-top: 0.55rem;
+}
+
+.pos-badge {
+font-size: 0.68rem;
+background: var(--bg-elevated);
+color: var(--text-muted);
+padding: 0.12rem 0.45rem;
+border-radius: 4px;
+font-family: monospace;
+display: inline-block;
+}
+
+.src-badge {
+font-size: 0.68rem;
+background: var(--primary-soft);
+color: var(--primary);
+padding: 0.12rem 0.45rem;
+border-radius: 4px;
+font-weight: 700;
+}
+
+.grammar-stack {
+display: flex;
+flex-direction: column;
+gap: 0.9rem;
+}
+
+.grammar-card {
+background: var(--bg-surface);
+border: 1px solid var(--border);
+border-left: 4px solid var(--primary);
+border-radius: var(--radius-md);
+padding: 1.15rem 1.35rem;
+}
+
+.grammar-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 0.75rem;
+flex-wrap: wrap;
+margin-bottom: 0.5rem;
+}
+
+.grammar-formula {
+font-family: monospace;
+background: var(--primary-soft);
+color: var(--primary);
+padding: 0.25rem 0.6rem;
+border-radius: 6px;
+font-size: 0.84rem;
+font-weight: 700;
+display: inline-block;
+margin-bottom: 0.55rem;
+}
+
+.example-box {
+background: var(--bg-elevated);
+padding: 0.75rem 0.95rem;
+border-radius: var(--radius-sm);
+margin-top: 0.45rem;
+}
+
+.stroke-studio {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+padding: 1rem 0.5rem;
+}
+
+#hanzi-canvas-wrap {
+display: flex;
+flex-wrap: wrap;
+gap: 0.85rem;
+justify-content: center;
+margin: 1.2rem 0;
+}
+
+.hanzi-grid-box {
+background: var(--bg-elevated);
+border: 2px solid var(--border);
+border-radius: var(--radius-md);
+box-shadow: var(--shadow);
+}
+
+.pagination-bar {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 0.85rem;
+margin-top: 1.5rem;
+padding-top: 1rem;
+border-top: 1px solid var(--border);
+}
+
+.mobile-bottom-nav {
+display: none;
+position: fixed;
+bottom: 0;
+left: 0;
+right: 0;
+height: var(--bottom-nav-h);
+background: var(--bg-surface);
+border-top: 1px solid var(--border);
+z-index: 250;
+justify-content: space-around;
+align-items: center;
+padding: 0 0.5rem;
+}
+
+.mob-nav-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+background: none;
+border: none;
+color: var(--text-muted);
+font-size: 0.72rem;
+font-weight: 700;
+gap: 0.2rem;
+cursor: pointer;
+flex: 1;
+padding: 0.4rem 0;
+}
+
+.mob-nav-item.active {
+color: var(--primary);
+}
+
+.mob-nav-icon {
+font-size: 1.2rem;
+}
+
+.tone-calc-box {
+background: var(--bg-elevated);
+padding: 1rem;
+border-radius: var(--radius-md);
+margin-top: 0.75rem;
+}
+
+body.is-mobile .pc-sidebar {
+display: none;
+}
+
+body.is-mobile .main-workspace {
+margin-left: 0;
+padding-bottom: calc(var(--bottom-nav-h) + 1rem);
+}
+
+body.is-mobile .mobile-level-strip {
+display: flex;
+}
+
+body.is-mobile .mobile-bottom-nav {
+display: flex;
+}
+
+body.is-mobile .content-container {
+padding: 1rem;
+}
+
+body.is-mobile .hero-banner {
+padding: 1.35rem;
+}
+
+body.is-mobile .hero-banner h1 {
+font-size: 1.4rem;
+}
+
+body.is-mobile .vocab-grid {
+grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+gap: 0.65rem;
+}
+
+body.is-mobile .toolbar-box {
+flex-direction: column;
+align-items: stretch;
+}
+
+body.is-mobile .filter-controls {
+justify-content: stretch;
+}
+
+body.is-mobile .input-modern {
+max-width: 100%;
+}
+
+@media (max-width: 900px) {
+.pc-sidebar { display: none; }
+.main-workspace { margin-left: 0; padding-bottom: calc(var(--bottom-nav-h) + 1rem); }
+.mobile-level-strip { display: flex; }
+.mobile-bottom-nav { display: flex; }
+.content-container { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+<aside class="pc-sidebar">
+<div class="brand-box">
+<div class="brand-logo">汉</div>
+<div>
+<div class="brand-title">HSK Pro Hub</div>
+<span class="brand-sub">HSK 2.0 • 3.0 • 3.1 Engine</span>
+</div>
+</div>
+
+<div class="nav-section-label">Core Guides</div>
+<div class="side-nav-list">
+<button class="side-btn active" id="side-overview" onclick="navigateApp('overview')">
+<span>📊 Overview & Matrix</span>
+</button>
+<button class="side-btn" id="side-facts" onclick="navigateApp('facts')">
+<span>💡 Need-to-Know Facts</span>
+<span class="side-badge">Essential</span>
+</button>
+
+<div class="nav-section-label">HSK 2.0 & 3.0 (Levels 1–6)</div>
+<button class="side-btn" id="side-lvl-1" onclick="navigateApp(1)">
+<span>HSK Level 1</span>
+<span class="side-badge">A1</span>
+</button>
+<button class="side-btn" id="side-lvl-2" onclick="navigateApp(2)">
+<span>HSK Level 2</span>
+<span class="side-badge">A2</span>
+</button>
+<button class="side-btn" id="side-lvl-3" onclick="navigateApp(3)">
+<span>HSK Level 3</span>
+<span class="side-badge">B1</span>
+</button>
+<button class="side-btn" id="side-lvl-4" onclick="navigateApp(4)">
+<span>HSK Level 4</span>
+<span class="side-badge">B2</span>
+</button>
+<button class="side-btn" id="side-lvl-5" onclick="navigateApp(5)">
+<span>HSK Level 5</span>
+<span class="side-badge">C1</span>
+</button>
+<button class="side-btn" id="side-lvl-6" onclick="navigateApp(6)">
+<span>HSK Level 6</span>
+<span class="side-badge">C2</span>
+</button>
+
+<div class="nav-section-label">HSK 3.0 / 3.1 Advanced</div>
+<button class="side-btn" id="side-lvl-7-9" onclick="navigateApp('7-9')">
+<span>HSK Bands 7–9</span>
+<span class="side-badge">3.0 / 3.1</span>
+</button>
+</div>
+
+<div class="sidebar-footer">
+<div>Shortcut: Press <strong>/</strong> to search</div>
+<div style="margin-top:0.25rem;">Audio: Web Speech API (zh-CN)</div>
+</div>
+</aside>
+
+<div class="main-workspace">
+<header class="top-header">
+<div class="header-title-group">
+<span>🇨🇳 HSK Multi-Syllabus Hub</span>
+<span class="status-pill" id="active-version-pill">HSK 3.0 + 2.0 Ready</span>
+</div>
+<div class="header-actions">
+<button class="icon-btn" onclick="toggleTheme()" id="theme-btn">
+<span>🌙 Dark Mode</span>
+</button>
+</div>
+</header>
+
+<div class="mobile-level-strip" id="mobile-strip">
+<button class="lvl-chip active" data-target="overview" onclick="navigateApp('overview')">Overview</button>
+<button class="lvl-chip" data-target="facts" onclick="navigateApp('facts')">💡 Facts</button>
+<button class="lvl-chip" data-target="1" onclick="navigateApp(1)">HSK 1</button>
+<button class="lvl-chip" data-target="2" onclick="navigateApp(2)">HSK 2</button>
+<button class="lvl-chip" data-target="3" onclick="navigateApp(3)">HSK 3</button>
+<button class="lvl-chip" data-target="4" onclick="navigateApp(4)">HSK 4</button>
+<button class="lvl-chip" data-target="5" onclick="navigateApp(5)">HSK 5</button>
+<button class="lvl-chip" data-target="6" onclick="navigateApp(6)">HSK 6</button>
+<button class="lvl-chip" data-target="7-9" onclick="navigateApp('7-9')">HSK 7–9</button>
+</div>
+
+<div class="content-container">
+<section id="view-overview">
+<div class="hero-banner">
+<h1>Complete Mandarin Chinese: HSK 2.0, 3.0 & 3.1 Intelligence</h1>
+<p>Unified multi-repository engine combining HSK 2.0 (Levels 1–6) and HSK 3.0 / 3.1 (Levels 1–9) wordlists, character lists, handwritten requirements, and grammar structures with live definitions and stroke order animations.</p>
+<div class="repo-pills">
+<a class="repo-pill" href="https://github.com/drkameleon/complete-hsk-vocabulary" target="_blank" rel="noopener">📦 drkameleon/complete-hsk-vocabulary</a>
+<a class="repo-pill" href="https://github.com/leonsilicon/hsk2.0" target="_blank" rel="noopener">📘 leonsilicon/hsk2.0</a>
+<a class="repo-pill" href="https://github.com/leonsilicon/hsk3.0" target="_blank" rel="noopener">📗 leonsilicon/hsk3.0</a>
+<a class="repo-pill" href="https://github.com/leonsilicon/hsk3.1" target="_blank" rel="noopener">📙 leonsilicon/hsk3.1</a>
+<a class="repo-pill" href="https://github.com/krmanik/HSK-3.0" target="_blank" rel="noopener">🗂️ krmanik/HSK-3.0</a>
+<a class="repo-pill" href="https://github.com/krmanik/Chinese-Grammar" target="_blank" rel="noopener">📐 krmanik/Chinese-Grammar</a>
+</div>
+</div>
+
+<div class="grid-cards">
+<div class="surface-card">
+<span class="fact-badge">Multi-Repository Engine</span>
+<h2>🔄 HSK 2.0, HSK 3.0 & HSK 3.1 Support</h2>
+<p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.85rem;">
+Switch freely between <strong>drkameleon</strong> (HSK 2.0 & 3.0 enriched JSON), <strong>leonsilicon</strong> (HSK 2.0, 3.0 & 3.1 words & chars), and <strong>krmanik/HSK-3.0</strong> (2021/2025 words, hanzi, handwritten lists, and HSK 3.0 grammar).
+</p>
+<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="navigateApp(1)">
+Explore Level 1 Datasets →
+</button>
+</div>
+
+<div class="surface-card">
+<span class="fact-badge">Advanced Bands</span>
+<h2>🚀 Full Support for HSK 7–9</h2>
+<p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:0.85rem;">
+Access the 5,600+ advanced vocabulary items and characters introduced in the HSK 3.0 / 3.1 Band 7–9 standard alongside classic Levels 1–6.
+</p>
+<button class="icon-btn" onclick="navigateApp('7-9')">
+Open HSK 7–9 Explorer →
+</button>
+</div>
+</div>
+
+<div class="surface-card">
+<h2>📋 Complete HSK 2.0 vs HSK 3.0 / 3.1 Specification Matrix</h2>
+<div class="table-responsive">
+<table>
+<thead>
+<tr>
+<th>Level / Band</th>
+<th>HSK 2.0 Words</th>
+<th>HSK 3.0 Words (Cumulative)</th>
+<th>HSK 3.1 (2025/2026)</th>
+<th>Pinyin in Exam?</th>
+<th>Real-World Milestone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HSK 1</strong></td>
+<td>150</td>
+<td>500 (500)</td>
+<td>300 Words</td>
+<td>Yes (Full)</td>
+<td>Greetings, numbers, survival phrases, basic self-introduction.</td>
+</tr>
+<tr>
+<td><strong>HSK 2</strong></td>
+<td>300</td>
+<td>772 (1,272)</td>
+<td>500 Words</td>
+<td>Yes (Full)</td>
+<td>Routine daily exchanges, shopping, weather, simple schedules.</td>
+</tr>
+<tr>
+<td><strong>HSK 3</strong></td>
+<td>600</td>
+<td>973 (2,245)</td>
+<td>1,000 Words</td>
+<td><strong>No Pinyin!</strong></td>
+<td>Independent travel in China; paired with HSKK Elementary.</td>
+</tr>
+<tr>
+<td><strong>HSK 4</strong></td>
+<td>1,200</td>
+<td>1,000 (3,245)</td>
+<td>2,000 Words</td>
+<td>No</td>
+<td>Fluent discussion across topics; Undergraduate admission standard.</td>
+</tr>
+<tr>
+<td><strong>HSK 5</strong></td>
+<td>2,500</td>
+<td>1,071 (4,316)</td>
+<td>3,600 Words</td>
+<td>No</td>
+<td>Read Chinese newspapers, watch films, Master's admission standard.</td>
+</tr>
+<tr>
+<td><strong>HSK 6</strong></td>
+<td>5,000</td>
+<td>1,140 (5,456)</td>
+<td>5,400 Words</td>
+<td>No</td>
+<td>Comprehensive professional and academic fluency.</td>
+</tr>
+<tr>
+<td><strong>HSK 7–9</strong></td>
+<td>N/A</td>
+<td>5,636 (11,092)</td>
+<td>11,000+ Words</td>
+<td>No</td>
+<td>Near-native specialist, simultaneous interpretation & sinology research.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section id="view-facts" style="display:none;">
+<div class="hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+<h1>💡 Need-to-Know Facts & Essential Mandarin Mechanics</h1>
+<p>Crucial linguistic rules, exam traps, tone sandhi laws, and syllabus differences between HSK 2.0, HSK 3.0 (2021), and HSK 3.1 (2025).</p>
+</div>
+
+<div class="grid-cards">
+<div class="surface-card">
+<span class="fact-badge">Pronunciation Law</span>
+<h2>1. Tone Sandhi Rules (变调 Biàndiào)</h2>
+<ul class="fact-list">
+<li><strong>3rd + 3rd Tone Rule:</strong> When two 3rd tones meet, the first becomes a 2nd tone: 你好 (nǐ + hǎo → <strong>ní hǎo</strong>).</li>
+<li><strong>“不” (bù) Tone Change:</strong> Changes to 2nd tone (<strong>bú</strong>) before another 4th tone: 不是 (bù + shì → <strong>bú shì</strong>).</li>
+<li><strong>“一” (yī) Tone Change:</strong> 1st tone when counting, 2nd tone before a 4th tone (一个 → <strong>yí gè</strong>), and 4th tone before 1st/2nd/3rd tones (一天 → <strong>yì tiān</strong>).</li>
+</ul>
+<div class="tone-calc-box">
+<strong style="font-size:0.82rem;">Interactive Tone Sandhi Tester:</strong>
+<div style="display:flex; gap:0.4rem; margin-top:0.4rem; flex-wrap:wrap;">
+<button class="icon-btn" onclick="speakChinese('你好')">🔊 你好 (ní hǎo)</button>
+<button class="icon-btn" onclick="speakChinese('不是')">🔊 不是 (bú shì)</button>
+<button class="icon-btn" onclick="speakChinese('一个')">🔊 一个 (yí gè)</button>
+<button class="icon-btn" onclick="speakChinese('一天')">🔊 一天 (yì tiān)</button>
+</div>
+</div>
+</div>
+
+<div class="surface-card">
+<span class="fact-badge">Syllabus Evolution</span>
+<h2>2. HSK 2.0 vs HSK 3.0 vs HSK 3.1</h2>
+<ul class="fact-list">
+<li><strong>HSK 2.0 (Classic 1–6):</strong> Contains 5,000 total words across 6 levels. Still widely used in standard textbooks.</li>
+<li><strong>HSK 3.0 (2021 Standard):</strong> Expands to 9 bands (11,092 words) with explicit Character Recognition (认读字) and Handwritten Character (手写字) lists.</li>
+<li><strong>HSK 3.1 (2025/2026 Revision):</strong> Streamlines entry-level word counts (e.g., 300 words in Level 1 instead of 500) to make beginner progression smoother while keeping the 9-band architecture.</li>
+</ul>
+</div>
+
+<div class="surface-card">
+<span class="fact-badge">Test Strategy</span>
+<h2>3. Paper-Based vs Computer-Based (机考)</h2>
+<ul class="fact-list">
+<li><strong>Pinyin Input Advantage:</strong> On the computer-based exam, you type characters using Pinyin input and select from candidates rather than writing strokes from memory.</li>
+<li><strong>Handwriting Requirement in 3.0:</strong> HSK 3.0 introduces a dedicated list of must-write characters (手写字) per level, accessible directly in the Character List tab.</li>
+</ul>
+</div>
+
+<div class="surface-card">
+<span class="fact-badge">Grammar Trap</span>
+<h2>4. The Three “De” Particles (的 / 得 / 地)</h2>
+<ul class="fact-list">
+<li><strong>白勺 的 (de):</strong> Noun modifier (我的书 - My book).</li>
+<li><strong>双人 得 (de):</strong> Verb complement describing degree/result (跑得很快 - Runs fast).</li>
+<li><strong>土也 地 (de):</strong> Adverbial marker before verbs (认真地学习 - Study seriously).</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="view-level" style="display:none;">
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+<div>
+<span class="fact-badge" id="lvl-cefr-badge">CEFR A1</span>
+<h2 id="lvl-heading" style="font-size:1.5rem; margin-bottom:0.25rem;">HSK Level 1</h2>
+<p id="lvl-subtitle" style="color:var(--text-muted); font-size:0.92rem;"></p>
+</div>
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+<span class="status-pill" id="stat-vocab-pill">Words: ...</span>
+<span class="status-pill" id="stat-char-pill">Chars: ...</span>
+<span class="status-pill" id="stat-grammar-pill">Grammar: ...</span>
+</div>
+</div>
+</div>
+
+<div class="toolbar-box">
+<div class="segmented-tabs">
+<button class="seg-btn active" id="tab-btn-vocab" onclick="setLevelSubTab('vocab')">📦 Vocabulary</button>
+<button class="seg-btn" id="tab-btn-chars" onclick="setLevelSubTab('chars')">🀄 Characters & Handwritten</button>
+<button class="seg-btn" id="tab-btn-grammar" onclick="setLevelSubTab('grammar')">📘 Grammar</button>
+<button class="seg-btn" id="tab-btn-strokes" onclick="setLevelSubTab('strokes')">✍️ Stroke Studio</button>
+</div>
+
+<div class="filter-controls" id="filter-bar">
+<select class="select-modern" id="syllabus-select" onchange="changeDatasetSource()">
+<optgroup label="HSK 2.0 (Levels 1–6)">
+<option value="drkameleon-2.0">HSK 2.0 • drkameleon (Complete Dictionary)</option>
+<option value="leonsilicon-2.0">HSK 2.0 • leonsilicon/hsk2.0</option>
+</optgroup>
+<optgroup label="HSK 3.0 & 3.1 (Levels 1–9)">
+<option value="drkameleon-3.0" selected>HSK 3.0 • drkameleon (New Syllabus)</option>
+<option value="leonsilicon-3.0">HSK 3.0 • leonsilicon/hsk3.0 (2021)</option>
+<option value="leonsilicon-3.1">HSK 3.1 • leonsilicon/hsk3.1 (2025 Revised)</option>
+<option value="krmanik-3.0-2025">HSK 3.0 • krmanik/HSK-3.0 (2025 List)</option>
+<option value="krmanik-3.0-2021">HSK 3.0 • krmanik/HSK-3.0 (2021 Anki List)</option>
+</optgroup>
+</select>
+
+<select class="select-modern" id="char-mode-select" style="display:none;" onchange="loadCharListForCurrentLevel()">
+<option value="leonsilicon-chars">Recognition Characters (leonsilicon)</option>
+<option value="krmanik-hanzi">Official HSK 3.0 Hanzi (krmanik)</option>
+<option value="krmanik-handwritten">Mandatory Handwritten Hanzi 手写字 (krmanik)</option>
+</select>
+
+<select class="select-modern" id="grammar-mode-select" style="display:none;" onchange="loadGrammarForCurrentLevel()">
+<option value="krmanik-3.0">HSK 3.0 Official Grammar (krmanik/HSK-3.0)</option>
+<option value="allset-2.0">AllSet Grammar Wiki Examples (krmanik/Chinese-Grammar)</option>
+</select>
+
+<input type="text" id="global-search" class="input-modern" placeholder="Search Hanzi, Pinyin, English (/)..." oninput="filterCurrentLevel()">
+</div>
+</div>
+
+<div id="loader-box" style="display:none; text-align:center; padding:2.5rem;">
+<div style="font-weight:700; color:var(--primary);" id="loader-text">⏳ Streaming live dataset from GitHub / jsDelivr CDN...</div>
+</div>
+
+<div id="subpanel-vocab">
+<div id="vocab-container" class="vocab-grid"></div>
+<div class="pagination-bar" id="pager-bar">
+<button class="icon-btn" id="btn-prev" onclick="turnPage(-1)">← Prev</button>
+<span id="pager-info" style="font-size:0.88rem; font-weight:700;">Page 1</span>
+<button class="icon-btn" id="btn-next" onclick="turnPage(1)">Next →</button>
+</div>
+</div>
+
+<div id="subpanel-chars" style="display:none;">
+<div id="chars-container" class="vocab-grid"></div>
+<div class="pagination-bar" id="char-pager-bar">
+<button class="icon-btn" id="char-btn-prev" onclick="turnCharPage(-1)">← Prev</button>
+<span id="char-pager-info" style="font-size:0.88rem; font-weight:700;">Page 1</span>
+<button class="icon-btn" id="char-btn-next" onclick="turnCharPage(1)">Next →</button>
+</div>
+</div>
+
+<div id="subpanel-grammar" style="display:none;">
+<div id="grammar-container" class="grammar-stack"></div>
+</div>
+
+<div id="subpanel-strokes" style="display:none;">
+<div class="surface-card stroke-studio">
+<h2>Interactive Hanzi Stroke Animator & Touch Quiz</h2>
+<p style="color:var(--text-muted); font-size:0.9rem; max-width:560px; margin-bottom:1rem;">
+Click any vocabulary or character card or type up to 5 Chinese characters below to inspect stroke order or practice drawing by touch/mouse.
+</p>
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;">
+<input type="text" id="stroke-input" class="input-modern" value="你好" maxlength="5" style="width:140px; min-width:140px; text-align:center; font-size:1.25rem; font-weight:800;">
+<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="buildStrokeWriters()">Load Hanzi</button>
+<button class="icon-btn" onclick="animateWriters()">▶ Animate</button>
+<button class="icon-btn" onclick="startStrokeQuiz()">✍️ Practice Quiz</button>
+<button class="icon-btn" onclick="speakChinese(document.getElementById('stroke-input').value)">🔊 Pronounce</button>
+</div>
+<div id="hanzi-canvas-wrap"></div>
+<div id="stroke-feedback" style="font-weight:700; color:var(--primary); min-height:1.5rem;"></div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+
+<nav class="mobile-bottom-nav">
+<button class="mob-nav-item active" id="mob-nav-overview" onclick="navigateApp('overview')">
+<span class="mob-nav-icon">🏠</span>
+<span>Overview</span>
+</button>
+<button class="mob-nav-item" id="mob-nav-facts" onclick="navigateApp('facts')">
+<span class="mob-nav-icon">💡</span>
+<span>Facts</span>
+</button>
+<button class="mob-nav-item" id="mob-nav-vocab" onclick="quickMobileJump('vocab')">
+<span class="mob-nav-icon">📦</span>
+<span>Vocab</span>
+</button>
+<button class="mob-nav-item" id="mob-nav-chars" onclick="quickMobileJump('chars')">
+<span class="mob-nav-icon">🀄</span>
+<span>Chars</span>
+</button>
+<button class="mob-nav-item" id="mob-nav-grammar" onclick="quickMobileJump('grammar')">
+<span class="mob-nav-icon">📘</span>
+<span>Grammar</span>
+</button>
+<button class="mob-nav-item" id="mob-nav-strokes" onclick="quickMobileJump('strokes')">
+<span class="mob-nav-icon">✍️</span>
+<span>Strokes</span>
+</button>
+</nav>
+
+<script>
+const LEVEL_INFO = {
+'1': { cefr: "CEFR A1 • Beginner", title: "HSK Level 1", desc: "Foundational survival Chinese phrases, personal introductions, numbers, and daily expressions." },
+'2': { cefr: "CEFR A2 • Elementary", title: "HSK Level 2", desc: "Routine tasks requiring simple and direct exchanges of information on familiar daily topics." },
+'3': { cefr: "CEFR B1 • Intermediate", title: "HSK Level 3", desc: "First level without Pinyin on the exam. Handle communication during travel, study, and work." },
+'4': { cefr: "CEFR B2 • Upper-Intermediate", title: "HSK Level 4", desc: "Converse fluently across diverse topics. Standard requirement for Chinese undergraduate programs." },
+'5': { cefr: "CEFR C1 • Advanced", title: "HSK Level 5", desc: "Read Chinese newspapers and magazines, watch films, and write structured arguments." },
+'6': { cefr: "CEFR C2 • Mastery", title: "HSK Level 6", desc: "Comprehend complex written and spoken Chinese effortlessly and express nuanced ideas." },
+'7-9': { cefr: "HSK 3.0 / 3.1 Advanced Band", title: "HSK Bands 7–9", desc: "Professional, academic, and specialist mastery (5,600+ advanced words in the HSK 3.0 & 3.1 syllabus)." }
+};
+
+const appState = {
+view: 'overview',
+level: '1',
+subTab: 'vocab',
+dataset: 'drkameleon-3.0',
+charMode: 'leonsilicon-chars',
+grammarMode: 'krmanik-3.0',
+dictMap: new Map(),
+dictLoadedLevels: new Set(),
+vocabCache: {},
+charCache: {},
+grammarCache: {},
+filteredVocab: [],
+filteredChars: [],
+filteredGrammar: [],
+page: 1,
+charPage: 1,
+pageSize: 48,
+writers: []
+};
+
+function detectAndApplyDeviceMode() {
+const isTouchMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
+document.body.classList.toggle('is-mobile', isTouchMobile);
+document.body.classList.toggle('is-pc', !isTouchMobile);
+appState.pageSize = isTouchMobile ? 24 : 48;
+}
+
+function applyTheme(theme) {
+document.documentElement.setAttribute('data-theme', theme);
+document.body.setAttribute('data-theme', theme);
+localStorage.setItem('hsk_hub_theme', theme);
+const btn = document.getElementById('theme-btn');
+if (btn) {
+btn.innerHTML = theme === 'dark' ? '<span>☀️ Light Mode</span>' : '<span>🌙 Dark Mode</span>';
+}
+if (appState.subTab === 'strokes' && appState.view === 'level') {
+buildStrokeWriters();
+}
+}
+
+function toggleTheme() {
+const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+function initSavedTheme() {
+const saved = localStorage.getItem('hsk_hub_theme');
+if (saved === 'dark' || saved === 'light') {
+applyTheme(saved);
+} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+applyTheme('dark');
+} else {
+applyTheme('light');
+}
+}
+
+function speakChinese(text) {
+if (!('speechSynthesis' in window) || !text) return;
+window.speechSynthesis.cancel();
+const utter = new SpeechSynthesisUtterance(text);
+utter.lang = 'zh-CN';
+utter.rate = 0.9;
+window.speechSynthesis.speak(utter);
+}
+
+function navigateApp(target) {
+const targetStr = String(target);
+document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.lvl-chip').forEach(c => {
+c.classList.toggle('active', c.getAttribute('data-target') === targetStr);
+});
+document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
+
+document.getElementById('view-overview').style.display = targetStr === 'overview' ? 'block' : 'none';
+document.getElementById('view-facts').style.display = targetStr === 'facts' ? 'block' : 'none';
+document.getElementById('view-level').style.display = (targetStr !== 'overview' && targetStr !== 'facts') ? 'block' : 'none';
+
+if (targetStr === 'overview') {
+appState.view = 'overview';
+document.getElementById('side-overview')?.classList.add('active');
+document.getElementById('mob-nav-overview')?.classList.add('active');
+} else if (targetStr === 'facts') {
+appState.view = 'facts';
+document.getElementById('side-facts')?.classList.add('active');
+document.getElementById('mob-nav-facts')?.classList.add('active');
+} else {
+appState.view = 'level';
+document.getElementById(`side-lvl-${targetStr}`)?.classList.add('active');
+document.getElementById(`mob-nav-${appState.subTab}`)?.classList.add('active');
+loadHSKLevel(targetStr);
+}
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function quickMobileJump(subTab) {
+if (appState.view !== 'level') {
+navigateApp(appState.level || '1');
+}
+setLevelSubTab(subTab);
+}
+
+function normalizePosTag(word) {
+const m = word.match(/^(.+?)（(.+?)）$/);
+if (m) return { clean: m[1].trim(), pos: m[2].trim() };
+const m2 = word.match(/^(.+?)\((.+?)\)$/);
+if (m2) return { clean: m2[1].trim(), pos: m2[2].trim() };
+return { clean: word.trim(), pos: '' };
+}
+
+async function ensureDrkameleonDictionary(levelStr) {
+const key = `new-${levelStr}`;
+if (appState.dictLoadedLevels.has(key)) return;
+const urls = [
+`https://raw.githubusercontent.com/drkameleon/complete-hsk-vocabulary/main/wordlists/exclusive/new/${levelStr}.json`,
+`https://cdn.jsdelivr.net/gh/drkameleon/complete-hsk-vocabulary@main/wordlists/exclusive/new/${levelStr}.json`
+];
+if (levelStr !== '7-9') {
+urls.push(`https://raw.githubusercontent.com/drkameleon/complete-hsk-vocabulary/main/wordlists/exclusive/old/${levelStr}.json`);
+}
+for (const url of urls) {
+try {
+const res = await fetch(url);
+if (!res.ok) continue;
+const data = await res.json();
+data.forEach(item => {
+const form = (item.forms && item.forms[0]) || {};
+const trans = form.transcriptions || {};
+const entry = {
+hanzi: item.simplified || '',
+pinyin: trans.pinyin || '',
+pos: (item.pos || []).join(', '),
+meaning: (form.meanings || []).join('; ')
+};
+if (entry.hanzi && !appState.dictMap.has(entry.hanzi)) {
+appState.dictMap.set(entry.hanzi, entry);
+}
+});
+} catch (err) {}
+}
+appState.dictLoadedLevels.add(key);
+}
+
+async function fetchWithFallback(urls, asJson = true) {
+let lastError = null;
+for (const u of urls) {
+try {
+const res = await fetch(u);
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+return asJson ? await res.json() : await res.text();
+} catch (err) {
+lastError = err;
+}
+}
+throw lastError || new Error('Network error');
+}
+
+function enrichRawWordList(words, sourceBadge) {
+return words.map(rawItem => {
+if (typeof rawItem === 'string') {
+const { clean, pos } = normalizePosTag(rawItem);
+const dictHit = appState.dictMap.get(clean);
+return {
+hanzi: clean,
+pinyin: dictHit ? dictHit.pinyin : '',
+pos: pos || (dictHit ? dictHit.pos : ''),
+meaning: dictHit ? dictHit.meaning : 'Official Syllabus Entry',
+source: sourceBadge
+};
+}
+const hanzi = rawItem.simplified || rawItem.word || rawItem.hanzi || rawItem.char || '';
+const { clean, pos } = normalizePosTag(String(hanzi));
+const dictHit = appState.dictMap.get(clean);
+const form = (rawItem.forms && rawItem.forms[0]) || {};
+const trans = form.transcriptions || {};
+return {
+hanzi: clean,
+pinyin: rawItem.pinyin || trans.pinyin || (dictHit ? dictHit.pinyin : ''),
+pos: pos || (Array.isArray(rawItem.pos) ? rawItem.pos.join(', ') : (rawItem.pos || (dictHit ? dictHit.pos : ''))),
+meaning: Array.isArray(form.meanings) ? form.meanings.join('; ') : (rawItem.meaning || rawItem.english || rawItem.translation || (dictHit ? dictHit.meaning : 'Official Syllabus Entry')),
+source: sourceBadge
+};
+}).filter(x => x.hanzi);
+}
+
+async function getVocabDataset(levelStr, datasetKey) {
+const cacheKey = `${datasetKey}__${levelStr}`;
+if (appState.vocabCache[cacheKey]) return appState.vocabCache[cacheKey];
+
+await ensureDrkameleonDictionary(levelStr);
+
+if (datasetKey === 'drkameleon-2.0' || datasetKey === 'drkameleon-3.0') {
+const isOld = datasetKey === 'drkameleon-2.0';
+const folder = isOld ? 'old' : 'new';
+const targetLvl = (isOld && levelStr === '7-9') ? '6' : levelStr;
+const badge = isOld ? 'drkameleon • HSK 2.0' : 'drkameleon • HSK 3.0';
+const data = await fetchWithFallback([
+`https://raw.githubusercontent.com/drkameleon/complete-hsk-vocabulary/main/wordlists/exclusive/${folder}/${targetLvl}.json`,
+`https://cdn.jsdelivr.net/gh/drkameleon/complete-hsk-vocabulary@main/wordlists/exclusive/${folder}/${targetLvl}.json`
+], true);
+const parsed = enrichRawWordList(data, badge);
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (datasetKey === 'leonsilicon-2.0') {
+const targetLvl = levelStr === '7-9' ? '6' : levelStr;
+const data = await fetchWithFallback([
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk2.0/HSK2.0_words_level${targetLvl}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk2.0/main/HSK2.0_words_level${targetLvl}.json`
+], true);
+const list = Array.isArray(data) ? data : (data.words || []);
+const parsed = enrichRawWordList(list, 'leonsilicon • HSK 2.0');
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (datasetKey === 'leonsilicon-3.0') {
+const data = await fetchWithFallback([
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk3.0/HSK3.0_words_level${levelStr}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk3.0/main/HSK3.0_words_level${levelStr}.json`
+], true);
+const list = Array.isArray(data) ? data : (data.words || []);
+const parsed = enrichRawWordList(list, 'leonsilicon • HSK 3.0');
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (datasetKey === 'leonsilicon-3.1') {
+const data = await fetchWithFallback([
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk3.1/HSK3.1_words_level${levelStr}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk3.1/main/HSK3.1_words_level${levelStr}.json`
+], true);
+const list = Array.isArray(data) ? data : (data.words || []);
+const parsed = enrichRawWordList(list, 'leonsilicon • HSK 3.1');
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (datasetKey === 'krmanik-3.0-2025') {
+const fileLvl = levelStr === '7-9' ? '7-9' : levelStr;
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2025)/HSK%20Words/HSK_Level_${fileLvl}_words.txt`,
+`https://cdn.jsdelivr.net/gh/krmanik/HSK-3.0@main/New%20HSK%20(2025)/HSK%20Words/HSK_Level_${fileLvl}_words.txt`,
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2021)/HSK%20Word/HSK%20${fileLvl}.txt`
+], false);
+const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+const words = lines.map(l => l.replace(/^\d+[\.\s\t]+/, '').trim()).filter(Boolean);
+const parsed = enrichRawWordList(words, 'krmanik • HSK 3.0 (2025)');
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (datasetKey === 'krmanik-3.0-2021') {
+const fileLvl = levelStr === '7-9' ? '7-9' : levelStr;
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2021)/HSK%20List/HSK%20${fileLvl}.txt`,
+`https://cdn.jsdelivr.net/gh/krmanik/HSK-3.0@main/New%20HSK%20(2021)/HSK%20List/HSK%20${fileLvl}.txt`,
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2021)/HSK%20Word/HSK%20${fileLvl}.txt`
+], false);
+const rows = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+const parsed = rows.map(row => {
+const parts = row.split(/\t+/);
+if (parts.length >= 3) {
+const clean = parts[0].trim();
+const dictHit = appState.dictMap.get(clean);
+return {
+hanzi: clean,
+pinyin: parts[1].trim() || (dictHit ? dictHit.pinyin : ''),
+pos: dictHit ? dictHit.pos : '',
+meaning: parts[parts.length - 1].trim() || (dictHit ? dictHit.meaning : ''),
+source: 'krmanik • HSK 3.0 Anki'
+};
+}
+const { clean, pos } = normalizePosTag(row.replace(/^\d+[\.\s\t]+/, ''));
+const dictHit = appState.dictMap.get(clean);
+return {
+hanzi: clean,
+pinyin: dictHit ? dictHit.pinyin : '',
+pos: pos || (dictHit ? dictHit.pos : ''),
+meaning: dictHit ? dictHit.meaning : 'Official HSK 3.0 Entry',
+source: 'krmanik • HSK 3.0'
+};
+}).filter(x => x.hanzi);
+appState.vocabCache[cacheKey] = parsed;
+return parsed;
+}
+
+return [];
+}
+
+async function getCharDataset(levelStr, charMode) {
+const cacheKey = `${charMode}__${levelStr}__${appState.dataset}`;
+if (appState.charCache[cacheKey]) return appState.charCache[cacheKey];
+
+await ensureDrkameleonDictionary(levelStr);
+
+if (charMode === 'leonsilicon-chars') {
+let urls = [];
+let badge = 'leonsilicon • HSK 3.0 Chars';
+if (appState.dataset.includes('2.0') && levelStr !== '7-9') {
+urls = [
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk2.0/HSK2.0_chars_level${levelStr}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk2.0/main/HSK2.0_chars_level${levelStr}.json`
+];
+badge = 'leonsilicon • HSK 2.0 Chars';
+} else if (appState.dataset.includes('3.1')) {
+urls = [
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk3.1/HSK3.1_chars_level${levelStr}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk3.1/main/HSK3.1_chars_level${levelStr}.json`
+];
+badge = 'leonsilicon • HSK 3.1 Chars';
+} else {
+urls = [
+`https://cdn.jsdelivr.net/npm/@leonsilicon/hsk3.0/HSK3.0_chars_level${levelStr}.json`,
+`https://raw.githubusercontent.com/leonsilicon/hsk3.0/main/HSK3.0_chars_level${levelStr}.json`
+];
+}
+const data = await fetchWithFallback(urls, true);
+const list = Array.isArray(data) ? data : (data.chars || []);
+const parsed = enrichRawWordList(list, badge);
+appState.charCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (charMode === 'krmanik-hanzi') {
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2021)/HSK%20Hanzi/HSK%20${levelStr}.txt`,
+`https://cdn.jsdelivr.net/gh/krmanik/HSK-3.0@main/New%20HSK%20(2021)/HSK%20Hanzi/HSK%20${levelStr}.txt`
+], false);
+const chars = Array.from(new Set(Array.from(text).filter(c => /[\u4e00-\u9fa5]/.test(c))));
+const parsed = enrichRawWordList(chars, 'krmanik • Recognition Hanzi');
+appState.charCache[cacheKey] = parsed;
+return parsed;
+}
+
+if (charMode === 'krmanik-handwritten') {
+const hwFile = (levelStr === '1' || levelStr === '2') ? '1-2' : levelStr;
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2025)/HSK%20Handwritten/HSK_Level_${levelStr}_handwritten.txt`,
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2025)/HSK%20Handwritten/HSK_Level_${hwFile}_handwritten.txt`,
+`https://cdn.jsdelivr.net/gh/krmanik/HSK-3.0@main/New%20HSK%20(2025)/HSK%20Handwritten/HSK_Level_${hwFile}_handwritten.txt`
+], false);
+const chars = Array.from(new Set(Array.from(text).filter(c => /[\u4e00-\u9fa5]/.test(c))));
+const parsed = enrichRawWordList(chars, 'krmanik • Handwritten 手写字');
+appState.charCache[cacheKey] = parsed;
+return parsed;
+}
+
+return [];
+}
+
+async function getGrammarDataset(levelStr, grammarMode) {
+const cacheKey = `${grammarMode}__${levelStr}`;
+if (appState.grammarCache[cacheKey]) return appState.grammarCache[cacheKey];
+
+if (grammarMode === 'krmanik-3.0') {
+try {
+const data = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2025)/HSK%20Grammar/json/HSK%20${levelStr}.json`,
+`https://cdn.jsdelivr.net/gh/krmanik/HSK-3.0@main/New%20HSK%20(2025)/HSK%20Grammar/json/HSK%20${levelStr}.json`
+], true);
+const parsed = parseKrmanik30GrammarJSON(data, levelStr);
+if (parsed.length > 0) {
+appState.grammarCache[cacheKey] = parsed;
+return parsed;
+}
+} catch (err) {
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2025)/HSK%20Grammar/HSK%20${levelStr}.txt`,
+`https://raw.githubusercontent.com/krmanik/HSK-3.0/main/New%20HSK%20(2021)/HSK%20Grammar/HSK%20${levelStr}.txt`
+], false);
+const parsed = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map((line, idx) => ({
+title: `HSK ${levelStr} Grammar Point #${idx + 1}`,
+struct: 'HSK 3.0 Syllabus',
+usage: line,
+link: 'https://github.com/krmanik/HSK-3.0',
+examples: []
+}));
+appState.grammarCache[cacheKey] = parsed;
+return parsed;
+}
+}
+
+const targetLvl = levelStr === '7-9' ? '6' : levelStr;
+const text = await fetchWithFallback([
+`https://raw.githubusercontent.com/krmanik/Chinese-Grammar/master/CSV%20Files%20HSK1%20-%20HSK6/hsk${targetLvl}.csv`,
+`https://cdn.jsdelivr.net/gh/krmanik/Chinese-Grammar@master/CSV%20Files%20HSK1%20-%20HSK6/hsk${targetLvl}.csv`
+], false);
+const parsed = parseGrammarCSV(text);
+appState.grammarCache[cacheKey] = parsed;
+return parsed;
+}
+
+function parseKrmanik30GrammarJSON(data, levelStr) {
+const out = [];
+function walk(node, pathLabels) {
+if (!node) return;
+if (Array.isArray(node)) {
+node.forEach(item => {
+if (typeof item === 'string') {
+out.push({
+title: item,
+struct: pathLabels.join(' › ') || `HSK ${levelStr} Grammar`,
+usage: 'Official HSK 3.0 Syllabus Grammar Item',
+link: 'https://github.com/krmanik/HSK-3.0',
+examples: []
+});
+} else if (typeof item === 'object') {
+const title = item.title || item.name || item.point || item.grammar || item.category || item.content || `HSK ${levelStr} Structure`;
+const struct = item.type || item.category || pathLabels.join(' › ') || `HSK 3.0 Level ${levelStr}`;
+const usage = item.description || item.details || item.example || item.content || '';
+const exList = [];
+if (Array.isArray(item.items)) {
+exList.push(...item.items.slice(0, 4).map(x => ({ zh: typeof x === 'string' ? x : JSON.stringify(x), py: '', en: '' })));
+}
+out.push({
+title: String(title),
+struct: String(struct),
+usage: String(usage),
+link: 'https://github.com/krmanik/HSK-3.0',
+examples: exList
+});
+}
+});
+} else if (typeof node === 'object') {
+Object.entries(node).forEach(([k, v]) => {
+walk(v, [...pathLabels, k]);
+});
+}
+}
+walk(data, []);
+return out;
+}
+
+function splitCSVLine(line) {
+const out = [];
+let cur = '';
+let quotes = false;
+for (let i = 0; i < line.length; i++) {
+const c = line[i];
+if (c === '"') {
+if (quotes && line[i + 1] === '"') {
+cur += '"';
+i++;
+} else {
+quotes = !quotes;
+}
+} else if (c === ',' && !quotes) {
+out.push(cur.trim());
+cur = '';
+} else {
+cur += c;
+}
+}
+out.push(cur.trim());
+return out;
+}
+
+function parseGrammarCSV(csv) {
+const lines = csv.split(/\r?\n/).filter(l => l.trim());
+const map = new Map();
+for (let i = 1; i < lines.length; i++) {
+const cols = splitCSVLine(lines[i]);
+if (cols.length < 8) continue;
+const zh = cols[1] || cols[0];
+const py = cols[2] || '';
+const en = cols[3] || '';
+const struct = cols[5] || '';
+const usage = cols[6] || '';
+const title = cols[7] || struct || 'Grammar Structure';
+const link = cols[8] || '';
+
+if (!map.has(title)) {
+map.set(title, { title, struct, usage, link, examples: [] });
+}
+const entry = map.get(title);
+if (zh && entry.examples.length < 2) {
+entry.examples.push({ zh, py, en });
+}
+}
+return Array.from(map.values());
+}
+
+async function loadHSKLevel(lvl) {
+const lvlStr = String(lvl);
+appState.level = lvlStr;
+appState.page = 1;
+appState.charPage = 1;
+document.getElementById('global-search').value = '';
+
+if (lvlStr === '7-9' && appState.dataset.includes('2.0')) {
+appState.dataset = 'drkameleon-3.0';
+document.getElementById('syllabus-select').value = 'drkameleon-3.0';
+}
+
+const info = LEVEL_INFO[lvlStr] || LEVEL_INFO['1'];
+document.getElementById('lvl-cefr-badge').textContent = info.cefr;
+document.getElementById('lvl-heading').textContent = info.title;
+document.getElementById('lvl-subtitle').textContent = info.desc;
+
+const loader = document.getElementById('loader-box');
+loader.style.display = 'block';
+
+try {
+const [vocab, chars, grammar] = await Promise.all([
+getVocabDataset(lvlStr, appState.dataset),
+getCharDataset(lvlStr, appState.charMode),
+getGrammarDataset(lvlStr, appState.grammarMode)
+]);
+
+document.getElementById('stat-vocab-pill').textContent = `📦 ${vocab.length} Words`;
+document.getElementById('stat-char-pill').textContent = `🀄 ${chars.length} Chars`;
+document.getElementById('stat-grammar-pill').textContent = `📘 ${grammar.length} Grammar`;
+document.getElementById('active-version-pill').textContent = `${info.title} • ${document.getElementById('syllabus-select').selectedOptions[0].text.split('•')[0].trim()}`;
+
+filterCurrentLevel();
+if (vocab.length > 0) {
+document.getElementById('stroke-input').value = vocab[0].hanzi.slice(0, 5);
+}
+if (appState.subTab === 'strokes') buildStrokeWriters();
+} catch (e) {
+document.getElementById('vocab-container').innerHTML = `<p style="color:var(--primary);">Error loading dataset: ${e.message}</p>`;
+} finally {
+loader.style.display = 'none';
+}
+}
+
+async function loadCharListForCurrentLevel() {
+appState.charMode = document.getElementById('char-mode-select').value;
+const loader = document.getElementById('loader-box');
+loader.style.display = 'block';
+try {
+const chars = await getCharDataset(appState.level, appState.charMode);
+document.getElementById('stat-char-pill').textContent = `🀄 ${chars.length} Chars`;
+filterCurrentLevel();
+} finally {
+loader.style.display = 'none';
+}
+}
+
+async function loadGrammarForCurrentLevel() {
+appState.grammarMode = document.getElementById('grammar-mode-select').value;
+const loader = document.getElementById('loader-box');
+loader.style.display = 'block';
+try {
+const grammar = await getGrammarDataset(appState.level, appState.grammarMode);
+document.getElementById('stat-grammar-pill').textContent = `📘 ${grammar.length} Grammar`;
+filterCurrentLevel();
+} finally {
+loader.style.display = 'none';
+}
+}
+
+function setLevelSubTab(tab) {
+appState.subTab = tab;
+document.getElementById('tab-btn-vocab').classList.toggle('active', tab === 'vocab');
+document.getElementById('tab-btn-chars').classList.toggle('active', tab === 'chars');
+document.getElementById('tab-btn-grammar').classList.toggle('active', tab === 'grammar');
+document.getElementById('tab-btn-strokes').classList.toggle('active', tab === 'strokes');
+
+document.getElementById('subpanel-vocab').style.display = tab === 'vocab' ? 'block' : 'none';
+document.getElementById('subpanel-chars').style.display = tab === 'chars' ? 'block' : 'none';
+document.getElementById('subpanel-grammar').style.display = tab === 'grammar' ? 'block' : 'none';
+document.getElementById('subpanel-strokes').style.display = tab === 'strokes' ? 'block' : 'none';
+
+document.getElementById('filter-bar').style.display = tab === 'strokes' ? 'none' : 'flex';
+document.getElementById('syllabus-select').style.display = tab === 'vocab' ? 'block' : 'none';
+document.getElementById('char-mode-select').style.display = tab === 'chars' ? 'block' : 'none';
+document.getElementById('grammar-mode-select').style.display = tab === 'grammar' ? 'block' : 'none';
+
+document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
+document.getElementById(`mob-nav-${tab}`)?.classList.add('active');
+
+if (tab === 'strokes') buildStrokeWriters();
+}
+
+function changeDatasetSource() {
+appState.dataset = document.getElementById('syllabus-select').value;
+loadHSKLevel(appState.level);
+}
+
+function filterCurrentLevel() {
+const q = document.getElementById('global-search').value.trim().toLowerCase();
+const rawVocab = appState.vocabCache[`${appState.dataset}__${appState.level}`] || [];
+const rawChars = appState.charCache[`${appState.charMode}__${appState.level}__${appState.dataset}`] || [];
+const rawGrammar = appState.grammarCache[`${appState.grammarMode}__${appState.level}`] || [];
+
+if (!q) {
+appState.filteredVocab = rawVocab;
+appState.filteredChars = rawChars;
+appState.filteredGrammar = rawGrammar;
+} else {
+appState.filteredVocab = rawVocab.filter(v =>
+v.hanzi.toLowerCase().includes(q) ||
+v.pinyin.toLowerCase().includes(q) ||
+v.meaning.toLowerCase().includes(q)
+);
+appState.filteredChars = rawChars.filter(c =>
+c.hanzi.toLowerCase().includes(q) ||
+c.pinyin.toLowerCase().includes(q) ||
+c.meaning.toLowerCase().includes(q)
+);
+appState.filteredGrammar = rawGrammar.filter(g =>
+g.title.toLowerCase().includes(q) ||
+g.struct.toLowerCase().includes(q) ||
+g.usage.toLowerCase().includes(q) ||
+g.examples.some(ex => ex.zh.includes(q) || ex.en.toLowerCase().includes(q))
+);
+}
+
+appState.page = 1;
+appState.charPage = 1;
+renderVocabCards();
+renderCharCards();
+renderGrammarCards();
+}
+
+function renderCardGridHTML(slice) {
+return slice.map(w => {
+const safeHanzi = w.hanzi.replace(/'/g, "\\'");
+return `
+<div class="vocab-card" onclick="openWordInStrokeLab('${safeHanzi}')">
+<div>
+<div class="vocab-card-head">
+<span class="hanzi-lg">${w.hanzi}</span>
+<div class="card-actions">
+<button class="mini-btn" title="Pronounce" onclick="event.stopPropagation(); speakChinese('${safeHanzi}')">🔊</button>
+<button class="mini-btn" title="Stroke Order" onclick="event.stopPropagation(); openWordInStrokeLab('${safeHanzi}')">✍️</button>
+</div>
+</div>
+${w.pinyin ? `<div class="pinyin-text">${w.pinyin}</div>` : ''}
+<div class="meaning-text">${w.meaning || ''}</div>
+</div>
+<div class="badge-row">
+${w.pos ? `<span class="pos-badge">${w.pos}</span>` : ''}
+${w.source ? `<span class="src-badge">${w.source}</span>` : ''}
+</div>
+</div>
+`;
+}).join('');
+}
+
+function renderVocabCards() {
+const container = document.getElementById('vocab-container');
+const total = appState.filteredVocab.length;
+
+if (total === 0) {
+container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:var(--text-muted);">No matching vocabulary words found.</div>`;
+document.getElementById('pager-bar').style.display = 'none';
+return;
+}
+
+const totalPages = Math.ceil(total / appState.pageSize);
+if (appState.page > totalPages) appState.page = totalPages;
+
+const start = (appState.page - 1) * appState.pageSize;
+const slice = appState.filteredVocab.slice(start, start + appState.pageSize);
+
+container.innerHTML = renderCardGridHTML(slice);
+
+const pager = document.getElementById('pager-bar');
+pager.style.display = totalPages > 1 ? 'flex' : 'none';
+document.getElementById('pager-info').textContent = `Page ${appState.page} / ${totalPages} (${total} items)`;
+document.getElementById('btn-prev').disabled = appState.page <= 1;
+document.getElementById('btn-next').disabled = appState.page >= totalPages;
+}
+
+function renderCharCards() {
+const container = document.getElementById('chars-container');
+const total = appState.filteredChars.length;
+
+if (total === 0) {
+container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:2rem; color:var(--text-muted);">No matching characters found.</div>`;
+document.getElementById('char-pager-bar').style.display = 'none';
+return;
+}
+
+const totalPages = Math.ceil(total / appState.pageSize);
+if (appState.charPage > totalPages) appState.charPage = totalPages;
+
+const start = (appState.charPage - 1) * appState.pageSize;
+const slice = appState.filteredChars.slice(start, start + appState.pageSize);
+
+container.innerHTML = renderCardGridHTML(slice);
+
+const pager = document.getElementById('char-pager-bar');
+pager.style.display = totalPages > 1 ? 'flex' : 'none';
+document.getElementById('char-pager-info').textContent = `Page ${appState.charPage} / ${totalPages} (${total} chars)`;
+document.getElementById('char-btn-prev').disabled = appState.charPage <= 1;
+document.getElementById('char-btn-next').disabled = appState.charPage >= totalPages;
+}
+
+function turnPage(delta) {
+appState.page += delta;
+renderVocabCards();
+window.scrollTo({ top: 140, behavior: 'smooth' });
+}
+
+function turnCharPage(delta) {
+appState.charPage += delta;
+renderCharCards();
+window.scrollTo({ top: 140, behavior: 'smooth' });
+}
+
+function renderGrammarCards() {
+const container = document.getElementById('grammar-container');
+if (appState.filteredGrammar.length === 0) {
+container.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--text-muted);">No matching grammar points found.</div>`;
+return;
+}
+
+container.innerHTML = appState.filteredGrammar.map(g => `
+<div class="grammar-card">
+<div class="grammar-top">
+<strong style="font-size:1.05rem;">${g.title}</strong>
+${g.link ? `<a href="${g.link}" target="_blank" rel="noopener" class="icon-btn" style="text-decoration:none; font-size:0.76rem;">Source ↗</a>` : ''}
+</div>
+${g.struct ? `<div class="grammar-formula">${g.struct}</div>` : ''}
+${g.usage ? `<div style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.45rem;">${g.usage}</div>` : ''}
+${(g.examples || []).map(ex => {
+const safeZh = ex.zh.replace(/'/g, "\\'");
+return `
+<div class="example-box">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<span style="font-weight:700; font-size:1.02rem;">${ex.zh}</span>
+<button class="mini-btn" onclick="speakChinese('${safeZh}')" title="Listen">🔊</button>
+</div>
+${ex.py ? `<div style="font-size:0.84rem; color:var(--primary); font-style:italic;">${ex.py}</div>` : ''}
+${ex.en ? `<div style="font-size:0.88rem; margin-top:0.15rem;">${ex.en}</div>` : ''}
+</div>
+`;
+}).join('')}
+</div>
+`).join('');
+}
+
+function openWordInStrokeLab(hanzi) {
+document.getElementById('stroke-input').value = hanzi.slice(0, 5);
+setLevelSubTab('strokes');
+}
+
+function buildStrokeWriters() {
+const raw = document.getElementById('stroke-input').value.trim();
+const wrap = document.getElementById('hanzi-canvas-wrap');
+const fb = document.getElementById('stroke-feedback');
+wrap.innerHTML = '';
+fb.textContent = '';
+appState.writers = [];
+
+const chars = Array.from(raw).filter(c => /[\u4e00-\u9fa5]/.test(c));
+if (chars.length === 0) {
+fb.textContent = 'Please enter at least one valid Chinese character.';
+return;
+}
+
+const isMob = document.body.classList.contains('is-mobile');
+const boxSize = isMob ? 145 : 175;
+const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+chars.forEach((ch, i) => {
+const div = document.createElement('div');
+div.id = `hanzi-slot-${i}`;
+div.className = 'hanzi-grid-box';
+wrap.appendChild(div);
+
+const writer = HanziWriter.create(div.id, ch, {
+width: boxSize,
+height: boxSize,
+padding: 10,
+showOutline: true,
+strokeAnimationSpeed: 1.25,
+delayBetweenStrokes: 160,
+strokeColor: isDark ? '#fb7185' : '#be123c',
+radicalColor: isDark ? '#fbbf24' : '#e11d48',
+outlineColor: isDark ? '#334155' : '#cbd5e1'
+});
+appState.writers.push(writer);
+});
+}
+
+async function animateWriters() {
+const fb = document.getElementById('stroke-feedback');
+fb.textContent = 'Animating stroke order...';
+for (const w of appState.writers) {
+await new Promise(r => w.animateCharacter({ onComplete: r }));
+}
+fb.textContent = 'Animation finished!';
+}
+
+function startStrokeQuiz() {
+if (!appState.writers.length) return;
+const fb = document.getElementById('stroke-feedback');
+fb.textContent = 'Trace the strokes inside the box using mouse or touch!';
+appState.writers.forEach(w => {
+w.quiz({
+onComplete: (res) => {
+fb.textContent = `Completed "${res.character}" with ${res.totalMistakes} mistake(s).`;
+speakChinese(res.character);
+}
+});
+});
+}
+
+window.addEventListener('resize', detectAndApplyDeviceMode);
+window.addEventListener('keydown', (e) => {
+if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+e.preventDefault();
+const searchEl = document.getElementById('global-search');
+if (searchEl && searchEl.offsetParent !== null) searchEl.focus();
+}
+});
+
+initSavedTheme();
+detectAndApplyDeviceMode();
+</script>
+</body>
+</html>
