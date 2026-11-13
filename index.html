@@ -12,33 +12,56 @@
 --primary-hover: #be123c;
 --primary-soft: rgba(225, 29, 72, 0.12);
 --accent: #f59e0b;
+--accent-soft: rgba(245, 158, 11, 0.14);
+--success: #10b981;
+--danger: #ef4444;
 --bg-body: #f8fafc;
 --bg-surface: #ffffff;
 --bg-elevated: #f1f5f9;
+--bg-glass: rgba(255, 255, 255, 0.85);
 --text-main: #0f172a;
 --text-muted: #64748b;
 --border: #e2e8f0;
+--radius-xl: 20px;
 --radius-lg: 16px;
 --radius-md: 12px;
 --radius-sm: 8px;
---shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
---sidebar-w: 278px;
---header-h: 64px;
+--shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.05);
+--shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+--shadow-lg: 0 16px 36px -6px rgba(15, 23, 42, 0.12);
+--sidebar-w: 280px;
+--header-h: 68px;
 --bottom-nav-h: 68px;
+--tone-1: #e11d48;
+--tone-2: #d97706;
+--tone-3: #059669;
+--tone-4: #2563eb;
+--tone-5: #64748b;
 }
 html[data-theme="dark"],
 body[data-theme="dark"] {
 --primary: #fb7185;
 --primary-hover: #f43f5e;
---primary-soft: rgba(251, 113, 133, 0.16);
+--primary-soft: rgba(251, 113, 133, 0.15);
 --accent: #fbbf24;
+--accent-soft: rgba(251, 191, 36, 0.16);
+--success: #34d399;
+--danger: #f87171;
 --bg-body: #090d16;
 --bg-surface: #111827;
 --bg-elevated: #1e293b;
+--bg-glass: rgba(17, 24, 39, 0.85);
 --text-main: #f8fafc;
 --text-muted: #94a3b8;
 --border: #1f2937;
---shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.5);
+--shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+--shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+--shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.65);
+--tone-1: #fb7185;
+--tone-2: #fbbf24;
+--tone-3: #34d399;
+--tone-4: #60a5fa;
+--tone-5: #94a3b8;
 }
 *, *::before, *::after {
 box-sizing: border-box;
@@ -54,9 +77,111 @@ line-height: 1.6;
 overflow-x: hidden;
 transition: background-color 0.25s, color 0.25s;
 }
+.tone-1 { color: var(--tone-1) !important; font-weight: 700; }
+.tone-2 { color: var(--tone-2) !important; font-weight: 700; }
+.tone-3 { color: var(--tone-3) !important; font-weight: 700; }
+.tone-4 { color: var(--tone-4) !important; font-weight: 700; }
+.tone-5 { color: var(--tone-5) !important; font-weight: 600; }
+.tone-legend {
+display: inline-flex;
+align-items: center;
+gap: 0.65rem;
+flex-wrap: wrap;
+font-size: 0.76rem;
+background: var(--bg-elevated);
+padding: 0.35rem 0.75rem;
+border-radius: 99px;
+border: 1px solid var(--border);
+}
+.tone-dot {
+display: inline-flex;
+align-items: center;
+gap: 0.25rem;
+font-weight: 700;
+}
+.tone-dot::before {
+content: "";
+width: 8px;
+height: 8px;
+border-radius: 50%;
+display: inline-block;
+}
+.tone-dot.t1::before { background: var(--tone-1); }
+.tone-dot.t2::before { background: var(--tone-2); }
+.tone-dot.t3::before { background: var(--tone-3); }
+.tone-dot.t4::before { background: var(--tone-4); }
+.tone-dot.t5::before { background: var(--tone-5); }
+.sandhi-sidenote-box {
+margin-top: 0.65rem;
+padding: 0.6rem 0.85rem;
+border-radius: var(--radius-sm);
+background: var(--accent-soft);
+border-left: 3px solid var(--accent);
+font-size: 0.78rem;
+color: var(--text-main);
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+}
+.sandhi-sidenote-item {
+display: flex;
+align-items: baseline;
+gap: 0.45rem;
+flex-wrap: wrap;
+line-height: 1.4;
+}
+.sandhi-rule-tag {
+font-size: 0.66rem;
+font-weight: 800;
+text-transform: uppercase;
+padding: 0.1rem 0.42rem;
+border-radius: 4px;
+background: var(--accent);
+color: #fff;
+flex-shrink: 0;
+}
+.sandhi-tile-note {
+width: 100%;
+margin-top: 0.38rem;
+padding: 0.35rem 0.5rem;
+border-radius: 6px;
+background: var(--accent-soft);
+border: 1px dashed var(--accent);
+font-size: 0.69rem;
+line-height: 1.35;
+text-align: left;
+color: var(--text-main);
+}
+.sandhi-inline-pill {
+display: inline-flex;
+align-items: center;
+gap: 0.25rem;
+font-size: 0.71rem;
+padding: 0.1rem 0.45rem;
+border-radius: 6px;
+background: var(--accent-soft);
+border: 1px solid var(--accent);
+color: var(--text-main);
+font-weight: 600;
+margin-top: 0.22rem;
+}
 .app-shell {
 display: flex;
 min-height: 100vh;
+}
+.sidebar-backdrop {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(3px);
+z-index: 195;
+opacity: 0;
+transition: opacity 0.25s ease;
+}
+.sidebar-backdrop.show {
+display: block;
+opacity: 1;
 }
 .pc-sidebar {
 width: var(--sidebar-w);
@@ -70,7 +195,7 @@ display: flex;
 flex-direction: column;
 z-index: 200;
 padding: 1.25rem;
-transition: transform 0.3s ease;
+transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .pc-sidebar.hidden {
 transform: translateX(-100%);
@@ -78,10 +203,15 @@ transform: translateX(-100%);
 .brand-box {
 display: flex;
 align-items: center;
-gap: 0.75rem;
+justify-content: space-between;
 padding-bottom: 1.15rem;
 border-bottom: 1px solid var(--border);
-margin-bottom: 1rem;
+margin-bottom: 0.85rem;
+}
+.brand-left {
+display: flex;
+align-items: center;
+gap: 0.75rem;
 }
 .brand-logo {
 width: 42px;
@@ -95,42 +225,44 @@ justify-content: center;
 font-size: 1.35rem;
 font-weight: 800;
 box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+flex-shrink: 0;
 }
 .brand-title {
 font-weight: 800;
-font-size: 1.12rem;
+font-size: 1.1rem;
 letter-spacing: -0.3px;
 }
 .brand-sub {
-font-size: 0.73rem;
+font-size: 0.72rem;
 color: var(--text-muted);
 display: block;
 }
 .nav-section-label {
-font-size: 0.7rem;
+font-size: 0.68rem;
 text-transform: uppercase;
 letter-spacing: 0.08em;
 color: var(--text-muted);
 font-weight: 700;
-margin: 0.65rem 0 0.4rem 0.5rem;
+margin: 0.75rem 0 0.35rem 0.5rem;
 }
 .side-nav-list {
 display: flex;
 flex-direction: column;
-gap: 0.25rem;
+gap: 0.2rem;
 flex: 1;
 overflow-y: auto;
+padding-right: 0.2rem;
 }
 .side-btn {
 display: flex;
 align-items: center;
 justify-content: space-between;
 width: 100%;
-padding: 0.62rem 0.85rem;
+padding: 0.6rem 0.85rem;
 border: none;
 background: transparent;
 color: var(--text-main);
-font-size: 0.9rem;
+font-size: 0.88rem;
 font-weight: 600;
 border-radius: var(--radius-sm);
 cursor: pointer;
@@ -143,9 +275,10 @@ background: var(--bg-elevated);
 .side-btn.active {
 background: var(--primary-soft);
 color: var(--primary);
+font-weight: 700;
 }
 .side-badge {
-font-size: 0.7rem;
+font-size: 0.68rem;
 padding: 0.12rem 0.5rem;
 border-radius: 99px;
 background: var(--bg-elevated);
@@ -159,8 +292,11 @@ color: #fff;
 .sidebar-footer {
 border-top: 1px solid var(--border);
 padding-top: 0.85rem;
-font-size: 0.75rem;
+font-size: 0.74rem;
 color: var(--text-muted);
+display: flex;
+flex-direction: column;
+gap: 0.25rem;
 }
 .main-workspace {
 flex: 1;
@@ -168,14 +304,15 @@ margin-left: var(--sidebar-w);
 display: flex;
 flex-direction: column;
 min-width: 0;
-transition: margin-left 0.3s ease;
+transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .main-workspace.expanded {
 margin-left: 0;
 }
 .top-header {
 height: var(--header-h);
-background: var(--bg-surface);
+background: var(--bg-glass);
+backdrop-filter: blur(12px);
 border-bottom: 1px solid var(--border);
 position: sticky;
 top: 0;
@@ -191,28 +328,37 @@ display: flex;
 align-items: center;
 gap: 0.5rem;
 flex: 1;
-max-width: 520px;
+max-width: 560px;
 }
 .hamburger-btn {
-background: none;
-border: none;
-font-size: 1.5rem;
+background: var(--bg-elevated);
+border: 1px solid var(--border);
+width: 38px;
+height: 38px;
+border-radius: var(--radius-sm);
+font-size: 1.15rem;
 cursor: pointer;
 color: var(--text-main);
-padding-right: 0.5rem;
-display: flex;
+display: inline-flex;
 align-items: center;
+justify-content: center;
+transition: all 0.2s;
+flex-shrink: 0;
+}
+.hamburger-btn:hover {
+border-color: var(--primary);
+color: var(--primary);
 }
 .header-actions {
 display: flex;
 align-items: center;
-gap: 0.6rem;
+gap: 0.55rem;
 }
 .status-pill {
 display: inline-flex;
 align-items: center;
-gap: 0.45rem;
-font-size: 0.78rem;
+gap: 0.4rem;
+font-size: 0.76rem;
 font-weight: 700;
 padding: 0.35rem 0.75rem;
 border-radius: 99px;
@@ -226,18 +372,33 @@ border: 1px solid var(--border);
 color: var(--text-main);
 padding: 0.48rem 0.85rem;
 border-radius: var(--radius-sm);
-font-size: 0.84rem;
+font-size: 0.83rem;
 font-weight: 600;
 cursor: pointer;
 display: inline-flex;
 align-items: center;
 gap: 0.4rem;
-transition: all 0.2s;
+transition: all 0.18s;
 text-decoration: none;
+white-space: nowrap;
 }
-.icon-btn:hover {
+.icon-btn:hover:not(:disabled) {
 border-color: var(--primary);
 color: var(--primary);
+transform: translateY(-1px);
+}
+.icon-btn:disabled {
+opacity: 0.45;
+cursor: not-allowed;
+}
+.icon-btn.primary {
+background: var(--primary);
+color: #fff;
+border-color: var(--primary);
+}
+.icon-btn.primary:hover:not(:disabled) {
+background: var(--primary-hover);
+color: #fff;
 }
 .mobile-level-strip {
 display: none;
@@ -256,15 +417,16 @@ scrollbar-width: none;
 display: none;
 }
 .lvl-chip {
-padding: 0.4rem 0.85rem;
+padding: 0.38rem 0.85rem;
 border-radius: 99px;
 border: 1px solid var(--border);
 background: var(--bg-elevated);
 color: var(--text-main);
-font-size: 0.8rem;
+font-size: 0.78rem;
 font-weight: 700;
 cursor: pointer;
 flex-shrink: 0;
+transition: all 0.18s;
 }
 .lvl-chip.active {
 background: var(--primary);
@@ -272,32 +434,32 @@ color: #fff;
 border-color: var(--primary);
 }
 .content-container {
-max-width: 1280px;
+max-width: 1320px;
 width: 100%;
 margin: 0 auto;
 padding: 1.75rem;
 }
 .hero-banner {
-background: linear-gradient(135deg, #be123c 0%, #e11d48 55%, #f97316 100%);
+background: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #f97316 100%);
 color: #fff;
-border-radius: var(--radius-lg);
-padding: 2rem;
+border-radius: var(--radius-xl);
+padding: 2.2rem;
 margin-bottom: 1.5rem;
 box-shadow: var(--shadow);
 position: relative;
 overflow: hidden;
 }
 .hero-banner h1 {
-font-size: 1.8rem;
+font-size: 1.85rem;
 font-weight: 800;
-margin-bottom: 0.5rem;
+margin-bottom: 0.55rem;
 letter-spacing: -0.02em;
 }
 .hero-banner p {
-max-width: 780px;
-opacity: 0.94;
+max-width: 800px;
+opacity: 0.95;
 font-size: 0.95rem;
-margin-bottom: 1.15rem;
+margin-bottom: 1.2rem;
 }
 .repo-pills {
 display: flex;
@@ -305,22 +467,23 @@ flex-wrap: wrap;
 gap: 0.45rem;
 }
 .repo-pill {
-background: rgba(0, 0, 0, 0.28);
+background: rgba(0, 0, 0, 0.25);
 color: #fff;
 text-decoration: none;
 font-size: 0.75rem;
 font-weight: 600;
-padding: 0.32rem 0.7rem;
+padding: 0.32rem 0.75rem;
 border-radius: 99px;
 border: 1px solid rgba(255, 255, 255, 0.25);
-transition: background 0.2s;
+transition: background 0.2s, transform 0.2s;
 }
 .repo-pill:hover {
-background: rgba(255, 255, 255, 0.22);
+background: rgba(255, 255, 255, 0.25);
+transform: translateY(-1px);
 }
 .grid-cards {
 display: grid;
-grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 gap: 1.15rem;
 margin-bottom: 1.5rem;
 }
@@ -329,12 +492,12 @@ background: var(--bg-surface);
 border: 1px solid var(--border);
 border-radius: var(--radius-lg);
 padding: 1.4rem;
-box-shadow: var(--shadow);
+box-shadow: var(--shadow-sm);
 }
 .surface-card h2 {
 font-size: 1.15rem;
 font-weight: 800;
-margin-bottom: 0.75rem;
+margin-bottom: 0.7rem;
 display: flex;
 align-items: center;
 gap: 0.5rem;
@@ -344,11 +507,12 @@ color: var(--text-main);
 display: inline-block;
 background: var(--primary-soft);
 color: var(--primary);
-font-size: 0.7rem;
+font-size: 0.68rem;
 font-weight: 800;
 padding: 0.2rem 0.55rem;
 border-radius: 6px;
 text-transform: uppercase;
+letter-spacing: 0.04em;
 margin-bottom: 0.45rem;
 }
 .fact-list {
@@ -396,9 +560,10 @@ justify-content: space-between;
 align-items: center;
 gap: 0.8rem;
 background: var(--bg-elevated);
-padding: 0.85rem 1rem;
+padding: 0.8rem 1rem;
 border-radius: var(--radius-md);
 margin-bottom: 1.25rem;
+border: 1px solid var(--border);
 }
 .segmented-tabs {
 display: flex;
@@ -413,12 +578,15 @@ gap: 0.2rem;
 border: none;
 background: transparent;
 color: var(--text-muted);
-padding: 0.42rem 0.85rem;
+padding: 0.42rem 0.8rem;
 border-radius: 6px;
-font-size: 0.83rem;
+font-size: 0.81rem;
 font-weight: 700;
 cursor: pointer;
 transition: all 0.18s;
+}
+.seg-btn:hover {
+color: var(--text-main);
 }
 .seg-btn.active {
 background: var(--primary);
@@ -432,7 +600,7 @@ flex: 1;
 justify-content: flex-end;
 }
 .input-modern, .select-modern, .textarea-modern {
-padding: 0.52rem 0.8rem;
+padding: 0.5rem 0.8rem;
 border-radius: var(--radius-sm);
 border: 1px solid var(--border);
 background: var(--bg-surface);
@@ -440,16 +608,17 @@ color: var(--text-main);
 font-size: 0.85rem;
 outline: none;
 font-family: inherit;
+transition: border-color 0.2s;
 }
 .textarea-modern {
 width: 100%;
-min-height: 110px;
+min-height: 115px;
 resize: vertical;
-font-size: 1rem;
-line-height: 1.6;
+font-size: 1.05rem;
+line-height: 1.65;
 }
 .input-modern {
-min-width: 200px;
+min-width: 190px;
 flex: 1;
 max-width: 320px;
 }
@@ -458,22 +627,23 @@ border-color: var(--primary);
 }
 .vocab-grid {
 display: grid;
-grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-gap: 0.9rem;
+grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+gap: 0.95rem;
 }
 .vocab-card {
 background: var(--bg-surface);
 border: 1px solid var(--border);
 border-radius: var(--radius-md);
-padding: 1rem;
+padding: 1.05rem;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s;
+transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
 cursor: pointer;
+position: relative;
 }
 .vocab-card:hover {
-transform: translateY(-2px);
+transform: translateY(-3px);
 border-color: var(--primary);
 box-shadow: var(--shadow);
 }
@@ -482,17 +652,18 @@ display: flex;
 justify-content: space-between;
 align-items: flex-start;
 gap: 0.4rem;
-margin-bottom: 0.25rem;
+margin-bottom: 0.3rem;
 }
 .hanzi-lg {
-font-size: 1.55rem;
+font-size: 1.6rem;
 font-weight: 800;
 color: var(--text-main);
 line-height: 1.25;
 }
 .card-actions {
 display: flex;
-gap: 0.28rem;
+gap: 0.25rem;
+flex-shrink: 0;
 }
 .mini-btn {
 border: 1px solid var(--border);
@@ -506,16 +677,21 @@ align-items: center;
 justify-content: center;
 font-size: 0.78rem;
 cursor: pointer;
+transition: all 0.15s;
 }
 .mini-btn:hover {
 background: var(--primary);
 color: #fff;
 border-color: var(--primary);
 }
+.mini-btn.bookmarked {
+background: var(--accent);
+color: #fff;
+border-color: var(--accent);
+}
 .pinyin-text {
-color: var(--primary);
 font-weight: 700;
-font-size: 0.9rem;
+font-size: 0.92rem;
 margin-bottom: 0.3rem;
 }
 .meaning-text {
@@ -525,18 +701,19 @@ display: -webkit-box;
 -webkit-line-clamp: 3;
 -webkit-box-orient: vertical;
 overflow: hidden;
+line-height: 1.45;
 }
 .badge-row {
 display: flex;
 flex-wrap: wrap;
 gap: 0.3rem;
-margin-top: 0.55rem;
+margin-top: 0.65rem;
 }
 .pos-badge {
 font-size: 0.68rem;
 background: var(--bg-elevated);
 color: var(--text-muted);
-padding: 0.1rem 0.42rem;
+padding: 0.12rem 0.45rem;
 border-radius: 4px;
 font-family: monospace;
 display: inline-block;
@@ -545,21 +722,22 @@ display: inline-block;
 font-size: 0.66rem;
 background: var(--primary-soft);
 color: var(--primary);
-padding: 0.1rem 0.42rem;
+padding: 0.12rem 0.45rem;
 border-radius: 4px;
 font-weight: 700;
 }
 .grammar-stack {
 display: flex;
 flex-direction: column;
-gap: 0.85rem;
+gap: 0.9rem;
 }
 .grammar-card {
 background: var(--bg-surface);
 border: 1px solid var(--border);
 border-left: 4px solid var(--primary);
 border-radius: var(--radius-md);
-padding: 1.1rem 1.3rem;
+padding: 1.15rem 1.35rem;
+box-shadow: var(--shadow-sm);
 }
 .grammar-top {
 display: flex;
@@ -573,9 +751,9 @@ margin-bottom: 0.45rem;
 font-family: monospace;
 background: var(--primary-soft);
 color: var(--primary);
-padding: 0.22rem 0.55rem;
+padding: 0.25rem 0.6rem;
 border-radius: 6px;
-font-size: 0.84rem;
+font-size: 0.85rem;
 font-weight: 700;
 display: inline-block;
 margin-bottom: 0.55rem;
@@ -592,20 +770,21 @@ display: flex;
 flex-direction: column;
 align-items: center;
 text-align: center;
-padding: 1rem 0.5rem;
+padding: 1.25rem 0.5rem;
 }
 #hanzi-canvas-wrap {
 display: flex;
 flex-wrap: wrap;
-gap: 0.85rem;
+gap: 0.9rem;
 justify-content: center;
-margin: 1.15rem 0;
+margin: 1.2rem 0;
 }
 .hanzi-grid-box {
 background: var(--bg-surface);
 border: 2px solid var(--border);
 border-radius: var(--radius-md);
-box-shadow: var(--shadow);
+box-shadow: var(--shadow-sm);
+position: relative;
 }
 .pagination-bar {
 display: flex;
@@ -638,9 +817,9 @@ justify-content: center;
 background: none;
 border: none;
 color: var(--text-muted);
-font-size: 0.7rem;
+font-size: 0.68rem;
 font-weight: 700;
-gap: 0.18rem;
+gap: 0.15rem;
 cursor: pointer;
 flex: 1;
 padding: 0.35rem 0;
@@ -687,63 +866,232 @@ text-decoration: underline;
 .converter-tiles {
 display: flex;
 flex-wrap: wrap;
-gap: 0.75rem;
-margin-top: 1.25rem;
+gap: 0.85rem;
+margin-top: 1rem;
 }
 .annotated-tile {
 background: var(--bg-elevated);
 border: 1px solid var(--border);
 border-radius: var(--radius-md);
-padding: 0.7rem 0.85rem;
+padding: 0.85rem 1rem;
 display: inline-flex;
 flex-direction: column;
 align-items: center;
-min-width: 72px;
-max-width: 220px;
+min-width: 118px;
+max-width: 285px;
 position: relative;
-transition: border-color 0.18s, transform 0.18s;
+transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
 }
 .annotated-tile:hover {
 border-color: var(--primary);
 transform: translateY(-2px);
+box-shadow: var(--shadow-sm);
 }
 .annotated-pinyin {
-font-size: 0.84rem;
+font-size: 0.92rem;
 font-weight: 700;
-color: var(--primary);
 text-align: center;
-margin-bottom: 0.15rem;
+margin-bottom: 0.2rem;
+letter-spacing: 0.02em;
 }
 .annotated-hanzi {
-font-size: 1.6rem;
+font-size: 1.75rem;
 font-weight: 800;
-color: var(--text-main);
-line-height: 1.2;
+line-height: 1.25;
 text-align: center;
 cursor: pointer;
+letter-spacing: 0.04em;
+}
+.annotated-gt {
+font-size: 0.75rem;
+font-weight: 700;
+color: #fff;
+background: var(--primary);
+padding: 0.14rem 0.55rem;
+border-radius: 99px;
+margin-top: 0.4rem;
+text-align: center;
+max-width: 100%;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
 }
 .annotated-meaning {
-font-size: 0.74rem;
+font-size: 0.75rem;
 color: var(--text-muted);
 text-align: center;
-margin-top: 0.35rem;
-line-height: 1.3;
+margin-top: 0.38rem;
+line-height: 1.38;
 border-top: 1px dashed var(--border);
-padding-top: 0.35rem;
+padding-top: 0.38rem;
 width: 100%;
+}
+.char-decomp-box {
+width: 100%;
+margin-top: 0.45rem;
+padding-top: 0.4rem;
+border-top: 1px solid var(--border);
+display: flex;
+flex-direction: column;
+gap: 0.28rem;
+background: var(--bg-surface);
+padding: 0.45rem 0.55rem;
+border-radius: var(--radius-sm);
+}
+.char-decomp-title {
+font-size: 0.65rem;
+font-weight: 800;
+text-transform: uppercase;
+color: var(--text-muted);
+letter-spacing: 0.05em;
+margin-bottom: 0.1rem;
+}
+.char-decomp-row {
+display: flex;
+align-items: baseline;
+gap: 0.35rem;
+font-size: 0.73rem;
+text-align: left;
+line-height: 1.3;
+cursor: pointer;
+}
+.char-decomp-row:hover {
+opacity: 0.85;
+}
+.char-decomp-hz {
+font-weight: 800;
+font-size: 0.88rem;
+flex-shrink: 0;
+}
+.char-decomp-py {
+font-weight: 700;
+font-size: 0.72rem;
+flex-shrink: 0;
+}
+.char-decomp-def {
+color: var(--text-muted);
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+.annotated-actions {
+display: flex;
+gap: 0.25rem;
+margin-top: 0.5rem;
 }
 .pinyin-banner-box {
 background: var(--bg-elevated);
 border: 1px solid var(--border);
 border-radius: var(--radius-md);
 padding: 1rem 1.2rem;
-margin-top: 1rem;
-font-size: 1.05rem;
-line-height: 1.6;
+margin-top: 0.65rem;
+font-size: 1.08rem;
+line-height: 1.75;
 user-select: text;
 }
-body.is-mobile .pc-sidebar {
-display: none;
+.flashcard-stage {
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 1rem 0;
+}
+.flashcard-3d-wrap {
+width: 100%;
+max-width: 480px;
+height: 315px;
+perspective: 1000px;
+cursor: pointer;
+margin: 1rem 0;
+}
+.flashcard-3d-inner {
+position: relative;
+width: 100%;
+height: 100%;
+text-align: center;
+transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+transform-style: preserve-3d;
+}
+.flashcard-3d-wrap.flipped .flashcard-3d-inner {
+transform: rotateY(180deg);
+}
+.flashcard-face {
+position: absolute;
+inset: 0;
+backface-visibility: hidden;
+background: var(--bg-surface);
+border: 2px solid var(--border);
+border-radius: var(--radius-xl);
+box-shadow: var(--shadow);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 2rem;
+}
+.flashcard-face.back {
+transform: rotateY(180deg);
+border-color: var(--primary);
+}
+.quiz-box {
+max-width: 640px;
+margin: 0 auto;
+}
+.quiz-options {
+display: grid;
+grid-template-columns: 1fr;
+gap: 0.7rem;
+margin-top: 1.2rem;
+}
+.quiz-opt-btn {
+background: var(--bg-elevated);
+border: 2px solid var(--border);
+color: var(--text-main);
+padding: 0.9rem 1.1rem;
+border-radius: var(--radius-md);
+font-size: 0.92rem;
+font-weight: 600;
+text-align: left;
+cursor: pointer;
+transition: all 0.18s;
+}
+.quiz-opt-btn:hover:not(:disabled) {
+border-color: var(--primary);
+}
+.quiz-opt-btn.correct {
+background: rgba(16, 185, 129, 0.15);
+border-color: var(--success);
+color: var(--success);
+}
+.quiz-opt-btn.wrong {
+background: rgba(239, 68, 68, 0.15);
+border-color: var(--danger);
+color: var(--danger);
+}
+.toast-container {
+position: fixed;
+bottom: 1.5rem;
+right: 1.5rem;
+z-index: 9999;
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+pointer-events: none;
+}
+.toast-msg {
+background: var(--text-main);
+color: var(--bg-surface);
+padding: 0.65rem 1.1rem;
+border-radius: var(--radius-sm);
+font-size: 0.84rem;
+font-weight: 600;
+box-shadow: var(--shadow-lg);
+animation: slideUpFade 0.25s ease forwards;
+}
+@keyframes slideUpFade {
+from { opacity: 0; transform: translateY(12px); }
+to { opacity: 1; transform: translateY(0); }
 }
 body.is-mobile .main-workspace {
 margin-left: 0;
@@ -759,7 +1107,7 @@ body.is-mobile .content-container {
 padding: 1rem;
 }
 body.is-mobile .hero-banner {
-padding: 1.35rem;
+padding: 1.4rem;
 }
 body.is-mobile .hero-banner h1 {
 font-size: 1.35rem;
@@ -778,8 +1126,12 @@ justify-content: stretch;
 body.is-mobile .input-modern {
 max-width: 100%;
 }
+body.is-mobile .toast-container {
+bottom: calc(var(--bottom-nav-h) + 0.75rem);
+right: 1rem;
+left: 1rem;
+}
 @media (max-width: 900px) {
-.pc-sidebar { display: none; }
 .main-workspace { margin-left: 0; padding-bottom: calc(var(--bottom-nav-h) + 1rem); }
 .mobile-level-strip { display: flex; }
 .mobile-bottom-nav { display: flex; }
@@ -788,14 +1140,18 @@ max-width: 100%;
 </style>
 </head>
 <body data-theme="light">
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar(false)"></div>
 <div class="app-shell">
-<aside class="pc-sidebar">
+<aside class="pc-sidebar" id="app-sidebar">
 <div class="brand-box">
+<div class="brand-left">
 <div class="brand-logo">汉</div>
 <div>
 <div class="brand-title">HSK 1–9 Pro Hub</div>
 <span class="brand-sub">Unified 2.0 • 3.0 • 3.1 Engine</span>
 </div>
+</div>
+<button class="mini-btn" onclick="toggleSidebar(false)" title="Hide Sidebar">✕</button>
 </div>
 <div class="nav-section-label">Core Intelligence</div>
 <div class="side-nav-list">
@@ -803,12 +1159,16 @@ max-width: 100%;
 <span>📊 Overview & Credits</span>
 </button>
 <button class="side-btn" id="side-converter" onclick="navigateApp('converter')">
-<span>🔤 Pinyin & Meaning Studio</span>
-<span class="side-badge">New</span>
+<span>🔤 Pinyin & Translate Studio</span>
+<span class="side-badge">Sandhi</span>
 </button>
 <button class="side-btn" id="side-sentences" onclick="navigateApp('sentences')">
 <span>💬 Sentence Search</span>
 <span class="side-badge">Live</span>
+</button>
+<button class="side-btn" id="side-bookmarks" onclick="navigateApp('bookmarks')">
+<span>⭐ Saved Bookmarks</span>
+<span class="side-badge" id="bookmark-count-badge">0</span>
 </button>
 <button class="side-btn" id="side-facts" onclick="navigateApp('facts')">
 <span>💡 Need-to-Know Facts</span>
@@ -844,20 +1204,25 @@ max-width: 100%;
 </button>
 </div>
 <div class="sidebar-footer">
-<div>Shortcut: Press <strong>/</strong> to search</div>
-<div style="margin-top:0.2rem;">Strokes: chanind/hanzi-writer-data</div>
+<div>Shortcuts: <strong>/</strong> Search • <strong>[</strong> Sidebar</div>
+<div>Strokes: chanind/hanzi-writer-data</div>
 </div>
 </aside>
-<div class="main-workspace">
+<div class="main-workspace" id="main-workspace">
 <header class="top-header">
 <div class="header-search-quick">
-<button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
-<input type="text" id="quick-sentence-input" class="input-modern" placeholder="Input Chinese word/phrase for full sentences (e.g. 喜欢, 差不多)..." onkeydown="if(event.key==='Enter') triggerQuickSentenceSearch()">
-<button class="icon-btn" onclick="triggerQuickSentenceSearch()">💬 Sentences</button>
+<button class="hamburger-btn" onclick="toggleSidebar()" title="Toggle Sidebar ([)">☰</button>
+<input type="text" id="quick-sentence-input" class="input-modern" placeholder="Search Chinese/English sentences (e.g. 喜欢, 差不多)..." onkeydown="if(event.key==='Enter') triggerQuickSentenceSearch()">
+<button class="icon-btn" onclick="triggerQuickSentenceSearch()">💬 Search</button>
 </div>
 <div class="header-actions">
+<select id="tts-rate-select" class="select-modern" style="padding:0.42rem 0.55rem; font-size:0.78rem;" title="Audio Speech Speed" onchange="updateSpeechRate(this.value)">
+<option value="0.6">🐢 0.6x</option>
+<option value="0.85" selected>🎙️ 0.85x</option>
+<option value="1.0">⚡ 1.0x</option>
+</select>
 <button class="icon-btn" onclick="toggleTheme()" id="theme-btn">
-<span>🌙 Dark Mode</span>
+<span>🌙 Dark</span>
 </button>
 </div>
 </header>
@@ -865,6 +1230,7 @@ max-width: 100%;
 <button class="lvl-chip active" data-target="overview" onclick="navigateApp('overview')">Overview</button>
 <button class="lvl-chip" data-target="converter" onclick="navigateApp('converter')">🔤 Pinyin</button>
 <button class="lvl-chip" data-target="sentences" onclick="navigateApp('sentences')">💬 Sentences</button>
+<button class="lvl-chip" data-target="bookmarks" onclick="navigateApp('bookmarks')">⭐ Saved</button>
 <button class="lvl-chip" data-target="facts" onclick="navigateApp('facts')">💡 Facts</button>
 <button class="lvl-chip" data-target="1" onclick="navigateApp(1)">HSK 1</button>
 <button class="lvl-chip" data-target="2" onclick="navigateApp(2)">HSK 2</button>
@@ -878,7 +1244,7 @@ max-width: 100%;
 <section id="view-overview">
 <div class="hero-banner">
 <h1>Unified HSK 2.0, 3.0 & 3.1 Chinese Intelligence Hub</h1>
-<p>Streamlined multi-repository engine combining canonical wordlists, Pinyin/POS dictionaries, HSK 2.0 & 3.0 grammar syllabi, real-time Chinese-English example sentences, and vector stroke animations.</p>
+<p>All-in-one Mandarin mastery suite combining canonical wordlists, tone-colored Pinyin with automatic Tone Sandhi (变调) spoken rules & sidenotes, Google Translate word/character breakdown, 45,000+ bilingual sentences, 3D flashcards, and vector stroke studio.</p>
 <div class="repo-pills">
 <a class="repo-pill" href="https://github.com/leonsilicon/hsk2.0" target="_blank" rel="noopener">📦 leonsilicon/hsk2.0</a>
 <a class="repo-pill" href="https://github.com/leonsilicon/hsk3.0" target="_blank" rel="noopener">📦 leonsilicon/hsk3.0</a>
@@ -891,33 +1257,33 @@ max-width: 100%;
 </div>
 <div class="grid-cards">
 <div class="surface-card">
-<span class="fact-badge">Instant Text Processing</span>
-<h2>🔤 Pinyin & Meaning Conversion Studio</h2>
-<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.85rem;">
-Type or paste any Chinese word, sentence, or paragraph. The engine breaks down the text, outputs tonal Pinyin, displays individual Hanzi cards, meanings, and audio pronunciation.
+<span class="fact-badge">Tone Sandhi + Word/Char Breakdown</span>
+<h2>🔤 Pinyin & Translate Studio</h2>
+<p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
+Paste any Chinese text to see spoken Tone Sandhi Pinyin (3rd+3rd, 不, 一 rules) with explanatory sidenotes, Google Translate output, compound word segmentation, and character-by-character definitions.
 </p>
-<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="navigateApp('converter')">
-Launch Pinyin Converter →
+<button class="icon-btn primary" onclick="navigateApp('converter')">
+Open Pinyin Studio →
+</button>
+</div>
+<div class="surface-card">
+<span class="fact-badge">Active Recall</span>
+<h2>🗂️ 3D Flashcards & Quiz Studio</h2>
+<p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
+Master every HSK 1–9 level with interactive 3D flip flashcards, multiple-choice quizzes, and personal bookmark decks exportable to CSV.
+</p>
+<button class="icon-btn" onclick="navigateApp(1); setLevelSubTab('flashcards');">
+Practice Flashcards →
 </button>
 </div>
 <div class="surface-card">
 <span class="fact-badge">Live Sentence Corpus</span>
-<h2>💬 Full Example Sentences Generator</h2>
-<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.85rem;">
-Input any Chinese word or phrase to search tens of thousands of bilingual Mandarin-English sentences powered by open-source Tatoeba & grammar corpora, complete with native audio playback.
+<h2>💬 45,000+ Example Sentences</h2>
+<p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
+Search bilingual Mandarin-English sentences streamed from Tatoeba & AllSet Grammar corpora with tone-colored Pinyin, Tone Sandhi notes, and native TTS audio.
 </p>
 <button class="icon-btn" onclick="navigateApp('sentences')">
-Open Sentence Search Studio →
-</button>
-</div>
-<div class="surface-card">
-<span class="fact-badge">Multi-Repo Fusion</span>
-<h2>🔗 Unified HSK 1–9 Syllabus</h2>
-<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.85rem;">
-Explore canonical vocabulary and grammar across HSK 2.0, 3.0, and 3.1 standards with stroke animations, audio, and POS tagging.
-</p>
-<button class="icon-btn" onclick="navigateApp(1)">
-Explore HSK Level 1 →
+Search Sentences →
 </button>
 </div>
 </div>
@@ -999,24 +1365,21 @@ Explore HSK Level 1 →
 <div class="surface-card">
 <span class="fact-badge">Open Data Attribution</span>
 <h2>🙏 Open-Source Data Credits & Repositories</h2>
-<p style="font-size:0.88rem; color:var(--text-muted);">
-This platform streams and unifies live data from the following open-source projects:
-</p>
 <div class="credits-grid">
 <div class="credit-item">
 <a href="https://github.com/chanind/hanzi-writer-data" target="_blank" rel="noopener">✍️ chanind/hanzi-writer-data</a>
-<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Provides the vector stroke order paths, radical coordinates, and character quiz animations powered by Hanzi Writer and Make Me a Hanzi.</p>
+<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Vector stroke order paths, radical coordinates, and character quiz animations powered by Hanzi Writer.</p>
 </div>
 <div class="credit-item">
 <a href="https://github.com/leonsilicon/hsk2.0" target="_blank" rel="noopener">📦 leonsilicon/hsk2.0</a> •
 <a href="https://github.com/leonsilicon/hsk3.0" target="_blank" rel="noopener">hsk3.0</a> •
 <a href="https://github.com/leonsilicon/hsk3.1" target="_blank" rel="noopener">hsk3.1</a>
-<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Structured JSON wordlists, character lists, 4-character phrases, chengyu, POS tags, and Tatoeba Mandarin-English sentence pairs.</p>
+<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Structured JSON wordlists, 4-character phrases, chengyu, POS tags, and Tatoeba Mandarin-English sentence pairs.</p>
 </div>
 <div class="credit-item">
 <a href="https://github.com/krmanik/HSK-3.0" target="_blank" rel="noopener">📘 krmanik/HSK-3.0</a> &
 <a href="https://github.com/krmanik/Chinese-Grammar" target="_blank" rel="noopener">Chinese-Grammar</a>
-<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Official HSK 3.0 / 2025 wordlists (HSK 1–9), HSK 3.0 JSON grammar syllabus, AllSet Learning Grammar Wiki CSVs, and Tatoeba sentence corpora.</p>
+<p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">Official HSK 3.0 / 2025 wordlists (HSK 1–9), HSK 3.0 JSON grammar syllabus, and AllSet Learning Grammar Wiki CSVs.</p>
 </div>
 <div class="credit-item">
 <a href="https://github.com/drkameleon/complete-hsk-vocabulary" target="_blank" rel="noopener">📚 drkameleon/complete-hsk-vocabulary</a>
@@ -1027,37 +1390,63 @@ This platform streams and unifies live data from the following open-source proje
 </section>
 <section id="view-converter" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.25rem;">
-<span class="fact-badge">Instant Text Processing & AI Translation</span>
-<h2>🔤 Sentence & Word to Pinyin + Meaning Converter</h2>
-<p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
-Input any Chinese words, phrases, or full sentences. The platform converts text into tone-marked Pinyin, matches dictionary meanings, and translates parts using Google Translate.
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+<div>
+<span class="fact-badge">Tone-Colored Pinyin + Automatic Tone Sandhi Engine</span>
+<h2>🔤 Sentence & Word to Pinyin + English Breakdown Studio</h2>
+</div>
+<div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+<div class="tone-legend" title="Mandarin Tone Color Coding">
+<span class="tone-dot t1">1st mā</span>
+<span class="tone-dot t2">2nd má</span>
+<span class="tone-dot t3">3rd mǎ</span>
+<span class="tone-dot t4">4th mà</span>
+<span class="tone-dot t5">Neutral ma</span>
+</div>
+<span class="status-pill" id="converter-char-counter">0 chars</span>
+</div>
+</div>
+<p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
+Enter any Chinese text below. Spoken <strong>Tone Sandhi (变调)</strong> rules (<strong>3rd + 3rd Tone</strong>, <strong>“不” bù</strong>, and <strong>“一” yī</strong> tone changes) are automatically applied to the spoken Pinyin and explained with sidenotes!
 </p>
-<textarea id="converter-input" class="textarea-modern" placeholder="Paste or type Chinese characters here (e.g. 欢迎光临！今天我们一起学习汉语语法。)...">学而不思则罔，思而不学则殆。今天天气真好，我们去公园散步吧！</textarea>
+<textarea id="converter-input" class="textarea-modern" oninput="updateConverterCounter()" placeholder="Paste or type Chinese characters here (e.g. 你好！今天天气很好，我们一起去公园散步吧，不去不行。)...">你好！今天天气很好，我们一起去公园散步吧，不去不行。</textarea>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.85rem; align-items:center;">
-<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="processTextConverter()"><span id="convert-btn-text">⚡ Convert to Pinyin & Meanings</span></button>
-<button class="icon-btn" onclick="speakChinese(document.getElementById('converter-input').value)">🔊 Read Aloud</button>
-<button class="icon-btn" onclick="copyPinyinResult()">📋 Copy Pinyin</button>
+<button class="icon-btn primary" id="convert-submit-btn" onclick="processTextConverter()">
+<span id="convert-btn-text">⚡ Convert & Translate</span>
+</button>
+<button class="icon-btn" onclick="speakChinese(document.getElementById('converter-input').value)">🔊 Read Full Text</button>
+<button class="icon-btn" onclick="copyTextValue('converter-pinyin-text', 'Spoken Pinyin')">📋 Copy Pinyin</button>
+<button class="icon-btn" onclick="copyTextValue('converter-translation-text', 'Translation')">📋 Copy English</button>
 <button class="icon-btn" onclick="clearConverterInput()">🗑️ Clear</button>
-<button class="icon-btn" onclick="loadConverterSample('好好学习，天天向上。')">Sample 1</button>
-<button class="icon-btn" onclick="loadConverterSample('知之为知之，不知为不知，是知也。')">Sample 2</button>
+<button class="icon-btn" onclick="loadConverterSample('你好！今天天气很好，我们一起去公园散步吧，不去不行。')">Sandhi Sample 1</button>
+<button class="icon-btn" onclick="loadConverterSample('我有一个好朋友，他每天都十分努力，一点儿也不怕困难。')">Sandhi Sample 2</button>
 </div>
 </div>
 <div id="converter-output-panel" style="display:none;">
-<div class="surface-card" style="margin-bottom:1.25rem;">
+<div class="grid-cards" style="margin-bottom:1.25rem;">
+<div class="surface-card" style="margin-bottom:0;">
 <div style="display:flex; justify-content:space-between; align-items:center;">
-<h2>📖 Full Pinyin Transcription</h2>
-<button class="icon-btn" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="copyPinyinResult()">Copy</button>
+<h2>📖 Spoken Pinyin (with Tone Sandhi Applied)</h2>
+<button class="mini-btn" title="Copy Pinyin" onclick="copyTextValue('converter-pinyin-text', 'Spoken Pinyin')">📋</button>
 </div>
 <div class="pinyin-banner-box" id="converter-pinyin-text"></div>
+<div id="converter-sandhi-sidenotes"></div>
 </div>
-<div class="surface-card" style="margin-bottom:1.25rem;">
-<h2>🌍 Full English Translation</h2>
-<div class="pinyin-banner-box" id="converter-translation-text" style="color:var(--text-main); font-weight: 500;"></div>
+<div class="surface-card" style="margin-bottom:0;">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<h2>🌍 Full Sentence Translation (Google Translate)</h2>
+<button class="mini-btn" title="Copy Translation" onclick="copyTextValue('converter-translation-text', 'Translation')">📋</button>
+</div>
+<div class="pinyin-banner-box" id="converter-translation-text" style="color:var(--text-main); font-weight:600;"></div>
+</div>
 </div>
 <div class="surface-card">
-<h2>🧩 Word & Character Breakdown (with Definitions)</h2>
-<p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:0.75rem;">
-Click any Hanzi character or word to practice its stroke order or hear individual pronunciation.
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+<h2>🧩 Word & Character Breakdown (Compound Words + Root Characters + Sandhi Sidenotes)</h2>
+<span class="status-pill" id="converter-segments-count">0 words</span>
+</div>
+<p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.2rem;">
+Each card shows the grouped word, spoken tone-colored Pinyin, Tone Sandhi sidenote (if changed in context), Google Translate meaning, dictionary definition, and constituent character meanings below.
 </p>
 <div class="converter-tiles" id="converter-tiles-container"></div>
 </div>
@@ -1068,19 +1457,37 @@ Click any Hanzi character or word to practice its stroke order or hear individua
 <span class="fact-badge">Open Corpus Search Engine</span>
 <h2>💬 Full Chinese Sentence Finder (Word & Phrase Context)</h2>
 <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
-Enter any Chinese word, character, idioms (成语), or English keyword below. The engine searches across unified open-source sentence datasets.
+Enter any Chinese word, character, idiom (成语), or English keyword below to search across unified sentence datasets.
 </p>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
-<input type="text" id="sentence-query-input" class="input-modern" style="max-width:420px; font-size:1rem;" placeholder="Type Chinese word/phrase (e.g. 朋友, 正在, 好不容易)..." onkeydown="if(event.key==='Enter') runSentenceSearch()">
-<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="runSentenceSearch()">🔍 Search Sentences</button>
-<button class="icon-btn" onclick="setSampleSentenceQuery('喜欢')">Try: 喜欢</button>
-<button class="icon-btn" onclick="setSampleSentenceQuery('因为')">Try: 因为</button>
-<button class="icon-btn" onclick="setSampleSentenceQuery('差不多')">Try: 差不多</button>
-<button class="icon-btn" onclick="setSampleSentenceQuery('如果')">Try: 如果</button>
+<input type="text" id="sentence-query-input" class="input-modern" style="max-width:420px; font-size:0.95rem;" placeholder="Type Chinese or English (e.g. 朋友, 正在, coffee)..." onkeydown="if(event.key==='Enter') runSentenceSearch()">
+<button class="icon-btn primary" onclick="runSentenceSearch()">🔍 Search Sentences</button>
+<button class="icon-btn" onclick="setSampleSentenceQuery('喜欢')">喜欢</button>
+<button class="icon-btn" onclick="setSampleSentenceQuery('因为')">因为</button>
+<button class="icon-btn" onclick="setSampleSentenceQuery('差不多')">差不多</button>
+<button class="icon-btn" onclick="setSampleSentenceQuery('如果')">如果</button>
 <span class="status-pill" id="sentence-corpus-status">Corpus: Ready</span>
 </div>
 </div>
 <div id="sentence-results-list" class="grammar-stack"></div>
+</section>
+<section id="view-bookmarks" style="display:none;">
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+<div>
+<span class="fact-badge">Personal Study Deck</span>
+<h2>⭐ Saved Vocabulary & Phrases Bookmarks</h2>
+<p style="font-size:0.88rem; color:var(--text-muted);">
+Star words across any HSK level or Pinyin Converter tile to build your custom study list.
+</p>
+</div>
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+<button class="icon-btn primary" onclick="exportBookmarksCSV()">📥 Export CSV (Anki/Excel)</button>
+<button class="icon-btn" onclick="clearAllBookmarks()">🗑️ Clear All</button>
+</div>
+</div>
+</div>
+<div id="bookmarks-container" class="vocab-grid"></div>
 </section>
 <section id="view-facts" style="display:none;">
 <div class="hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
@@ -1094,7 +1501,7 @@ Enter any Chinese word, character, idioms (成语), or English keyword below. Th
 <ul class="fact-list">
 <li><strong>3rd + 3rd Tone Rule:</strong> When two 3rd tones meet, the first becomes a 2nd tone: 你好 (nǐ + hǎo → <strong>ní hǎo</strong>).</li>
 <li><strong>“不” (bù) Tone Change:</strong> Changes to 2nd tone (<strong>bú</strong>) before another 4th tone: 不是 (bù + shì → <strong>bú shì</strong>).</li>
-<li><strong>“一” (yī) Tone Change:</strong> 1st tone when counting; 2nd tone before a 4th tone (一个 → <strong>yí gè</strong>); 4th tone before 1st/2nd/3rd tones (一天 → <strong>yì tiān</strong>).</li>
+<li><strong>“一” (yī) Tone Change:</strong> 1st tone when counting/end of word; 2nd tone before a 4th tone (一个 → <strong>yí gè</strong>); 4th tone before 1st/2nd/3rd tones (一天 → <strong>yì tiān</strong>, 一起 → <strong>yì qǐ</strong>).</li>
 </ul>
 <div class="tone-calc-box">
 <strong style="font-size:0.8rem;">Audio Verification:</strong>
@@ -1142,7 +1549,14 @@ Enter any Chinese word, character, idioms (成语), or English keyword below. Th
 <h2 id="lvl-heading" style="font-size:1.45rem; margin-bottom:0.2rem;">HSK Level 1</h2>
 <p id="lvl-subtitle" style="color:var(--text-muted); font-size:0.9rem;"></p>
 </div>
-<div style="display:flex; gap:0.45rem; flex-wrap:wrap;">
+<div style="display:flex; gap:0.45rem; flex-wrap:wrap; align-items:center;">
+<div class="tone-legend">
+<span class="tone-dot t1">1st</span>
+<span class="tone-dot t2">2nd</span>
+<span class="tone-dot t3">3rd</span>
+<span class="tone-dot t4">4th</span>
+<span class="tone-dot t5">5th</span>
+</div>
 <span class="status-pill" id="stat-vocab-pill">Words: ...</span>
 <span class="status-pill" id="stat-grammar-pill">Grammar: ...</span>
 <span class="status-pill" id="stat-phrases-pill">Idioms: ...</span>
@@ -1151,17 +1565,19 @@ Enter any Chinese word, character, idioms (成语), or English keyword below. Th
 </div>
 <div class="toolbar-box">
 <div class="segmented-tabs">
-<button class="seg-btn active" id="tab-btn-vocab" onclick="setLevelSubTab('vocab')">📦 Vocabulary</button>
+<button class="seg-btn active" id="tab-btn-vocab" onclick="setLevelSubTab('vocab')">📦 Vocab</button>
+<button class="seg-btn" id="tab-btn-flashcards" onclick="setLevelSubTab('flashcards')">🗂️ Flashcards</button>
+<button class="seg-btn" id="tab-btn-quiz" onclick="setLevelSubTab('quiz')">🎯 Quiz</button>
 <button class="seg-btn" id="tab-btn-grammar" onclick="setLevelSubTab('grammar')">📘 Grammar</button>
-<button class="seg-btn" id="tab-btn-phrases" onclick="setLevelSubTab('phrases')">🀄 Phrases & Chengyu</button>
-<button class="seg-btn" id="tab-btn-strokes" onclick="setLevelSubTab('strokes')">✍️ Stroke Studio</button>
+<button class="seg-btn" id="tab-btn-phrases" onclick="setLevelSubTab('phrases')">🀄 Idioms</button>
+<button class="seg-btn" id="tab-btn-strokes" onclick="setLevelSubTab('strokes')">✍️ Strokes</button>
 </div>
 <div class="filter-controls" id="filter-bar">
 <select class="select-modern" id="syllabus-select" onchange="changeSyllabusVersion()">
 <option value="all">Unified All-Sources (2.0 + 3.0 + 3.1)</option>
-<option value="hsk31">HSK 3.1 (2025 Revision • leonsilicon + krmanik)</option>
-<option value="hsk30">HSK 3.0 (2021 Syllabus • drkameleon + leonsilicon)</option>
-<option value="hsk20">HSK 2.0 (Classic • drkameleon + leonsilicon)</option>
+<option value="hsk31">HSK 3.1 (2025 Revision)</option>
+<option value="hsk30">HSK 3.0 (2021 Syllabus)</option>
+<option value="hsk20">HSK 2.0 (Classic)</option>
 </select>
 <input type="text" id="global-search" class="input-modern" placeholder="Filter Hanzi, Pinyin, Meaning (Press '/')..." oninput="filterCurrentLevel()">
 </div>
@@ -1177,6 +1593,58 @@ Enter any Chinese word, character, idioms (成语), or English keyword below. Th
 <button class="icon-btn" id="btn-next" onclick="turnPage(1)">Next →</button>
 </div>
 </div>
+<div id="subpanel-flashcards" style="display:none;">
+<div class="surface-card flashcard-stage">
+<div style="display:flex; justify-content:space-between; width:100%; max-width:480px; align-items:center;">
+<span class="status-pill" id="fc-counter">Card 1 / 1</span>
+<div style="display:flex; gap:0.4rem;">
+<button class="icon-btn" onclick="shuffleFlashcards()">🔀 Shuffle</button>
+<button class="icon-btn" onclick="speakCurrentFlashcard()">🔊 Audio</button>
+</div>
+</div>
+<div class="flashcard-3d-wrap" id="fc-card-wrap" onclick="flipFlashcard()">
+<div class="flashcard-3d-inner">
+<div class="flashcard-face front">
+<span class="fact-badge" id="fc-front-badge">HSK Word</span>
+<div style="font-size:3.5rem; font-weight:800; margin:0.6rem 0;" id="fc-hanzi">你好</div>
+<p style="font-size:0.8rem; color:var(--text-muted);">Click card or press Space to flip</p>
+</div>
+<div class="flashcard-face back">
+<div style="font-size:2rem; font-weight:800;" id="fc-back-hanzi">你好</div>
+<div style="font-size:1.3rem; font-weight:700; margin:0.25rem 0;" id="fc-pinyin">ní hǎo</div>
+<div id="fc-sandhi-note"></div>
+<div style="font-size:0.95rem; color:var(--text-main); max-width:360px; margin-top:0.35rem;" id="fc-meaning">Hello; Hi</div>
+<div style="margin-top:0.8rem; display:flex; gap:0.4rem;" onclick="event.stopPropagation();">
+<button class="icon-btn" onclick="speakCurrentFlashcard()">🔊 Listen</button>
+<button class="icon-btn" onclick="openWordInSentences(appState.filteredVocab[appState.fcIndex]?.key || '')">💬 Sentences</button>
+</div>
+</div>
+</div>
+</div>
+<div style="display:flex; gap:0.65rem; align-items:center; flex-wrap:wrap; justify-content:center;">
+<button class="icon-btn" onclick="stepFlashcard(-1)">← Previous</button>
+<button class="icon-btn primary" onclick="flipFlashcard()">🔄 Flip Card</button>
+<button class="icon-btn" onclick="stepFlashcard(1)">Next →</button>
+</div>
+</div>
+</div>
+<div id="subpanel-quiz" style="display:none;">
+<div class="surface-card quiz-box">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+<span class="status-pill" id="quiz-score-pill">Score: 0 / 0</span>
+<span class="status-pill" id="quiz-streak-pill">🔥 Streak: 0</span>
+<button class="icon-btn" onclick="generateQuizQuestion()">Skip / Next →</button>
+</div>
+<div style="text-align:center; padding:1rem 0;">
+<div style="font-size:3rem; font-weight:800;" id="quiz-hanzi">准备</div>
+<div style="font-size:1.15rem; font-weight:700; margin-top:0.2rem;" id="quiz-pinyin">zhǔn bèi</div>
+<div id="quiz-sandhi-note" style="margin-top:0.25rem;"></div>
+<button class="icon-btn" style="margin-top:0.5rem;" onclick="speakChinese(document.getElementById('quiz-hanzi').textContent)">🔊 Listen</button>
+</div>
+<div class="quiz-options" id="quiz-options-box"></div>
+<div id="quiz-feedback" style="margin-top:1rem; font-weight:700; text-align:center; min-height:1.5rem;"></div>
+</div>
+</div>
 <div id="subpanel-grammar" style="display:none;">
 <div id="grammar-container" class="grammar-stack"></div>
 </div>
@@ -1184,7 +1652,7 @@ Enter any Chinese word, character, idioms (成语), or English keyword below. Th
 <div class="surface-card" style="margin-bottom:1rem;">
 <h2>🀄 Four-Character Phrases (四字词语) & Chengyu (成语)</h2>
 <p style="font-size:0.86rem; color:var(--text-muted);">
-Streamed live from <code>leonsilicon/hsk2.0</code>, <code>leonsilicon/hsk3.0</code>, and <code>leonsilicon/hsk3.1</code>. Click any phrase to view example sentences or animate strokes.
+Streamed live from <code>leonsilicon/hsk2.0</code>, <code>leonsilicon/hsk3.0</code>, and <code>leonsilicon/hsk3.1</code>.
 </p>
 </div>
 <div id="phrases-container" class="vocab-grid"></div>
@@ -1193,11 +1661,11 @@ Streamed live from <code>leonsilicon/hsk2.0</code>, <code>leonsilicon/hsk3.0</co
 <div class="surface-card stroke-studio">
 <h2>Interactive Hanzi Stroke Animator & Touch Quiz</h2>
 <p style="color:var(--text-muted); font-size:0.88rem; max-width:600px; margin-bottom:1rem;">
-Vector stroke order data credited to <a href="https://github.com/chanind/hanzi-writer-data" target="_blank" rel="noopener" style="color:var(--primary); font-weight:700;">chanind/hanzi-writer-data</a>. Click any vocabulary card or enter up to 6 Chinese characters below.
+Vector stroke order data credited to <a href="https://github.com/chanind/hanzi-writer-data" target="_blank" rel="noopener" style="color:var(--primary); font-weight:700;">chanind/hanzi-writer-data</a>. Enter up to 6 Chinese characters below.
 </p>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap; justify-content:center;">
 <input type="text" id="stroke-input" class="input-modern" value="你好" maxlength="6" style="width:150px; text-align:center; font-size:1.25rem; font-weight:800;">
-<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="buildStrokeWriters()">Load Hanzi</button>
+<button class="icon-btn primary" onclick="buildStrokeWriters()">Load Hanzi</button>
 <button class="icon-btn" onclick="animateWriters()">▶ Animate</button>
 <button class="icon-btn" onclick="startStrokeQuiz()">✍️ Practice Quiz</button>
 <button class="icon-btn" onclick="speakChinese(document.getElementById('stroke-input').value)">🔊 Pronounce</button>
@@ -1224,15 +1692,16 @@ Vector stroke order data credited to <a href="https://github.com/chanind/hanzi-w
 <span class="mob-nav-icon">💬</span>
 <span>Sentences</span>
 </button>
+<button class="mob-nav-item" id="mob-nav-bookmarks" onclick="navigateApp('bookmarks')">
+<span class="mob-nav-icon">⭐</span>
+<span>Saved</span>
+</button>
 <button class="mob-nav-item" id="mob-nav-vocab" onclick="quickMobileJump('vocab')">
 <span class="mob-nav-icon">📦</span>
-<span>Vocab</span>
-</button>
-<button class="mob-nav-item" id="mob-nav-strokes" onclick="quickMobileJump('strokes')">
-<span class="mob-nav-icon">✍️</span>
-<span>Strokes</span>
+<span>HSK</span>
 </button>
 </nav>
+<div class="toast-container" id="toast-container"></div>
 <script>
 const LEVEL_INFO = {
 1: { cefr: "CEFR A1 • Beginner (HSK 1)", title: "HSK Level 1", desc: "Foundational survival Chinese phrases, personal introductions, numbers, and daily expressions." },
@@ -1254,23 +1723,62 @@ const BUILTIN_SENTENCES = [
 ];
 
 const BUILTIN_COMMON_DICT = {
-"学": { pinyin: "xué", meaning: "to learn; to study; science; -ology" },
+"今": { pinyin: "jīn", meaning: "now; present; current; today" },
+"天": { pinyin: "tiān", meaning: "day; sky; heaven; weather" },
+"气": { pinyin: "qì", meaning: "air; gas; breath; weather; spirit" },
+"公": { pinyin: "gōng", meaning: "public; common; shared; duke" },
+"园": { pinyin: "yuán", meaning: "garden; park; orchard" },
+"散": { pinyin: "sàn", meaning: "to scatter; to disperse; leisurely" },
+"步": { pinyin: "bù", meaning: "step; pace; walk; stage" },
+"们": { pinyin: "men", meaning: "plural marker for pronouns/people" },
+"学": { pinyin: "xué", meaning: "to learn; to study; science" },
+"习": { pinyin: "xí", meaning: "to practice; to exercise; habit" },
+"汉": { pinyin: "hàn", meaning: "Han ethnicity; Chinese" },
+"语": { pinyin: "yǔ", meaning: "language; speech; words" },
+"法": { pinyin: "fǎ", meaning: "law; method; way; rule" },
+"欢": { pinyin: "huān", meaning: "joyous; happy; pleased" },
+"迎": { pinyin: "yíng", meaning: "to welcome; to meet; to greet" },
+"光": { pinyin: "guāng", meaning: "light; ray; bright; honor" },
+"临": { pinyin: "lín", meaning: "to face; to arrive; to be present" },
+"喜": { pinyin: "xǐ", meaning: "to be fond of; happy; delight" },
+"一": { pinyin: "yī", meaning: "one; single; a(n); whole" },
+"起": { pinyin: "qǐ", meaning: "to rise; to start; upward" },
+"道": { pinyin: "dào", meaning: "road; path; principle; to say" },
+"千": { pinyin: "qiān", meaning: "thousand; many" },
+"里": { pinyin: "lǐ", meaning: "inside; Chinese mile (500m)" },
+"之": { pinyin: "zhī", meaning: "of (literary possessive); him/her/it" },
+"行": { pinyin: "xíng", meaning: "to walk; to travel; journey; capable; ok" },
+"始": { pinyin: "shǐ", meaning: "to begin; start; initial" },
+"于": { pinyin: "yú", meaning: "at; in; on; from; by" },
+"足": { pinyin: "zú", meaning: "foot; sufficient; enough" },
+"下": { pinyin: "xià", meaning: "down; below; under; next" },
+"如": { pinyin: "rú", meaning: "if; as; like; according to" },
+"果": { pinyin: "guǒ", meaning: "fruit; result; consequence" },
+"坚": { pinyin: "jiān", meaning: "strong; solid; firm; resolute" },
+"持": { pinyin: "chí", meaning: "to hold; to maintain; to support" },
+"每": { pinyin: "měi", meaning: "every; each" },
+"定": { pinyin: "dìng", meaning: "to set; to fix; to determine; surely" },
+"越": { pinyin: "yuè", meaning: "to exceed; to climb over; the more..." },
+"来": { pinyin: "lái", meaning: "to come; to arrive" },
+"向": { pinyin: "xiàng", meaning: "towards; direction; to face" },
+"上": { pinyin: "shàng", meaning: "up; above; on; previous" },
 "而": { pinyin: "ér", meaning: "and; as well as; but (not); yet" },
 "不": { pinyin: "bù", meaning: "not; no" },
 "思": { pinyin: "sī", meaning: "to think; to consider; to ponder" },
 "则": { pinyin: "zé", meaning: "standard; norm; then; thereupon" },
-"罔": { pinyin: "wǎng", meaning: "confused; deceived; caught in a net" },
+"罔": { pinyin: "wǎng", meaning: "confused; deceived" },
 "殆": { pinyin: "dài", meaning: "perilous; in danger; weary" },
 "今天": { pinyin: "jīn tiān", meaning: "today; present; now" },
 "天气": { pinyin: "tiān qì", meaning: "weather" },
-"真": { pinyin: "zhēn", meaning: "really; truly; real; genuine" },
-"好": { pinyin: "hǎo", meaning: "good; well; proper; ok" },
+"真": { pinyin: "zhēn", meaning: "really; truly; genuine" },
+"好": { pinyin: "hǎo", meaning: "good; well; proper" },
 "我们": { pinyin: "wǒ men", meaning: "we; us; ourselves" },
-"去": { pinyin: "qù", meaning: "to go; to go to (a place); to leave" },
+"去": { pinyin: "qù", meaning: "to go; to leave" },
 "公园": { pinyin: "gōng yuán", meaning: "public park" },
-"散步": { pinyin: "sàn bù", meaning: "to take a walk; to go for a stroll" },
-"吧": { pinyin: "ba", meaning: "modal particle indicating suggestion or approval" },
+"散步": { pinyin: "sàn bù", meaning: "to take a walk; to stroll" },
+"吧": { pinyin: "ba", meaning: "modal particle indicating suggestion" },
 "你": { pinyin: "nǐ", meaning: "you (singular)" },
+"你好": { pinyin: "nǐ hǎo", meaning: "hello; hi" },
 "我": { pinyin: "wǒ", meaning: "I; me; my" },
 "他": { pinyin: "tā", meaning: "he; him" },
 "她": { pinyin: "tā", meaning: "she; her" },
@@ -1285,21 +1793,57 @@ const BUILTIN_COMMON_DICT = {
 "汉语": { pinyin: "hàn yǔ", meaning: "Chinese language" },
 "语法": { pinyin: "yǔ fǎ", meaning: "grammar" },
 "欢迎": { pinyin: "huān yíng", meaning: "welcome; to greet" },
-"光临": { pinyin: "guāng lín", meaning: "to honor with one's presence (guest)" },
-"一起": { pinyin: "yì qǐ", meaning: "together; in company" },
+"光临": { pinyin: "guāng lín", meaning: "honorable presence (of a guest)" },
+"一起": { pinyin: "yī qǐ", meaning: "together; in company" },
 "知道": { pinyin: "zhī dào", meaning: "to know; to be aware of" },
 "知": { pinyin: "zhī", meaning: "to know; to understand" },
 "为": { pinyin: "wéi", meaning: "as; to act as; to be" },
 "天天": { pinyin: "tiān tiān", meaning: "every day; daily" },
-"向上": { pinyin: "xiàng shàng", meaning: "upward; to advance" }
+"向上": { pinyin: "xiàng shàng", meaning: "upward; to advance" },
+"好好学习": { pinyin: "hǎo hǎo xué xí", meaning: "study hard; study well" },
+"天天向上": { pinyin: "tiān tiān xiàng shàng", meaning: "make progress every day" },
+"千里之行": { pinyin: "qiān lǐ zhī xíng", meaning: "a journey of a thousand miles" },
+"始于足下": { pinyin: "shǐ yú zú xià", meaning: "begins with a single step" },
+"如果": { pinyin: "rú guǒ", meaning: "if; in case; in the event that" },
+"坚持": { pinyin: "jiān chí", meaning: "to persevere; to insist on" },
+"每天": { pinyin: "měi tiān", meaning: "every day; daily" },
+"一定": { pinyin: "yī dìng", meaning: "surely; certainly; necessarily" },
+"会": { pinyin: "huì", meaning: "can; to be able to; will" },
+"越来越": { pinyin: "yuè lái yuè", meaning: "more and more" }
 };
+
+const TONE_VOWEL_MAP = {
+'a': ['ā', 'á', 'ǎ', 'à', 'a'],
+'e': ['ē', 'é', 'ě', 'è', 'e'],
+'i': ['ī', 'í', 'ǐ', 'ì', 'i'],
+'o': ['ō', 'ó', 'ǒ', 'ò', 'o'],
+'u': ['ū', 'ú', 'ǔ', 'ù', 'u'],
+'ü': ['ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü'],
+'v': ['ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü'],
+'A': ['Ā', 'Á', 'Ǎ', 'À', 'A'],
+'E': ['Ē', 'É', 'Ě', 'È', 'E'],
+'I': ['Ī', 'Í', 'Ǐ', 'Ì', 'I'],
+'O': ['Ō', 'Ó', 'Ǒ', 'Ò', 'O'],
+'U': ['Ū', 'Ú', 'Ǔ', 'Ù', 'U'],
+'Ü': ['Ǖ', 'Ǘ', 'Ǚ', 'Ǜ', 'Ü']
+};
+
+const REVERSE_TONE_VOWEL = {};
+Object.entries(TONE_VOWEL_MAP).forEach(([base, arr]) => {
+if (base !== 'v') {
+arr.forEach(marked => { REVERSE_TONE_VOWEL[marked] = base; });
+}
+});
 
 const appState = {
 view: 'overview',
 level: 1,
 subTab: 'vocab',
 syllabus: 'all',
+speechRate: 0.85,
 drkMap: new Map(),
+gtCache: new Map(),
+bookmarks: new Map(),
 leonPosMap: {},
 vocabCache: {},
 grammarCache: {},
@@ -1312,6 +1856,10 @@ tatoebaLoaded: false,
 tatoebaLoading: false,
 page: 1,
 pageSize: 48,
+fcIndex: 0,
+quizScore: 0,
+quizTotal: 0,
+quizStreak: 0,
 writers: []
 };
 
@@ -1319,11 +1867,423 @@ Object.entries(BUILTIN_COMMON_DICT).forEach(([k, v]) => {
 appState.drkMap.set(k, v);
 });
 
+function detectToneNumber(syllable) {
+if (!syllable) return 5;
+if (/[āēīōūǖĀĒĪŌŪǕ]/.test(syllable)) return 1;
+if (/[áéíóúǘÁÉÍÓÚǗ]/.test(syllable)) return 2;
+if (/[ǎěǐǒǔǚǍĚǏǑǓǙ]/.test(syllable)) return 3;
+if (/[àèìòùǜÀÈÌÒÙǛ]/.test(syllable)) return 4;
+const numMatch = syllable.match(/[1-5]/);
+if (numMatch) return parseInt(numMatch[0], 10);
+return 5;
+}
+
+function stripToneMarks(syllable) {
+return String(syllable || '').split('').map(ch => REVERSE_TONE_VOWEL[ch] || ch).join('').replace(/[1-5]/g, '');
+}
+
+function convertSyllableToTone(syllable, targetTone) {
+if (!syllable || targetTone < 1 || targetTone > 5) return syllable;
+const clean = stripToneMarks(syllable);
+const idx = targetTone - 1;
+const priorityVowels = ['a', 'A', 'e', 'E', 'o', 'O'];
+for (const v of priorityVowels) {
+if (clean.includes(v)) {
+return clean.replace(v, TONE_VOWEL_MAP[v][idx]);
+}
+}
+if (clean.includes('iu')) return clean.replace('u', TONE_VOWEL_MAP['u'][idx]);
+if (clean.includes('ui')) return clean.replace('i', TONE_VOWEL_MAP['i'][idx]);
+const fallbackVowels = ['i', 'I', 'u', 'U', 'ü', 'Ü', 'v'];
+for (let i = clean.length - 1; i >= 0; i--) {
+const ch = clean[i];
+if (fallbackVowels.includes(ch)) {
+return clean.slice(0, i) + TONE_VOWEL_MAP[ch][idx] + clean.slice(i + 1);
+}
+}
+return clean;
+}
+
+function getBaseCharSyllable(ch) {
+if (!/[\u4e00-\u9fa5]/.test(ch)) return ch;
+if (ch === '一') return 'yī';
+if (ch === '不') return 'bù';
+const dict = appState.drkMap.get(ch);
+if (dict && dict.pinyin && !dict.pinyin.includes(' ')) {
+return dict.pinyin;
+}
+if (typeof pinyinPro !== 'undefined' && pinyinPro.pinyin) {
+return pinyinPro.pinyin(ch, { toneType: 'symbol' });
+}
+return ch;
+}
+
+function getBaseSyllableArrayForText(text) {
+const chars = Array.from(text || '');
+let proArr = [];
+if (typeof pinyinPro !== 'undefined' && pinyinPro.pinyin) {
+proArr = pinyinPro.pinyin(text, { toneType: 'symbol', type: 'array' });
+}
+return chars.map((ch, i) => {
+if (!/[\u4e00-\u9fa5]/.test(ch)) return ch;
+if (ch === '一') return 'yī';
+if (ch === '不') return 'bù';
+return proArr[i] || getBaseCharSyllable(ch);
+});
+}
+
+function analyzeToneSandhiForSequence(chars, baseSyllables) {
+const n = chars.length;
+const origSyllables = baseSyllables.map((s, idx) => {
+if (chars[idx] === '一') return 'yī';
+if (chars[idx] === '不') return 'bù';
+return s;
+});
+const origTones = origSyllables.map((s, idx) => /[\u4e00-\u9fa5]/.test(chars[idx]) ? detectToneNumber(s) : 0);
+const spokenSyllables = [...origSyllables];
+const spokenTones = [...origTones];
+const notes = [];
+const charRuleMap = new Array(n).fill(null);
+const ORDINAL_PREV = new Set(['第', '初', '惟', '唯', '统', '划', '万', '十', '百', '千', '零', '〇']);
+const NUM_NEXT = new Set(['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '零', '〇']);
+
+for (let i = 0; i < n - 1; i++) {
+const ch = chars[i];
+const nextCh = chars[i + 1];
+if (!/[\u4e00-\u9fa5]/.test(ch) || !/[\u4e00-\u9fa5]/.test(nextCh)) continue;
+
+if (ch === '不') {
+if (origTones[i + 1] === 4) {
+spokenTones[i] = 2;
+spokenSyllables[i] = 'bú';
+const noteObj = {
+index: i,
+char: '不',
+pairText: ch + nextCh,
+ruleName: '“不” (bù) Tone Change',
+origPy: `${origSyllables[i]} ${origSyllables[i + 1]}`,
+spokenPy: `${spokenSyllables[i]} ${origSyllables[i + 1]}`,
+detail: `“不” changes from 4th tone (bù) to 2nd tone (bú) before 4th-tone “${nextCh}” (${origSyllables[i + 1]}).`
+};
+notes.push(noteObj);
+charRuleMap[i] = noteObj;
+}
+} else if (ch === '一') {
+const prevCh = i > 0 ? chars[i - 1] : '';
+const isOrdinalOrNumber = ORDINAL_PREV.has(prevCh) || NUM_NEXT.has(nextCh);
+if (!isOrdinalOrNumber) {
+if (origTones[i + 1] === 4) {
+spokenTones[i] = 2;
+spokenSyllables[i] = 'yí';
+const noteObj = {
+index: i,
+char: '一',
+pairText: ch + nextCh,
+ruleName: '“一” (yī) Tone Change',
+origPy: `${origSyllables[i]} ${origSyllables[i + 1]}`,
+spokenPy: `${spokenSyllables[i]} ${origSyllables[i + 1]}`,
+detail: `“一” changes from 1st tone (yī) to 2nd tone (yí) before 4th-tone “${nextCh}” (${origSyllables[i + 1]}).`
+};
+notes.push(noteObj);
+charRuleMap[i] = noteObj;
+} else if ([1, 2, 3].includes(origTones[i + 1])) {
+spokenTones[i] = 4;
+spokenSyllables[i] = 'yì';
+const noteObj = {
+index: i,
+char: '一',
+pairText: ch + nextCh,
+ruleName: '“一” (yī) Tone Change',
+origPy: `${origSyllables[i]} ${origSyllables[i + 1]}`,
+spokenPy: `${spokenSyllables[i]} ${origSyllables[i + 1]}`,
+detail: `“一” changes from 1st tone (yī) to 4th tone (yì) before Tone ${origTones[i + 1]} “${nextCh}” (${origSyllables[i + 1]}).`
+};
+notes.push(noteObj);
+charRuleMap[i] = noteObj;
+}
+}
+}
+}
+
+let i = 0;
+while (i < n) {
+if (origTones[i] === 3 && !charRuleMap[i]) {
+let j = i;
+while (j + 1 < n && origTones[j + 1] === 3 && !charRuleMap[j + 1]) {
+j++;
+}
+const runLen = j - i + 1;
+if (runLen >= 2) {
+for (let k = i; k < j; k++) {
+spokenTones[k] = 2;
+spokenSyllables[k] = convertSyllableToTone(origSyllables[k], 2);
+const noteObj = {
+index: k,
+char: chars[k],
+pairText: chars.slice(i, j + 1).join(''),
+ruleName: '3rd + 3rd Tone Rule',
+origPy: origSyllables.slice(i, j + 1).join(' '),
+spokenPy: spokenSyllables.slice(i, k + 1).concat(origSyllables.slice(k + 1, j + 1)).join(' '),
+detail: `3rd-tone “${chars[k]}” (${origSyllables[k]}) becomes 2nd tone (${spokenSyllables[k]}) before 3rd-tone “${chars[k + 1]}” (${origSyllables[k + 1]}).`
+};
+notes.push(noteObj);
+charRuleMap[k] = noteObj;
+}
+for (let k = i; k < j; k++) {
+if (charRuleMap[k]) {
+charRuleMap[k].spokenPy = spokenSyllables.slice(i, j + 1).join(' ');
+}
+}
+}
+i = j + 1;
+} else {
+i++;
+}
+}
+
+return {
+origSyllables,
+origTones,
+spokenSyllables,
+spokenTones,
+notes,
+charRuleMap
+};
+}
+
+function analyzeWordSandhi(hanziStr, rawPinyinStr) {
+const cleanChars = Array.from(hanziStr || '').filter(c => /[\u4e00-\u9fa5]/.test(c));
+if (cleanChars.length === 0) {
+return { spokenPinyin: rawPinyinStr || '', origPinyin: rawPinyinStr || '', notes: [], charRuleMap: [] };
+}
+let baseSyls = [];
+if (rawPinyinStr && rawPinyinStr.trim().split(/\s+/).length === cleanChars.length) {
+baseSyls = rawPinyinStr.trim().split(/\s+/);
+} else {
+baseSyls = getBaseSyllableArrayForText(cleanChars.join(''));
+}
+const res = analyzeToneSandhiForSequence(cleanChars, baseSyls);
+return {
+spokenPinyin: res.spokenSyllables.join(' '),
+origPinyin: res.origSyllables.join(' '),
+spokenSyllables: res.spokenSyllables,
+origSyllables: res.origSyllables,
+notes: res.notes,
+charRuleMap: res.charRuleMap
+};
+}
+
+function renderColoredPinyinHTML(pinyinStr) {
+if (!pinyinStr) return '';
+const tokens = String(pinyinStr).split(/(\s+)/);
+return tokens.map(tok => {
+if (/^\s+$/.test(tok)) return tok;
+if (!/[a-zA-ZāēīōūǖáéíóúǘǎěǐǒǔǚàèìòùǜüÜ]/.test(tok)) {
+return encodeHTML(tok);
+}
+const tone = detectToneNumber(tok);
+return `<span class="tone-${tone}">${encodeHTML(tok)}</span>`;
+}).join('');
+}
+
+function renderToneColoredHanziPerChar(hanziStr, pinyinStr, useSpokenSandhi = true) {
+const chars = Array.from(hanziStr || '');
+const zhOnly = chars.filter(c => /[\u4e00-\u9fa5]/.test(c));
+let syls = [];
+if (useSpokenSandhi && zhOnly.length > 0) {
+const sandhi = analyzeWordSandhi(zhOnly.join(''), pinyinStr);
+syls = sandhi.spokenSyllables || [];
+} else if (pinyinStr) {
+syls = String(pinyinStr).trim().split(/\s+/);
+} else {
+syls = getBaseSyllableArrayForText(zhOnly.join(''));
+}
+let zhIdx = 0;
+return chars.map(ch => {
+if (!/[\u4e00-\u9fa5]/.test(ch)) return encodeHTML(ch);
+const syl = syls[zhIdx++] || '';
+const tone = detectToneNumber(syl);
+return `<span class="tone-${tone}">${encodeHTML(ch)}</span>`;
+}).join('');
+}
+
+function showToast(msg) {
+const wrap = document.getElementById('toast-container');
+if (!wrap) return;
+const el = document.createElement('div');
+el.className = 'toast-msg';
+el.textContent = msg;
+wrap.appendChild(el);
+setTimeout(() => {
+el.style.opacity = '0';
+el.style.transition = 'opacity 0.25s';
+setTimeout(() => el.remove(), 250);
+}, 2400);
+}
+
+function loadBookmarksFromStorage() {
+try {
+const raw = localStorage.getItem('hsk_pro_bookmarks');
+if (raw) {
+const arr = JSON.parse(raw);
+if (Array.isArray(arr)) {
+arr.forEach(item => {
+if (item && item.hanzi) appState.bookmarks.set(item.hanzi, item);
+});
+}
+}
+} catch (e) {}
+updateBookmarkBadge();
+}
+
+function saveBookmarksToStorage() {
+try {
+localStorage.setItem('hsk_pro_bookmarks', JSON.stringify(Array.from(appState.bookmarks.values())));
+} catch (e) {}
+updateBookmarkBadge();
+}
+
+function updateBookmarkBadge() {
+const badge = document.getElementById('bookmark-count-badge');
+if (badge) badge.textContent = String(appState.bookmarks.size);
+}
+
+function toggleBookmark(hanzi, pinyin, meaning, levelLabel) {
+if (!hanzi) return;
+if (appState.bookmarks.has(hanzi)) {
+appState.bookmarks.delete(hanzi);
+showToast(`Removed "${hanzi}" from saved words`);
+} else {
+const dict = appState.drkMap.get(hanzi);
+appState.bookmarks.set(hanzi, {
+hanzi,
+pinyin: pinyin || dict?.pinyin || computePinyinSafe(hanzi),
+meaning: meaning || dict?.meaning || 'Saved Chinese item',
+level: levelLabel || `HSK ${appState.level}`
+});
+showToast(`⭐ Saved "${hanzi}" to bookmarks`);
+}
+saveBookmarksToStorage();
+if (appState.view === 'bookmarks') renderBookmarksView();
+if (appState.view === 'level' && appState.subTab === 'vocab') renderVocabCards();
+}
+
+function renderBookmarksView() {
+const container = document.getElementById('bookmarks-container');
+if (!container) return;
+const list = Array.from(appState.bookmarks.values());
+if (list.length === 0) {
+container.innerHTML = `<div class="surface-card" style="grid-column:1/-1; text-align:center; padding:2.5rem; color:var(--text-muted);">No saved words yet. Click the ⭐ button on any vocabulary card or Pinyin converter tile to build your personal deck!</div>`;
+return;
+}
+container.innerHTML = list.map(w => {
+const safeKey = encodeURIComponent(w.hanzi);
+const sandhi = analyzeWordSandhi(w.hanzi, w.pinyin);
+const hasSandhi = sandhi.notes.length > 0;
+return `
+<div class="vocab-card" onclick="openWordInSentences(decodeURIComponent('${safeKey}'))">
+<div>
+<div class="vocab-card-head">
+<span class="hanzi-lg">${renderToneColoredHanziPerChar(w.hanzi, w.pinyin, true)}</span>
+<div class="card-actions">
+<button class="mini-btn bookmarked" title="Remove Bookmark" onclick="event.stopPropagation(); toggleBookmark(decodeURIComponent('${safeKey}'))">★</button>
+<button class="mini-btn" title="Pronounce" onclick="event.stopPropagation(); speakChinese(decodeURIComponent('${safeKey}'))">🔊</button>
+<button class="mini-btn" title="Stroke Order" onclick="event.stopPropagation(); openWordInStrokeLab(decodeURIComponent('${safeKey}'))">✍️</button>
+</div>
+</div>
+<div class="pinyin-text">${renderColoredPinyinHTML(sandhi.spokenPinyin)}</div>
+${hasSandhi ? `<div class="sandhi-inline-pill" title="${encodeHTML(sandhi.notes[0].detail)}">🗣️ Sandhi: orig. ${renderColoredPinyinHTML(sandhi.origPinyin)} (${encodeHTML(sandhi.notes[0].ruleName)})</div>` : ''}
+<div class="meaning-text" style="margin-top:0.3rem;">${encodeHTML(w.meaning)}</div>
+</div>
+<div class="badge-row">
+<span class="ver-badge">${encodeHTML(w.level || 'Saved')}</span>
+</div>
+</div>
+`;
+}).join('');
+}
+
+function clearAllBookmarks() {
+if (appState.bookmarks.size === 0) return;
+appState.bookmarks.clear();
+saveBookmarksToStorage();
+renderBookmarksView();
+showToast('Cleared all saved bookmarks');
+}
+
+function exportBookmarksCSV() {
+const list = Array.from(appState.bookmarks.values());
+if (list.length === 0) {
+showToast('No bookmarks to export!');
+return;
+}
+const rows = [['Hanzi', 'Spoken Pinyin', 'Original Pinyin', 'Meaning', 'Tag']];
+list.forEach(item => {
+const sandhi = analyzeWordSandhi(item.hanzi, item.pinyin);
+rows.push([
+`"${(item.hanzi || '').replace(/"/g, '""')}"`,
+`"${(sandhi.spokenPinyin || '').replace(/"/g, '""')}"`,
+`"${(sandhi.origPinyin || '').replace(/"/g, '""')}"`,
+`"${(item.meaning || '').replace(/"/g, '""')}"`,
+`"${(item.level || '').replace(/"/g, '""')}"`
+]);
+});
+const csvContent = '\uFEFF' + rows.map(r => r.join(',')).join('\n');
+const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'hsk_saved_vocabulary.csv';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+showToast('Exported bookmarks to CSV!');
+}
+
 function detectAndApplyDeviceMode() {
 const isTouchMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 900;
+const wasMobile = document.body.classList.contains('is-mobile');
 document.body.classList.toggle('is-mobile', isTouchMobile);
 document.body.classList.toggle('is-pc', !isTouchMobile);
 appState.pageSize = isTouchMobile ? 24 : 48;
+
+const sidebar = document.getElementById('app-sidebar');
+const workspace = document.getElementById('main-workspace');
+const backdrop = document.getElementById('sidebar-backdrop');
+if (isTouchMobile && !wasMobile) {
+sidebar?.classList.add('hidden');
+workspace?.classList.add('expanded');
+backdrop?.classList.remove('show');
+} else if (!isTouchMobile && wasMobile) {
+sidebar?.classList.remove('hidden');
+workspace?.classList.remove('expanded');
+backdrop?.classList.remove('show');
+}
+}
+
+function toggleSidebar(forceState) {
+const sidebar = document.getElementById('app-sidebar');
+const workspace = document.getElementById('main-workspace');
+const backdrop = document.getElementById('sidebar-backdrop');
+if (!sidebar || !workspace) return;
+
+const isMobile = document.body.classList.contains('is-mobile');
+const currentlyHidden = sidebar.classList.contains('hidden');
+const shouldShow = typeof forceState === 'boolean' ? forceState : currentlyHidden;
+
+if (shouldShow) {
+sidebar.classList.remove('hidden');
+if (!isMobile) {
+workspace.classList.remove('expanded');
+} else {
+backdrop?.classList.add('show');
+}
+} else {
+sidebar.classList.add('hidden');
+workspace.classList.add('expanded');
+backdrop?.classList.remove('show');
+}
 }
 
 function applyTheme(theme) {
@@ -1332,7 +2292,7 @@ document.body.setAttribute('data-theme', theme);
 try { localStorage.setItem('hsk_pro_theme', theme); } catch (e) {}
 const btn = document.getElementById('theme-btn');
 if (btn) {
-btn.innerHTML = theme === 'dark' ? '<span>☀️ Light Mode</span>' : '<span>🌙 Dark Mode</span>';
+btn.innerHTML = theme === 'dark' ? '<span>☀️ Light</span>' : '<span>🌙 Dark</span>';
 }
 if (appState.subTab === 'strokes' && appState.view === 'level') {
 buildStrokeWriters();
@@ -1344,11 +2304,6 @@ const current = document.documentElement.getAttribute('data-theme') || 'light';
 applyTheme(current === 'dark' ? 'light' : 'dark');
 }
 
-function toggleSidebar() {
-document.querySelector('.pc-sidebar').classList.toggle('hidden');
-document.querySelector('.main-workspace').classList.toggle('expanded');
-}
-
 function initTheme() {
 let saved = 'light';
 try {
@@ -1357,16 +2312,25 @@ saved = localStorage.getItem('hsk_pro_theme') || (window.matchMedia('(prefers-co
 applyTheme(saved);
 }
 
+function updateSpeechRate(val) {
+appState.speechRate = parseFloat(val) || 0.85;
+showToast(`Speech speed set to ${appState.speechRate}x`);
+}
+
 function speakChinese(text) {
 if (!('speechSynthesis' in window) || !text) return;
 window.speechSynthesis.cancel();
 const utter = new SpeechSynthesisUtterance(text);
 utter.lang = 'zh-CN';
-utter.rate = 0.9;
+utter.rate = appState.speechRate;
 window.speechSynthesis.speak(utter);
 }
 
 function navigateApp(target) {
+if (document.body.classList.contains('is-mobile')) {
+toggleSidebar(false);
+}
+
 document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
 document.querySelectorAll('.lvl-chip').forEach(c => {
 c.classList.toggle('active', c.getAttribute('data-target') === String(target));
@@ -1376,6 +2340,7 @@ document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('acti
 document.getElementById('view-overview').style.display = target === 'overview' ? 'block' : 'none';
 document.getElementById('view-converter').style.display = target === 'converter' ? 'block' : 'none';
 document.getElementById('view-sentences').style.display = target === 'sentences' ? 'block' : 'none';
+document.getElementById('view-bookmarks').style.display = target === 'bookmarks' ? 'block' : 'none';
 document.getElementById('view-facts').style.display = target === 'facts' ? 'block' : 'none';
 document.getElementById('view-level').style.display = typeof target === 'number' ? 'block' : 'none';
 
@@ -1387,19 +2352,25 @@ document.getElementById('mob-nav-overview')?.classList.add('active');
 appState.view = 'converter';
 document.getElementById('side-converter')?.classList.add('active');
 document.getElementById('mob-nav-converter')?.classList.add('active');
+updateConverterCounter();
 processTextConverter();
 } else if (target === 'sentences') {
 appState.view = 'sentences';
 document.getElementById('side-sentences')?.classList.add('active');
 document.getElementById('mob-nav-sentences')?.classList.add('active');
 ensureSentenceCorpusLoaded().then(() => runSentenceSearch());
+} else if (target === 'bookmarks') {
+appState.view = 'bookmarks';
+document.getElementById('side-bookmarks')?.classList.add('active');
+document.getElementById('mob-nav-bookmarks')?.classList.add('active');
+renderBookmarksView();
 } else if (target === 'facts') {
 appState.view = 'facts';
 document.getElementById('side-facts')?.classList.add('active');
 } else {
 appState.view = 'level';
 document.getElementById(`side-lvl-${target}`)?.classList.add('active');
-document.getElementById(`mob-nav-${appState.subTab}`)?.classList.add('active');
+document.getElementById('mob-nav-vocab')?.classList.add('active');
 loadHSKLevel(target);
 }
 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1421,6 +2392,7 @@ navigateApp('sentences');
 
 function openWordInSentences(word) {
 const clean = word.split('/')[0].replace(/[0-9（）()]/g, '').trim();
+if (!clean) return;
 document.getElementById('sentence-query-input').value = clean;
 navigateApp('sentences');
 }
@@ -1430,22 +2402,30 @@ document.getElementById('sentence-query-input').value = q;
 runSentenceSearch();
 }
 
+function updateConverterCounter() {
+const val = document.getElementById('converter-input')?.value || '';
+const counter = document.getElementById('converter-char-counter');
+if (counter) counter.textContent = `${val.length} chars`;
+}
+
 function clearConverterInput() {
 document.getElementById('converter-input').value = '';
+updateConverterCounter();
 document.getElementById('converter-output-panel').style.display = 'none';
 document.getElementById('converter-input').focus();
 }
 
 function loadConverterSample(text) {
 document.getElementById('converter-input').value = text;
+updateConverterCounter();
 processTextConverter();
 }
 
-function copyPinyinResult() {
-const txt = document.getElementById('converter-pinyin-text').textContent || '';
+function copyTextValue(elementId, label) {
+const txt = document.getElementById(elementId)?.textContent || '';
 if (!txt) return;
 navigator.clipboard.writeText(txt).then(() => {
-alert('Pinyin copied to clipboard!');
+showToast(`${label} copied to clipboard!`);
 }).catch(() => {
 const ta = document.createElement('textarea');
 ta.value = txt;
@@ -1453,24 +2433,27 @@ document.body.appendChild(ta);
 ta.select();
 document.execCommand('copy');
 document.body.removeChild(ta);
-alert('Pinyin copied to clipboard!');
+showToast(`${label} copied to clipboard!`);
 });
 }
 
-function computePinyinSafe(text) {
-if (typeof pinyinPro !== 'undefined' && pinyinPro.pinyin) {
-return pinyinPro.pinyin(text, { toneType: 'symbol' });
-}
-const chars = Array.from(text);
-const res = [];
-for (const c of chars) {
-const item = appState.drkMap.get(c);
-res.push(item?.pinyin || c);
-}
-return res.join(' ');
+function computePinyinSafe(text, joinSeparator = ' ') {
+const chars = Array.from(text || '');
+const baseSyls = getBaseSyllableArrayForText(text);
+const sandhi = analyzeToneSandhiForSequence(chars, baseSyls);
+return sandhi.spokenSyllables.join(joinSeparator);
 }
 
 function segmentChineseGreedy(text) {
+if (typeof Intl !== 'undefined' && Intl.Segmenter && appState.drkMap.size < 200) {
+const seg = new Intl.Segmenter('zh-CN', { granularity: 'word' });
+const out = [];
+for (const part of seg.segment(text)) {
+const s = part.segment;
+out.push({ text: s, isZh: /[\u4e00-\u9fa5]/.test(s) });
+}
+return out;
+}
 const tokens = [];
 let i = 0;
 while (i < text.length) {
@@ -1481,7 +2464,7 @@ i++;
 continue;
 }
 let matched = null;
-for (let len = 4; len >= 2; len--) {
+for (let len = 8; len >= 2; len--) {
 if (i + len <= text.length) {
 const sub = text.slice(i, i + len);
 if (appState.drkMap.has(sub)) {
@@ -1502,54 +2485,139 @@ return tokens;
 }
 
 async function fetchGoogleTranslate(text) {
-if(!text) return "";
+if (!text || !text.trim()) return "";
+const key = text.trim();
+if (appState.gtCache.has(key)) return appState.gtCache.get(key);
 try {
-const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(key)}`);
+if (!res.ok) return "";
 const data = await res.json();
-return data[0].map(x => x[0]).join('');
-} catch(e) {
-return "Translation unavailable";
+const result = Array.isArray(data[0]) ? data[0].map(x => x[0]).join('') : "";
+if (result) appState.gtCache.set(key, result);
+return result;
+} catch (e) {
+return "";
 }
+}
+
+async function translateSegmentsBatch(uniqueWords) {
+const uncached = uniqueWords.filter(w => !appState.gtCache.has(w));
+if (uncached.length === 0) return;
+
+const delimiter = " ||| ";
+const joined = uncached.join(delimiter);
+try {
+const rawTranslated = await fetchGoogleTranslate(joined);
+const parts = rawTranslated.split(/\s*\|\|\|\s*/);
+if (parts.length === uncached.length) {
+uncached.forEach((w, idx) => {
+appState.gtCache.set(w, (parts[idx] || '').trim());
+});
+return;
+}
+} catch (e) {}
+
+await Promise.all(uncached.slice(0, 45).map(async (w) => {
+const single = await fetchGoogleTranslate(w);
+if (single) appState.gtCache.set(w, single.trim());
+}));
 }
 
 async function processTextConverter() {
 const input = document.getElementById('converter-input').value.trim();
 const panel = document.getElementById('converter-output-panel');
 const pinyinBanner = document.getElementById('converter-pinyin-text');
+const sandhiSidenotesEl = document.getElementById('converter-sandhi-sidenotes');
 const translationBanner = document.getElementById('converter-translation-text');
 const tilesContainer = document.getElementById('converter-tiles-container');
 const convertBtnText = document.getElementById('convert-btn-text');
+const submitBtn = document.getElementById('convert-submit-btn');
 
 if (!input) {
 panel.style.display = 'none';
 return;
 }
 
-convertBtnText.textContent = "⏳ Translating...";
+if (submitBtn) submitBtn.disabled = true;
+if (convertBtnText) convertBtnText.textContent = "⏳ Translating...";
 
-const fullPinyin = computePinyinSafe(input);
-pinyinBanner.textContent = fullPinyin;
-
-const wholeTranslation = await fetchGoogleTranslate(input);
-translationBanner.textContent = wholeTranslation;
+const fullChars = Array.from(input);
+const fullBaseSyls = getBaseSyllableArrayForText(input);
+const fullSandhi = analyzeToneSandhiForSequence(fullChars, fullBaseSyls);
 
 const segments = segmentChineseGreedy(input);
+const zhSegments = segments.filter(seg => seg.isZh);
+
+const allItemsToTranslate = new Set();
+zhSegments.forEach(seg => {
+allItemsToTranslate.add(seg.text);
+if (seg.text.length > 1) {
+Array.from(seg.text).forEach(ch => {
+if (/[\u4e00-\u9fa5]/.test(ch)) allItemsToTranslate.add(ch);
+});
+}
+});
+
+let charCursor = 0;
+const bannerPartsHTML = segments.map(seg => {
+const segLen = Array.from(seg.text).length;
+const startIdx = charCursor;
+charCursor += segLen;
+if (!seg.isZh) return encodeHTML(seg.text);
+const wordSpokenSyls = fullSandhi.spokenSyllables.slice(startIdx, startIdx + segLen);
+const coloredJoinedWord = wordSpokenSyls.map(syl => {
+const tone = detectToneNumber(syl);
+return `<span class="tone-${tone}">${encodeHTML(syl)}</span>`;
+}).join('');
+return coloredJoinedWord;
+});
+pinyinBanner.innerHTML = bannerPartsHTML.join(' ').replace(/\s+([，。！？；：、,.!?;:])/g, '$1');
+
+if (fullSandhi.notes.length > 0) {
+sandhiSidenotesEl.innerHTML = `
+<div class="sandhi-sidenote-box">
+<div style="font-weight:800; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent);">
+🗣️ Spoken Tone Sandhi Sidenotes (${fullSandhi.notes.length} Active Tone Change${fullSandhi.notes.length > 1 ? 's' : ''})
+</div>
+${fullSandhi.notes.map(n => `
+<div class="sandhi-sidenote-item">
+<span class="sandhi-rule-tag">${encodeHTML(n.ruleName)}</span>
+<strong>${encodeHTML(n.pairText)}:</strong>
+<span>Spoken as ${renderColoredPinyinHTML(n.spokenPy)} <em>(original dictionary tone: ${renderColoredPinyinHTML(n.origPy)})</em> — ${encodeHTML(n.detail)}</span>
+</div>
+`).join('')}
+</div>
+`;
+} else {
+sandhiSidenotesEl.innerHTML = '';
+}
+
+const segCounter = document.getElementById('converter-segments-count');
+if (segCounter) segCounter.textContent = `${zhSegments.length} grouped words`;
+
+const [wholeTranslation] = await Promise.all([
+fetchGoogleTranslate(input),
+translateSegmentsBatch(Array.from(allItemsToTranslate))
+]);
+
+translationBanner.textContent = wholeTranslation || "Translation unavailable";
 tilesContainer.innerHTML = '';
 
-const zhSegments = segments.filter(seg => seg.isZh);
-const bulkText = zhSegments.map(seg => seg.text).join(' \n ');
-const bulkTranslationStr = zhSegments.length > 0 ? await fetchGoogleTranslate(bulkText) : "";
-const bulkTranslations = bulkTranslationStr.split('\n').map(s => s.trim());
-
-let zhIndex = 0;
-
+let tileCharCursor = 0;
 segments.forEach(seg => {
+const segChars = Array.from(seg.text);
+const segLen = segChars.length;
+const startIdx = tileCharCursor;
+tileCharCursor += segLen;
+
 if (!seg.isZh) {
 if (seg.text.trim()) {
 const span = document.createElement('span');
 span.style.alignSelf = 'center';
-span.style.fontSize = '1.3rem';
+span.style.fontSize = '1.35rem';
+span.style.fontWeight = '700';
 span.style.color = 'var(--text-muted)';
+span.style.padding = '0 0.15rem';
 span.textContent = seg.text;
 tilesContainer.appendChild(span);
 }
@@ -1557,42 +2625,137 @@ return;
 }
 
 const item = appState.drkMap.get(seg.text);
-const pinyinVal = item?.pinyin || computePinyinSafe(seg.text);
-let meaningVal = item?.meaning || 'Common Chinese character/word';
-const gtMeaning = bulkTranslations[zhIndex] || '';
-zhIndex++;
+const segSpokenSyls = fullSandhi.spokenSyllables.slice(startIdx, startIdx + segLen);
+const segOrigSyls = fullSandhi.origSyllables.slice(startIdx, startIdx + segLen);
+const segSpokenPy = segSpokenSyls.join(' ');
+const segOrigPy = segOrigSyls.join(' ');
 
-if (gtMeaning && gtMeaning.toLowerCase() !== seg.text.toLowerCase()) {
-meaningVal = `<strong style="color:var(--primary)">[GT: ${gtMeaning}]</strong><br>` + meaningVal;
+const segNotes = [];
+for (let k = startIdx; k < startIdx + segLen; k++) {
+if (fullSandhi.charRuleMap[k]) {
+segNotes.push(fullSandhi.charRuleMap[k]);
 }
+}
+
+const dictMeaning = item?.meaning || '';
+const gtMeaning = (appState.gtCache.get(seg.text) || '').replace(/^[,.!?;:]+|[,.!?;:]+$/g, '').trim();
+const isSaved = appState.bookmarks.has(seg.text);
 
 const tile = document.createElement('div');
 tile.className = 'annotated-tile';
 
 const pyEl = document.createElement('div');
 pyEl.className = 'annotated-pinyin';
-pyEl.textContent = pinyinVal;
+pyEl.innerHTML = renderColoredPinyinHTML(segSpokenPy);
 
 const hanziEl = document.createElement('div');
 hanziEl.className = 'annotated-hanzi';
-hanziEl.textContent = seg.text;
-hanziEl.title = 'Click to pronounce or view strokes';
-hanziEl.onclick = () => {
-speakChinese(seg.text);
-openWordInStrokeLab(seg.text);
-};
-
-const meanEl = document.createElement('div');
-meanEl.className = 'annotated-meaning';
-meanEl.innerHTML = meaningVal;
+hanziEl.innerHTML = segChars.map((ch, idx) => {
+const tone = detectToneNumber(segSpokenSyls[idx] || '');
+return `<span class="tone-${tone}">${encodeHTML(ch)}</span>`;
+}).join('');
+hanziEl.title = 'Click to pronounce word';
+hanziEl.onclick = () => speakChinese(seg.text);
 
 tile.appendChild(pyEl);
 tile.appendChild(hanziEl);
+
+if (segNotes.length > 0) {
+const uniqueRules = Array.from(new Set(segNotes.map(n => n.ruleName))).join(' • ');
+const sandhiNoteEl = document.createElement('div');
+sandhiNoteEl.className = 'sandhi-tile-note';
+sandhiNoteEl.innerHTML = `
+<div><strong>🗣️ Spoken Sandhi:</strong> ${renderColoredPinyinHTML(segSpokenPy)}</div>
+<div><strong>📖 Original:</strong> ${renderColoredPinyinHTML(segOrigPy)}</div>
+<div style="color:var(--accent); font-weight:700; margin-top:0.1rem;">Rule: ${encodeHTML(uniqueRules)}</div>
+`;
+tile.appendChild(sandhiNoteEl);
+}
+
+if (gtMeaning) {
+const gtEl = document.createElement('div');
+gtEl.className = 'annotated-gt';
+gtEl.title = `Google Translate: ${gtMeaning}`;
+gtEl.textContent = gtMeaning;
+tile.appendChild(gtEl);
+}
+
+const meanEl = document.createElement('div');
+meanEl.className = 'annotated-meaning';
+meanEl.textContent = dictMeaning || gtMeaning || 'Chinese word';
 tile.appendChild(meanEl);
+
+const chars = segChars.filter(c => /[\u4e00-\u9fa5]/.test(c));
+if (chars.length > 1) {
+const decompBox = document.createElement('div');
+decompBox.className = 'char-decomp-box';
+const decompTitle = document.createElement('div');
+decompTitle.className = 'char-decomp-title';
+decompTitle.textContent = 'Character Breakdown:';
+decompBox.appendChild(decompTitle);
+
+chars.forEach((ch, idx) => {
+const chDict = appState.drkMap.get(ch);
+const chOrigPy = segOrigSyls[idx] || getBaseCharSyllable(ch);
+const chSpokenPy = segSpokenSyls[idx] || chOrigPy;
+const chRule = fullSandhi.charRuleMap[startIdx + idx];
+const chGt = (appState.gtCache.get(ch) || '').replace(/^[,.!?;:]+|[,.!?;:]+$/g, '').trim();
+const chDef = chDict?.meaning || chGt || 'character';
+
+const row = document.createElement('div');
+row.className = 'char-decomp-row';
+row.title = `Click to hear "${ch}"`;
+row.onclick = (e) => {
+e.stopPropagation();
+speakChinese(ch);
+};
+const pyDisplay = chRule
+? `${renderColoredPinyinHTML(chSpokenPy)} <span style="font-size:0.65rem; opacity:0.8;">[orig: ${renderColoredPinyinHTML(chOrigPy)}]</span>`
+: renderColoredPinyinHTML(chOrigPy);
+row.innerHTML = `
+<span class="char-decomp-hz"><span class="tone-${detectToneNumber(chSpokenPy)}">${encodeHTML(ch)}</span></span>
+<span class="char-decomp-py">(${pyDisplay})</span>
+<span class="char-decomp-def">${encodeHTML(chDef)}</span>
+`;
+decompBox.appendChild(row);
+});
+tile.appendChild(decompBox);
+}
+
+const actionsEl = document.createElement('div');
+actionsEl.className = 'annotated-actions';
+
+const btnSpeak = document.createElement('button');
+btnSpeak.className = 'mini-btn';
+btnSpeak.title = 'Speak Word';
+btnSpeak.textContent = '🔊';
+btnSpeak.onclick = () => speakChinese(seg.text);
+
+const btnStroke = document.createElement('button');
+btnStroke.className = 'mini-btn';
+btnStroke.title = 'Stroke Order';
+btnStroke.textContent = '✍️';
+btnStroke.onclick = () => openWordInStrokeLab(seg.text);
+
+const btnSave = document.createElement('button');
+btnSave.className = 'mini-btn' + (isSaved ? ' bookmarked' : '');
+btnSave.title = 'Bookmark Word';
+btnSave.textContent = '★';
+btnSave.onclick = () => {
+toggleBookmark(seg.text, segSpokenPy, dictMeaning || gtMeaning, 'Pinyin Studio');
+btnSave.classList.toggle('bookmarked', appState.bookmarks.has(seg.text));
+};
+
+actionsEl.appendChild(btnSpeak);
+actionsEl.appendChild(btnStroke);
+actionsEl.appendChild(btnSave);
+tile.appendChild(actionsEl);
+
 tilesContainer.appendChild(tile);
 });
 
-convertBtnText.textContent = "⚡ Convert to Pinyin & Meanings";
+if (convertBtnText) convertBtnText.textContent = "⚡ Convert & Translate";
+if (submitBtn) submitBtn.disabled = false;
 panel.style.display = 'block';
 }
 
@@ -1708,14 +2871,22 @@ if (!existing.pinyin && dict?.pinyin) existing.pinyin = dict.pinyin;
 if ((!existing.meaning || existing.meaning.startsWith('Official HSK')) && dict?.meaning) existing.meaning = dict.meaning;
 if (!existing.pos && (dict?.pos || leonPos)) existing.pos = dict?.pos || leonPos;
 } else {
-unifiedMap.set(hanziKey, {
+const entryObj = {
 key: hanziKey,
 hanzi: displayHanzi || hanziKey,
-pinyin: dict?.pinyin || '',
+pinyin: dict?.pinyin || getBaseSyllableArrayForText(hanziKey).join(' '),
 meaning: dict?.meaning || 'Official HSK Syllabus Vocabulary Item',
 pos: dict?.pos || leonPos || '',
 versions: new Set([versionTag])
+};
+unifiedMap.set(hanziKey, entryObj);
+if (!appState.drkMap.has(hanziKey)) {
+appState.drkMap.set(hanziKey, {
+hanzi: hanziKey,
+pinyin: entryObj.pinyin,
+meaning: entryObj.meaning
 });
+}
 }
 }
 
@@ -1795,7 +2966,7 @@ if (!map.has(phrase)) {
 const dict = appState.drkMap.get(phrase);
 map.set(phrase, {
 hanzi: phrase,
-pinyin: dict?.pinyin || '',
+pinyin: dict?.pinyin || getBaseSyllableArrayForText(phrase).join(' '),
 meaning: dict?.meaning || 'Four-character Mandarin idiom / phrase',
 tags: new Set([tag])
 });
@@ -1914,10 +3085,6 @@ appState.tatoebaLoading = false;
 }
 }
 
-function annotateSentenceWithPinyin(zh) {
-return computePinyinSafe(zh);
-}
-
 function runSentenceSearch() {
 const inputEl = document.getElementById('sentence-query-input');
 const q = (inputEl ? inputEl.value : '').trim();
@@ -1946,7 +3113,7 @@ if (matches.length >= 30) break;
 if (matches.length === 0) {
 container.innerHTML = `
 <div class="surface-card" style="text-align:center; padding:2rem;">
-<p style="color:var(--text-muted);">No exact corpus sentences found for "<strong>${encodeHTML(query)}</strong>" yet. Try another word or phrase!</p>
+<p style="color:var(--text-muted);">No exact corpus sentences found for "<strong>${encodeHTML(query)}</strong>". Try another word or phrase!</p>
 </div>
 `;
 return;
@@ -1955,22 +3122,30 @@ return;
 container.innerHTML = matches.map(m => {
 const safeZh = encodeURIComponent(m.zh);
 const highlightedZh = query ? m.zh.split(query).join(`<span class="highlight-zh">${encodeHTML(query)}</span>`) : encodeHTML(m.zh);
-const pyText = m.py || annotateSentenceWithPinyin(m.zh);
+const sandhi = analyzeToneSandhiForSequence(Array.from(m.zh), getBaseSyllableArrayForText(m.zh));
+const pyText = sandhi.spokenSyllables.join(' ').replace(/\s+([，。！？；：、,.!?;:])/g, '$1');
 return `
 <div class="grammar-card">
 <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:0.75rem;">
 <div style="font-size:1.18rem; font-weight:700; line-height:1.45;">${highlightedZh}</div>
 <div style="display:flex; gap:0.35rem; flex-shrink:0;">
 <button class="mini-btn" title="Listen" onclick="speakChinese(decodeURIComponent('${safeZh}'))">🔊</button>
+<button class="mini-btn" title="Send to Pinyin Studio" onclick="sendSentenceToConverter(decodeURIComponent('${safeZh}'))">🔤</button>
 <button class="mini-btn" title="Stroke Order" onclick="openWordInStrokeLab(decodeURIComponent('${safeZh}').slice(0, 5))">✍️</button>
 </div>
 </div>
-${pyText ? `<div style="font-size:0.86rem; color:var(--primary); margin-top:0.25rem; font-style:italic;">${encodeHTML(pyText)}</div>` : ''}
-<div style="font-size:0.92rem; color:var(--text-main); margin-top:0.3rem;">${encodeHTML(m.en)}</div>
+${pyText ? `<div style="font-size:0.88rem; margin-top:0.25rem;">${renderColoredPinyinHTML(pyText)}</div>` : ''}
+${sandhi.notes.length > 0 ? `<div style="margin-top:0.25rem; display:flex; flex-wrap:wrap; gap:0.35rem;">${sandhi.notes.map(n => `<span class="sandhi-inline-pill">🗣️ ${encodeHTML(n.pairText)}: ${renderColoredPinyinHTML(n.spokenPy)} (orig. ${renderColoredPinyinHTML(n.origPy)} • ${encodeHTML(n.ruleName)})</span>`).join('')}</div>` : ''}
+<div style="font-size:0.92rem; color:var(--text-main); margin-top:0.35rem;">${encodeHTML(m.en)}</div>
 <div style="margin-top:0.45rem;"><span class="pos-badge">${encodeHTML(m.src)}</span></div>
 </div>
 `;
 }).join('');
+}
+
+function sendSentenceToConverter(zh) {
+document.getElementById('converter-input').value = zh;
+navigateApp('converter');
 }
 
 function encodeHTML(str) {
@@ -1985,6 +3160,7 @@ return String(str || '')
 async function loadHSKLevel(lvl) {
 appState.level = lvl;
 appState.page = 1;
+appState.fcIndex = 0;
 document.getElementById('global-search').value = '';
 
 const info = LEVEL_INFO[lvl];
@@ -2002,8 +3178,8 @@ loadUnifiedGrammarForLevel(lvl),
 loadPhrasesCollection()
 ]);
 
-document.getElementById('stat-vocab-pill').textContent = `📦 ${vocab.length} Unified Words`;
-document.getElementById('stat-grammar-pill').textContent = `📘 ${grammar.length} Grammar Points`;
+document.getElementById('stat-vocab-pill').textContent = `📦 ${vocab.length} Words`;
+document.getElementById('stat-grammar-pill').textContent = `📘 ${grammar.length} Grammar`;
 document.getElementById('stat-phrases-pill').textContent = `🀄 ${phrases.length} Idioms`;
 
 filterCurrentLevel();
@@ -2011,6 +3187,8 @@ if (vocab.length > 0) {
 document.getElementById('stroke-input').value = vocab[0].key.slice(0, 5);
 }
 if (appState.subTab === 'strokes') buildStrokeWriters();
+if (appState.subTab === 'flashcards') renderFlashcard();
+if (appState.subTab === 'quiz') generateQuizQuestion();
 } catch (e) {
 document.getElementById('vocab-container').innerHTML = `<p style="color:var(--primary);">Error loading HSK datasets: ${e.message}</p>`;
 } finally {
@@ -2020,23 +3198,20 @@ loader.style.display = 'none';
 
 function setLevelSubTab(tab) {
 appState.subTab = tab;
-document.getElementById('tab-btn-vocab').classList.toggle('active', tab === 'vocab');
-document.getElementById('tab-btn-grammar').classList.toggle('active', tab === 'grammar');
-document.getElementById('tab-btn-phrases').classList.toggle('active', tab === 'phrases');
-document.getElementById('tab-btn-strokes').classList.toggle('active', tab === 'strokes');
+const tabs = ['vocab', 'flashcards', 'quiz', 'grammar', 'phrases', 'strokes'];
+tabs.forEach(t => {
+document.getElementById(`tab-btn-${t}`)?.classList.toggle('active', t === tab);
+const panel = document.getElementById(`subpanel-${t}`);
+if (panel) panel.style.display = t === tab ? 'block' : 'none';
+});
 
-document.getElementById('subpanel-vocab').style.display = tab === 'vocab' ? 'block' : 'none';
-document.getElementById('subpanel-grammar').style.display = tab === 'grammar' ? 'block' : 'none';
-document.getElementById('subpanel-phrases').style.display = tab === 'phrases' ? 'block' : 'none';
-document.getElementById('subpanel-strokes').style.display = tab === 'strokes' ? 'block' : 'none';
-
-document.getElementById('filter-bar').style.display = tab === 'strokes' ? 'none' : 'flex';
-document.getElementById('syllabus-select').style.display = tab === 'vocab' ? 'block' : 'none';
-
-document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
-document.getElementById(`mob-nav-${tab}`)?.classList.add('active');
+const hideFilters = (tab === 'strokes' || tab === 'quiz');
+document.getElementById('filter-bar').style.display = hideFilters ? 'none' : 'flex';
+document.getElementById('syllabus-select').style.display = (tab === 'vocab' || tab === 'flashcards') ? 'block' : 'none';
 
 if (tab === 'strokes') buildStrokeWriters();
+if (tab === 'flashcards') renderFlashcard();
+if (tab === 'quiz') generateQuizQuestion();
 }
 
 function changeSyllabusVersion() {
@@ -2079,9 +3254,11 @@ p.meaning.toLowerCase().includes(q)
 }
 
 appState.page = 1;
+appState.fcIndex = 0;
 renderVocabCards();
 renderGrammarCards();
 renderPhraseCards();
+if (appState.subTab === 'flashcards') renderFlashcard();
 }
 
 function formatVersionLabel(v) {
@@ -2109,20 +3286,26 @@ const slice = appState.filteredVocab.slice(start, start + appState.pageSize);
 
 container.innerHTML = slice.map(w => {
 const safeKey = encodeURIComponent(w.key);
+const sandhi = analyzeWordSandhi(w.key, w.pinyin);
+const hasSandhi = sandhi.notes.length > 0;
+const safePy = encodeURIComponent(sandhi.spokenPinyin || w.pinyin || '');
+const safeMean = encodeURIComponent(w.meaning || '');
+const isSaved = appState.bookmarks.has(w.key);
 const badges = (w.versionList || []).map(v => `<span class="ver-badge">HSK ${formatVersionLabel(v)}</span>`).join('');
 return `
 <div class="vocab-card" onclick="openWordInSentences(decodeURIComponent('${safeKey}'))">
 <div>
 <div class="vocab-card-head">
-<span class="hanzi-lg">${encodeHTML(w.hanzi)}</span>
+<span class="hanzi-lg">${renderToneColoredHanziPerChar(w.hanzi, w.pinyin, true)}</span>
 <div class="card-actions">
+<button class="mini-btn ${isSaved ? 'bookmarked' : ''}" title="Bookmark" onclick="event.stopPropagation(); toggleBookmark(decodeURIComponent('${safeKey}'), decodeURIComponent('${safePy}'), decodeURIComponent('${safeMean}'), 'HSK ${appState.level}')">★</button>
 <button class="mini-btn" title="Pronounce" onclick="event.stopPropagation(); speakChinese(decodeURIComponent('${safeKey}'))">🔊</button>
-<button class="mini-btn" title="Example Sentences" onclick="event.stopPropagation(); openWordInSentences(decodeURIComponent('${safeKey}'))">💬</button>
 <button class="mini-btn" title="Stroke Order" onclick="event.stopPropagation(); openWordInStrokeLab(decodeURIComponent('${safeKey}'))">✍️</button>
 </div>
 </div>
-${w.pinyin ? `<div class="pinyin-text">${encodeHTML(w.pinyin)}</div>` : ''}
-<div class="meaning-text">${encodeHTML(w.meaning)}</div>
+<div class="pinyin-text">${renderColoredPinyinHTML(sandhi.spokenPinyin)}</div>
+${hasSandhi ? `<div class="sandhi-inline-pill" title="${encodeHTML(sandhi.notes[0].detail)}">🗣️ Sandhi: orig. ${renderColoredPinyinHTML(sandhi.origPinyin)} (${encodeHTML(sandhi.notes[0].ruleName)})</div>` : ''}
+<div class="meaning-text" style="margin-top:0.28rem;">${encodeHTML(w.meaning)}</div>
 </div>
 <div class="badge-row">
 ${badges}
@@ -2143,6 +3326,117 @@ function turnPage(delta) {
 appState.page += delta;
 renderVocabCards();
 window.scrollTo({ top: 140, behavior: 'smooth' });
+}
+
+function renderFlashcard() {
+const list = appState.filteredVocab;
+if (!list || list.length === 0) return;
+if (appState.fcIndex < 0) appState.fcIndex = list.length - 1;
+if (appState.fcIndex >= list.length) appState.fcIndex = 0;
+
+const item = list[appState.fcIndex];
+const sandhi = analyzeWordSandhi(item.key, item.pinyin);
+document.getElementById('fc-card-wrap')?.classList.remove('flipped');
+document.getElementById('fc-counter').textContent = `Card ${appState.fcIndex + 1} / ${list.length}`;
+document.getElementById('fc-front-badge').textContent = `HSK Level ${appState.level}`;
+document.getElementById('fc-hanzi').innerHTML = renderToneColoredHanziPerChar(item.hanzi, item.pinyin, true);
+document.getElementById('fc-back-hanzi').innerHTML = renderToneColoredHanziPerChar(item.hanzi, item.pinyin, true);
+document.getElementById('fc-pinyin').innerHTML = renderColoredPinyinHTML(sandhi.spokenPinyin);
+const noteEl = document.getElementById('fc-sandhi-note');
+if (noteEl) {
+noteEl.innerHTML = sandhi.notes.length > 0
+? `<div class="sandhi-inline-pill">🗣️ Spoken Sandhi (orig: ${renderColoredPinyinHTML(sandhi.origPinyin)} • ${encodeHTML(sandhi.notes[0].ruleName)})</div>`
+: '';
+}
+document.getElementById('fc-meaning').textContent = item.meaning;
+}
+
+function flipFlashcard() {
+document.getElementById('fc-card-wrap')?.classList.toggle('flipped');
+}
+
+function stepFlashcard(delta) {
+appState.fcIndex += delta;
+renderFlashcard();
+}
+
+function shuffleFlashcards() {
+const list = appState.filteredVocab;
+if (list.length <= 1) return;
+appState.fcIndex = Math.floor(Math.random() * list.length);
+renderFlashcard();
+showToast('Jumped to random flashcard');
+}
+
+function speakCurrentFlashcard() {
+const item = appState.filteredVocab[appState.fcIndex];
+if (item) speakChinese(item.key);
+}
+
+function generateQuizQuestion() {
+const pool = (appState.filteredVocab || []).filter(w => w.meaning && !w.meaning.startsWith('Official HSK'));
+const box = document.getElementById('quiz-options-box');
+const fb = document.getElementById('quiz-feedback');
+if (!box) return;
+fb.textContent = '';
+
+if (pool.length < 4) {
+box.innerHTML = `<p style="text-align:center; color:var(--text-muted);">Not enough defined words in this filter to generate a quiz.</p>`;
+return;
+}
+
+const correctIdx = Math.floor(Math.random() * pool.length);
+const correctItem = pool[correctIdx];
+const options = [correctItem];
+
+while (options.length < 4) {
+const cand = pool[Math.floor(Math.random() * pool.length)];
+if (!options.some(o => o.key === cand.key)) {
+options.push(cand);
+}
+}
+options.sort(() => Math.random() - 0.5);
+
+const sandhi = analyzeWordSandhi(correctItem.key, correctItem.pinyin);
+document.getElementById('quiz-hanzi').innerHTML = renderToneColoredHanziPerChar(correctItem.hanzi, correctItem.pinyin, true);
+document.getElementById('quiz-pinyin').innerHTML = renderColoredPinyinHTML(sandhi.spokenPinyin);
+const qNote = document.getElementById('quiz-sandhi-note');
+if (qNote) {
+qNote.innerHTML = sandhi.notes.length > 0
+? `<span class="sandhi-inline-pill">🗣️ Sandhi: orig. ${renderColoredPinyinHTML(sandhi.origPinyin)} (${encodeHTML(sandhi.notes[0].ruleName)})</span>`
+: '';
+}
+
+box.innerHTML = '';
+options.forEach(opt => {
+const btn = document.createElement('button');
+btn.className = 'quiz-opt-btn';
+btn.textContent = opt.meaning;
+btn.onclick = () => {
+const allBtns = box.querySelectorAll('.quiz-opt-btn');
+allBtns.forEach(b => b.disabled = true);
+appState.quizTotal++;
+if (opt.key === correctItem.key) {
+btn.classList.add('correct');
+appState.quizScore++;
+appState.quizStreak++;
+fb.style.color = 'var(--success)';
+fb.textContent = '✅ Correct! Well done.';
+speakChinese(correctItem.key);
+} else {
+btn.classList.add('wrong');
+appState.quizStreak = 0;
+allBtns.forEach(b => {
+if (b.textContent === correctItem.meaning) b.classList.add('correct');
+});
+fb.style.color = 'var(--danger)';
+fb.textContent = `❌ Not quite! "${correctItem.hanzi}" means: ${correctItem.meaning}`;
+}
+document.getElementById('quiz-score-pill').textContent = `Score: ${appState.quizScore} / ${appState.quizTotal}`;
+document.getElementById('quiz-streak-pill').textContent = `🔥 Streak: ${appState.quizStreak}`;
+};
+box.appendChild(btn);
+});
 }
 
 function renderGrammarCards() {
@@ -2167,13 +3461,16 @@ ${g.struct ? `<div class="grammar-formula" onclick="speakChinese(decodeURICompon
 ${g.usage ? `<div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">${encodeHTML(g.usage)}</div>` : ''}
 ${g.examples.map(ex => {
 const safeZh = encodeURIComponent(ex.zh);
+const sandhi = analyzeToneSandhiForSequence(Array.from(ex.zh), getBaseSyllableArrayForText(ex.zh));
+const spokenExPy = sandhi.spokenSyllables.join(' ').replace(/\s+([，。！？；：、,.!?;:])/g, '$1');
 return `
 <div class="example-box">
 <div style="display:flex; justify-content:space-between; align-items:center;">
 <span style="font-weight:700; font-size:1.02rem;">${encodeHTML(ex.zh)}</span>
 <button class="mini-btn" onclick="speakChinese(decodeURIComponent('${safeZh}'))" title="Listen">🔊</button>
 </div>
-<div style="font-size:0.82rem; color:var(--primary); font-style:italic;">${encodeHTML(ex.py)}</div>
+<div style="font-size:0.84rem; margin-top:0.15rem;">${renderColoredPinyinHTML(spokenExPy)}</div>
+${sandhi.notes.length > 0 ? `<div style="margin-top:0.2rem; display:flex; flex-wrap:wrap; gap:0.3rem;">${sandhi.notes.map(n => `<span class="sandhi-inline-pill">🗣️ ${encodeHTML(n.pairText)}: ${renderColoredPinyinHTML(n.spokenPy)} (orig. ${renderColoredPinyinHTML(n.origPy)})</span>`).join('')}</div>` : ''}
 <div style="font-size:0.86rem; margin-top:0.15rem;">${encodeHTML(ex.en)}</div>
 </div>
 `;
@@ -2194,20 +3491,25 @@ return;
 container.innerHTML = slice.map(p => {
 const safe = encodeURIComponent(p.hanzi);
 const dict = appState.drkMap.get(p.hanzi);
-const py = p.pinyin || dict?.pinyin || computePinyinSafe(p.hanzi);
+const rawPy = p.pinyin || dict?.pinyin || getBaseSyllableArrayForText(p.hanzi).join(' ');
+const sandhi = analyzeWordSandhi(p.hanzi, rawPy);
+const hasSandhi = sandhi.notes.length > 0;
 const mean = (dict && dict.meaning) ? dict.meaning : p.meaning;
+const isSaved = appState.bookmarks.has(p.hanzi);
 return `
 <div class="vocab-card" onclick="openWordInSentences(decodeURIComponent('${safe}'))">
 <div>
 <div class="vocab-card-head">
-<span class="hanzi-lg" style="font-size:1.35rem;">${encodeHTML(p.hanzi)}</span>
+<span class="hanzi-lg" style="font-size:1.35rem;">${renderToneColoredHanziPerChar(p.hanzi, rawPy, true)}</span>
 <div class="card-actions">
+<button class="mini-btn ${isSaved ? 'bookmarked' : ''}" onclick="event.stopPropagation(); toggleBookmark(decodeURIComponent('${safe}'), '${encodeHTML(sandhi.spokenPinyin)}', '${encodeHTML(mean)}', 'Chengyu')">★</button>
 <button class="mini-btn" onclick="event.stopPropagation(); speakChinese(decodeURIComponent('${safe}'))">🔊</button>
 <button class="mini-btn" onclick="event.stopPropagation(); openWordInStrokeLab(decodeURIComponent('${safe}'))">✍️</button>
 </div>
 </div>
-${py ? `<div class="pinyin-text">${encodeHTML(py)}</div>` : ''}
-<div class="meaning-text">${encodeHTML(mean)}</div>
+<div class="pinyin-text">${renderColoredPinyinHTML(sandhi.spokenPinyin)}</div>
+${hasSandhi ? `<div class="sandhi-inline-pill" title="${encodeHTML(sandhi.notes[0].detail)}">🗣️ Sandhi: orig. ${renderColoredPinyinHTML(sandhi.origPinyin)}</div>` : ''}
+<div class="meaning-text" style="margin-top:0.28rem;">${encodeHTML(mean)}</div>
 </div>
 <div class="badge-row">
 ${p.tagList.map(t => `<span class="ver-badge">${encodeHTML(t)}</span>`).join('')}
@@ -2254,7 +3556,7 @@ try {
 const writer = HanziWriter.create(div.id, ch, {
 width: boxSize,
 height: boxSize,
-padding: 10,
+padding: 12,
 showOutline: true,
 strokeAnimationSpeed: 1.25,
 delayBetweenStrokes: 150,
@@ -2292,7 +3594,10 @@ speakChinese(res.character);
 
 window.addEventListener('resize', detectAndApplyDeviceMode);
 window.addEventListener('keydown', (e) => {
-if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+const tag = document.activeElement?.tagName;
+if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+if (e.key === '/') {
 e.preventDefault();
 const searchEl = document.getElementById('global-search');
 const quickEl = document.getElementById('quick-sentence-input');
@@ -2301,11 +3606,29 @@ searchEl.focus();
 } else if (quickEl) {
 quickEl.focus();
 }
+} else if (e.key === '[') {
+e.preventDefault();
+toggleSidebar();
+} else if (appState.view === 'level' && appState.subTab === 'flashcards') {
+if (e.code === 'Space') {
+e.preventDefault();
+flipFlashcard();
+} else if (e.key === 'ArrowRight') {
+stepFlashcard(1);
+} else if (e.key === 'ArrowLeft') {
+stepFlashcard(-1);
+}
 }
 });
 
 initTheme();
+loadBookmarksFromStorage();
 detectAndApplyDeviceMode();
+Promise.all([
+loadUnifiedVocabForLevel(1),
+loadUnifiedVocabForLevel(2),
+loadUnifiedVocabForLevel(3)
+]);
 </script>
 </body>
 </html>
