@@ -37,6 +37,14 @@
 --tone-3: #059669;
 --tone-4: #2563eb;
 --tone-5: #64748b;
+--lvl-1: #10b981;
+--lvl-2: #06b6d4;
+--lvl-3: #3b82f6;
+--lvl-4: #8b5cf6;
+--lvl-5: #f59e0b;
+--lvl-6: #ec4899;
+--lvl-7: #e11d48;
+--lvl-0: #94a3b8;
 }
 html[data-theme="dark"],
 body[data-theme="dark"] {
@@ -165,6 +173,207 @@ color: var(--text-main);
 font-weight: 600;
 margin-top: 0.22rem;
 }
+.readability-bar {
+height: 14px;
+width: 100%;
+background: var(--bg-elevated);
+border-radius: 99px;
+overflow: hidden;
+display: flex;
+margin: 0.75rem 0;
+border: 1px solid var(--border);
+}
+.readability-seg {
+height: 100%;
+transition: width 0.35s ease;
+}
+.readability-legend {
+display: flex;
+flex-wrap: wrap;
+gap: 0.65rem;
+margin-top: 0.4rem;
+}
+.readability-chip {
+display: inline-flex;
+align-items: center;
+gap: 0.35rem;
+font-size: 0.76rem;
+font-weight: 700;
+background: var(--bg-elevated);
+padding: 0.25rem 0.65rem;
+border-radius: 99px;
+border: 1px solid var(--border);
+}
+.lvl-tag-pill {
+font-size: 0.64rem;
+font-weight: 800;
+padding: 0.1rem 0.42rem;
+border-radius: 4px;
+color: #fff;
+text-transform: uppercase;
+letter-spacing: 0.03em;
+}
+.lvl-bg-1 { background: var(--lvl-1); }
+.lvl-bg-2 { background: var(--lvl-2); }
+.lvl-bg-3 { background: var(--lvl-3); }
+.lvl-bg-4 { background: var(--lvl-4); }
+.lvl-bg-5 { background: var(--lvl-5); }
+.lvl-bg-6 { background: var(--lvl-6); }
+.lvl-bg-7 { background: var(--lvl-7); }
+.lvl-bg-0 { background: var(--lvl-0); }
+.radical-card {
+background: var(--bg-surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+padding: 1.1rem;
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+transition: all 0.18s;
+}
+.radical-card:hover {
+border-color: var(--primary);
+transform: translateY(-2px);
+box-shadow: var(--shadow);
+}
+.radical-glyph-box {
+width: 54px;
+height: 54px;
+border-radius: 12px;
+background: var(--primary-soft);
+color: var(--primary);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.85rem;
+font-weight: 800;
+flex-shrink: 0;
+}
+.decomp-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+gap: 0.9rem;
+}
+.mw-card {
+background: var(--bg-surface);
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+padding: 1.1rem;
+display: flex;
+flex-direction: column;
+gap: 0.45rem;
+transition: all 0.18s;
+}
+.mw-card:hover {
+border-color: var(--primary);
+box-shadow: var(--shadow-sm);
+}
+.worksheet-preview-sheet {
+background: #ffffff;
+color: #0f172a;
+border: 1px solid var(--border);
+border-radius: var(--radius-md);
+padding: 2rem;
+box-shadow: var(--shadow);
+max-width: 900px;
+margin: 0 auto;
+}
+.ws-header {
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+border-bottom: 2px solid #0f172a;
+padding-bottom: 0.75rem;
+margin-bottom: 1.25rem;
+}
+.ws-row {
+display: flex;
+align-items: center;
+gap: 0.6rem;
+margin-bottom: 1rem;
+page-break-inside: avoid;
+border-bottom: 1px dashed #cbd5e1;
+padding-bottom: 0.85rem;
+}
+.ws-meta {
+width: 135px;
+flex-shrink: 0;
+}
+.ws-meta-hz {
+font-size: 1.65rem;
+font-weight: 800;
+line-height: 1.15;
+color: #0f172a;
+}
+.ws-meta-py {
+font-size: 0.85rem;
+font-weight: 700;
+color: #e11d48;
+}
+.ws-meta-en {
+font-size: 0.72rem;
+color: #475569;
+line-height: 1.25;
+margin-top: 0.15rem;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
+}
+.ws-boxes {
+display: flex;
+gap: 0.35rem;
+flex-wrap: wrap;
+flex: 1;
+}
+.mizige-box {
+width: 56px;
+height: 56px;
+border: 1.5px solid #dc2626;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: "KaiTi", "STKaiti", "BiauKai", "SimKai", serif;
+font-size: 2.35rem;
+line-height: 1;
+user-select: none;
+background-image:
+linear-gradient(to right, transparent 49%, rgba(220,38,38,0.3) 49%, rgba(220,38,38,0.3) 51%, transparent 51%),
+linear-gradient(to bottom, transparent 49%, rgba(220,38,38,0.3) 49%, rgba(220,38,38,0.3) 51%, transparent 51%),
+linear-gradient(45deg, transparent 49.2%, rgba(220,38,38,0.2) 49.5%, rgba(220,38,38,0.2) 50.5%, transparent 50.8%),
+linear-gradient(-45deg, transparent 49.2%, rgba(220,38,38,0.2) 49.5%, rgba(220,38,38,0.2) 50.5%, transparent 50.8%);
+}
+.mizige-char.model {
+color: #0f172a;
+}
+.mizige-char.trace {
+color: rgba(15, 23, 42, 0.22);
+}
+@media print {
+body {
+background: #fff !important;
+color: #000 !important;
+}
+.pc-sidebar, .top-header, .mobile-level-strip, .mobile-bottom-nav, .no-print, .toast-container, .sidebar-backdrop {
+display: none !important;
+}
+.main-workspace {
+margin-left: 0 !important;
+padding: 0 !important;
+}
+.content-container {
+max-width: 100% !important;
+padding: 0 !important;
+margin: 0 !important;
+}
+.worksheet-preview-sheet {
+box-shadow: none !important;
+border: none !important;
+padding: 0.5cm !important;
+max-width: 100% !important;
+}
+}
 .app-shell {
 display: flex;
 min-height: 100vh;
@@ -258,11 +467,11 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 width: 100%;
-padding: 0.6rem 0.85rem;
+padding: 0.56rem 0.85rem;
 border: none;
 background: transparent;
 color: var(--text-main);
-font-size: 0.88rem;
+font-size: 0.86rem;
 font-weight: 600;
 border-radius: var(--radius-sm);
 cursor: pointer;
@@ -278,8 +487,8 @@ color: var(--primary);
 font-weight: 700;
 }
 .side-badge {
-font-size: 0.68rem;
-padding: 0.12rem 0.5rem;
+font-size: 0.66rem;
+padding: 0.12rem 0.48rem;
 border-radius: 99px;
 background: var(--bg-elevated);
 color: var(--text-muted);
@@ -456,7 +665,7 @@ margin-bottom: 0.55rem;
 letter-spacing: -0.02em;
 }
 .hero-banner p {
-max-width: 800px;
+max-width: 820px;
 opacity: 0.95;
 font-size: 0.95rem;
 margin-bottom: 1.2rem;
@@ -877,7 +1086,7 @@ padding: 0.85rem 1rem;
 display: inline-flex;
 flex-direction: column;
 align-items: center;
-min-width: 118px;
+min-width: 122px;
 max-width: 285px;
 position: relative;
 transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
@@ -1159,8 +1368,20 @@ left: 1rem;
 <span>📊 Overview & Credits</span>
 </button>
 <button class="side-btn" id="side-converter" onclick="navigateApp('converter')">
-<span>🔤 Pinyin & Translate Studio</span>
+<span>🔤 Pinyin & Level Grader</span>
 <span class="side-badge">Sandhi</span>
+</button>
+<button class="side-btn" id="side-radicals" onclick="navigateApp('radicals')">
+<span>🧱 Radical & Component Lab</span>
+<span class="side-badge">偏旁</span>
+</button>
+<button class="side-btn" id="side-classifiers" onclick="navigateApp('classifiers')">
+<span>⚖️ Measure Word Matcher</span>
+<span class="side-badge">量词</span>
+</button>
+<button class="side-btn" id="side-worksheet" onclick="navigateApp('worksheet')">
+<span>🖨️ Hanzi Worksheet PDF</span>
+<span class="side-badge">米字格</span>
 </button>
 <button class="side-btn" id="side-sentences" onclick="navigateApp('sentences')">
 <span>💬 Sentence Search</span>
@@ -1228,10 +1449,12 @@ left: 1rem;
 </header>
 <div class="mobile-level-strip" id="mobile-strip">
 <button class="lvl-chip active" data-target="overview" onclick="navigateApp('overview')">Overview</button>
-<button class="lvl-chip" data-target="converter" onclick="navigateApp('converter')">🔤 Pinyin</button>
+<button class="lvl-chip" data-target="converter" onclick="navigateApp('converter')">🔤 Pinyin & Grader</button>
+<button class="lvl-chip" data-target="radicals" onclick="navigateApp('radicals')">🧱 Radicals</button>
+<button class="lvl-chip" data-target="classifiers" onclick="navigateApp('classifiers')">⚖️ Classifiers</button>
+<button class="lvl-chip" data-target="worksheet" onclick="navigateApp('worksheet')">🖨️ Worksheet</button>
 <button class="lvl-chip" data-target="sentences" onclick="navigateApp('sentences')">💬 Sentences</button>
 <button class="lvl-chip" data-target="bookmarks" onclick="navigateApp('bookmarks')">⭐ Saved</button>
-<button class="lvl-chip" data-target="facts" onclick="navigateApp('facts')">💡 Facts</button>
 <button class="lvl-chip" data-target="1" onclick="navigateApp(1)">HSK 1</button>
 <button class="lvl-chip" data-target="2" onclick="navigateApp(2)">HSK 2</button>
 <button class="lvl-chip" data-target="3" onclick="navigateApp(3)">HSK 3</button>
@@ -1244,7 +1467,7 @@ left: 1rem;
 <section id="view-overview">
 <div class="hero-banner">
 <h1>Unified HSK 2.0, 3.0 & 3.1 Chinese Intelligence Hub</h1>
-<p>All-in-one Mandarin mastery suite combining canonical wordlists, tone-colored Pinyin with automatic Tone Sandhi (变调) spoken rules & sidenotes, Google Translate word/character breakdown, 45,000+ bilingual sentences, 3D flashcards, and vector stroke studio.</p>
+<p>Complete Mandarin mastery suite featuring tone-colored Pinyin with automatic Tone Sandhi (变调), HSK Readability Grader, Radical & Phono-Semantic Explorer, Measure Word Matcher, Printable Mi Zi Ge Worksheets, and 45,000+ bilingual sentences.</p>
 <div class="repo-pills">
 <a class="repo-pill" href="https://github.com/leonsilicon/hsk2.0" target="_blank" rel="noopener">📦 leonsilicon/hsk2.0</a>
 <a class="repo-pill" href="https://github.com/leonsilicon/hsk3.0" target="_blank" rel="noopener">📦 leonsilicon/hsk3.0</a>
@@ -1257,33 +1480,43 @@ left: 1rem;
 </div>
 <div class="grid-cards">
 <div class="surface-card">
-<span class="fact-badge">Tone Sandhi + Word/Char Breakdown</span>
-<h2>🔤 Pinyin & Translate Studio</h2>
+<span class="fact-badge">Tone Sandhi + Readability Grader</span>
+<h2>🔤 Pinyin & HSK Level Analyzer</h2>
 <p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
-Paste any Chinese text to see spoken Tone Sandhi Pinyin (3rd+3rd, 不, 一 rules) with explanatory sidenotes, Google Translate output, compound word segmentation, and character-by-character definitions.
+Convert any Chinese passage into spoken Tone Sandhi Pinyin, Google Translate English, compound word + root character breakdowns, and an automatic HSK 1–9 readability distribution chart.
 </p>
 <button class="icon-btn primary" onclick="navigateApp('converter')">
-Open Pinyin Studio →
+Open Pinyin & Grader →
 </button>
 </div>
 <div class="surface-card">
-<span class="fact-badge">Active Recall</span>
-<h2>🗂️ 3D Flashcards & Quiz Studio</h2>
+<span class="fact-badge">Character Architecture</span>
+<h2>🧱 Radical & Component Lab (偏旁部首)</h2>
 <p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
-Master every HSK 1–9 level with interactive 3D flip flashcards, multiple-choice quizzes, and personal bookmark decks exportable to CSV.
+Explore semantic radicals (氵, 扌, 讠, 艹, 忄) and phono-semantic character decompositions to understand how meaning radicals and sound components combine.
 </p>
-<button class="icon-btn" onclick="navigateApp(1); setLevelSubTab('flashcards');">
-Practice Flashcards →
+<button class="icon-btn" onclick="navigateApp('radicals')">
+Explore Radicals →
 </button>
 </div>
 <div class="surface-card">
-<span class="fact-badge">Live Sentence Corpus</span>
-<h2>💬 45,000+ Example Sentences</h2>
+<span class="fact-badge">Grammar Classifier Mastery</span>
+<h2>⚖️ Measure Word Matcher (量词)</h2>
 <p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
-Search bilingual Mandarin-English sentences streamed from Tatoeba & AllSet Grammar corpora with tone-colored Pinyin, Tone Sandhi notes, and native TTS audio.
+Master essential Mandarin classifiers (本, 条, 张, 辆, 件, 把, 座) with categorized noun pairings and an interactive Noun-to-Classifier matching game.
 </p>
-<button class="icon-btn" onclick="navigateApp('sentences')">
-Search Sentences →
+<button class="icon-btn" onclick="navigateApp('classifiers')">
+Practice Measure Words →
+</button>
+</div>
+<div class="surface-card">
+<span class="fact-badge">Custom PDF / Print</span>
+<h2>🖨️ Printable Hanzi Worksheet (米字格)</h2>
+<p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
+Generate printer-ready Mi Zi Ge (米字格) character writing sheets from your Saved Bookmarks, HSK levels, or custom Chinese text with adjustable trace guides.
+</p>
+<button class="icon-btn" onclick="navigateApp('worksheet')">
+Create Worksheet →
 </button>
 </div>
 </div>
@@ -1388,12 +1621,13 @@ Search Sentences →
 </div>
 </div>
 </section>
+
 <section id="view-converter" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.25rem;">
 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
 <div>
-<span class="fact-badge">Tone-Colored Pinyin + Automatic Tone Sandhi Engine</span>
-<h2>🔤 Sentence & Word to Pinyin + English Breakdown Studio</h2>
+<span class="fact-badge">Tone Sandhi + HSK Readability Grader</span>
+<h2>🔤 Pinyin, Translation & HSK Text Level Analyzer</h2>
 </div>
 <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
 <div class="tone-legend" title="Mandarin Tone Color Coding">
@@ -1407,22 +1641,36 @@ Search Sentences →
 </div>
 </div>
 <p style="font-size:0.87rem; color:var(--text-muted); margin-bottom:0.9rem;">
-Enter any Chinese text below. Spoken <strong>Tone Sandhi (变调)</strong> rules (<strong>3rd + 3rd Tone</strong>, <strong>“不” bù</strong>, and <strong>“一” yī</strong> tone changes) are automatically applied to the spoken Pinyin and explained with sidenotes!
+Enter any Chinese text below. Spoken <strong>Tone Sandhi (变调)</strong> rules are applied automatically, compound words stay grouped with root character breakdowns underneath, and the <strong>HSK Readability Grader</strong> scores the difficulty of your passage.
 </p>
 <textarea id="converter-input" class="textarea-modern" oninput="updateConverterCounter()" placeholder="Paste or type Chinese characters here (e.g. 你好！今天天气很好，我们一起去公园散步吧，不去不行。)...">你好！今天天气很好，我们一起去公园散步吧，不去不行。</textarea>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.85rem; align-items:center;">
 <button class="icon-btn primary" id="convert-submit-btn" onclick="processTextConverter()">
-<span id="convert-btn-text">⚡ Convert & Translate</span>
+<span id="convert-btn-text">⚡ Convert, Translate & Grade</span>
 </button>
 <button class="icon-btn" onclick="speakChinese(document.getElementById('converter-input').value)">🔊 Read Full Text</button>
 <button class="icon-btn" onclick="copyTextValue('converter-pinyin-text', 'Spoken Pinyin')">📋 Copy Pinyin</button>
 <button class="icon-btn" onclick="copyTextValue('converter-translation-text', 'Translation')">📋 Copy English</button>
+<button class="icon-btn" onclick="sendConverterTextToWorksheet()">🖨️ Send to Worksheet</button>
 <button class="icon-btn" onclick="clearConverterInput()">🗑️ Clear</button>
-<button class="icon-btn" onclick="loadConverterSample('你好！今天天气很好，我们一起去公园散步吧，不去不行。')">Sandhi Sample 1</button>
-<button class="icon-btn" onclick="loadConverterSample('我有一个好朋友，他每天都十分努力，一点儿也不怕困难。')">Sandhi Sample 2</button>
+<button class="icon-btn" onclick="loadConverterSample('你好！今天天气很好，我们一起去公园散步吧，不去不行。')">Sample 1 (A1–A2)</button>
+<button class="icon-btn" onclick="loadConverterSample('随着科学技术的迅速发展，人工智能正在深刻地改变我们的日常生活与工作方式。')">Sample 2 (B2–C1)</button>
 </div>
 </div>
 <div id="converter-output-panel" style="display:none;">
+<div class="surface-card" style="margin-bottom:1.25rem;" id="readability-analyzer-card">
+<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+<div>
+<span class="fact-badge">HSK Readability Grader</span>
+<h2 style="margin-bottom:0.15rem;">📊 Passage Vocabulary Level Distribution</h2>
+</div>
+<div style="display:flex; gap:0.5rem; align-items:center;">
+<span class="status-pill" id="readability-cefr-estimate">Estimated Difficulty: ...</span>
+</div>
+</div>
+<div class="readability-bar" id="readability-bar"></div>
+<div class="readability-legend" id="readability-legend"></div>
+</div>
 <div class="grid-cards" style="margin-bottom:1.25rem;">
 <div class="surface-card" style="margin-bottom:0;">
 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1442,16 +1690,133 @@ Enter any Chinese text below. Spoken <strong>Tone Sandhi (变调)</strong> rules
 </div>
 <div class="surface-card">
 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
-<h2>🧩 Word & Character Breakdown (Compound Words + Root Characters + Sandhi Sidenotes)</h2>
+<h2>🧩 Word & Character Breakdown (HSK Level + Sandhi + Root Characters)</h2>
 <span class="status-pill" id="converter-segments-count">0 words</span>
 </div>
 <p style="font-size:0.82rem; color:var(--text-muted); margin-top:0.2rem;">
-Each card shows the grouped word, spoken tone-colored Pinyin, Tone Sandhi sidenote (if changed in context), Google Translate meaning, dictionary definition, and constituent character meanings below.
+Each card displays the word's HSK level badge, spoken tone-colored Pinyin, Tone Sandhi sidenote, Google Translate meaning, dictionary definition, and individual character meanings below.
 </p>
 <div class="converter-tiles" id="converter-tiles-container"></div>
 </div>
 </div>
 </section>
+
+<section id="view-radicals" style="display:none;">
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+<div>
+<span class="fact-badge">Character Science • 偏旁部首</span>
+<h2>🧱 Radical & Phono-Semantic Component Explorer</h2>
+<p style="font-size:0.88rem; color:var(--text-muted);">
+Over 80% of Chinese characters are phono-semantic compounds (形声字) combining a <strong>Semantic Radical (形旁)</strong> for meaning category and a <strong>Phonetic Component (声旁)</strong> for pronunciation clues.
+</p>
+</div>
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+<input type="text" id="radical-search-input" class="input-modern" placeholder="Search radical, character, or meaning (e.g. 水, water, 青)..." oninput="renderRadicalsStudio()">
+</div>
+</div>
+</div>
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<h2>🔍 Interactive Phono-Semantic Character Decomposer (形声字拆解)</h2>
+<p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:0.85rem;">
+See how a single phonetic root (like <strong>青 qīng</strong>, <strong>包 bāo</strong>, <strong>巴 bā</strong>, <strong>马 mǎ</strong>) combines with different semantic radicals to create entire families of HSK characters.
+</p>
+<div id="decomp-families-container" class="decomp-grid"></div>
+</div>
+<div class="surface-card">
+<h2>📚 Essential HSK Semantic Radicals Directory (偏旁部首表)</h2>
+<div id="radicals-grid-container" class="vocab-grid" style="margin-top:0.85rem;"></div>
+</div>
+</section>
+
+<section id="view-classifiers" style="display:none;">
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+<div>
+<span class="fact-badge">Mandarin Classifiers • 量词</span>
+<h2>⚖️ Measure Word (Classifier) Reference & Interactive Matcher</h2>
+<p style="font-size:0.88rem; color:var(--text-muted);">
+In Mandarin, numbers and demonstratives (这, 那, 哪, 几) require a specific measure word before the noun (e.g., 一<strong>本</strong>书, 一<strong>条</strong>鱼, 一<strong>张</strong>桌子).
+</p>
+</div>
+<div class="segmented-tabs">
+<button class="seg-btn active" id="mw-tab-quiz" onclick="setMeasureWordSubTab('quiz')">🎯 Classifier Matcher Quiz</button>
+<button class="seg-btn" id="mw-tab-ref" onclick="setMeasureWordSubTab('ref')">📖 Complete Classifier Reference</button>
+</div>
+</div>
+</div>
+<div id="mw-panel-quiz">
+<div class="surface-card quiz-box" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+<span class="status-pill" id="mw-score-pill">Score: 0 / 0</span>
+<span class="status-pill" id="mw-streak-pill">🔥 Streak: 0</span>
+<button class="icon-btn" onclick="nextMeasureWordQuestion()">Skip / Next Noun →</button>
+</div>
+<div style="text-align:center; padding:1rem 0;">
+<span class="fact-badge">Select the Correct Measure Word</span>
+<div style="font-size:2.4rem; font-weight:800; margin-top:0.4rem;" id="mw-quiz-prompt">一 ( ? ) 书</div>
+<div style="font-size:1.05rem; color:var(--text-muted); margin-top:0.2rem;" id="mw-quiz-noun-info">书 (shū) — book</div>
+</div>
+<div class="quiz-options" id="mw-quiz-options" style="grid-template-columns: repeat(2, 1fr);"></div>
+<div id="mw-quiz-feedback" style="margin-top:1rem; font-weight:700; text-align:center; min-height:1.6rem;"></div>
+</div>
+</div>
+<div id="mw-panel-ref" style="display:none;">
+<div class="toolbar-box">
+<input type="text" id="mw-search-input" class="input-modern" style="max-width:420px;" placeholder="Filter measure words or nouns (e.g. 条, flat, car, book)..." oninput="renderMeasureWordDirectory()">
+<span class="status-pill" id="mw-count-pill">24 Core Classifiers</span>
+</div>
+<div id="mw-ref-grid" class="decomp-grid"></div>
+</div>
+</section>
+
+<section id="view-worksheet" style="display:none;">
+<div class="surface-card no-print" style="margin-bottom:1.25rem;">
+<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+<div>
+<span class="fact-badge">Mi Zi Ge Grid Generator • 米字格字帖</span>
+<h2>🖨️ Printable Hanzi Practice Worksheet Generator</h2>
+<p style="font-size:0.88rem; color:var(--text-muted);">
+Customize and print high-resolution Mi Zi Ge (米字格) handwriting practice sheets with Pinyin, Tone Sandhi, English definitions, model characters, and tracing guides.
+</p>
+</div>
+<div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+<button class="icon-btn primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+</div>
+</div>
+<div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:0.85rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border);">
+<div>
+<label style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Worksheet Source</label>
+<select id="ws-source-select" class="select-modern" style="width:100%;" onchange="populateWorksheetFromSource()">
+<option value="custom">Custom Chinese Input Below</option>
+<option value="bookmarks">⭐ My Saved Bookmarks</option>
+<option value="hsk1">HSK Level 1 Sample (15 chars)</option>
+<option value="hsk2">HSK Level 2 Sample (15 chars)</option>
+<option value="hsk3">HSK Level 3 Sample (15 chars)</option>
+</select>
+</div>
+<div>
+<label style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Worksheet Title</label>
+<input type="text" id="ws-title-input" class="input-modern" style="width:100%; max-width:none;" value="HSK Mandarin Character Practice Sheet" oninput="renderWorksheetPreview()">
+</div>
+<div>
+<label style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Tracing Guides per Row</label>
+<select id="ws-trace-count" class="select-modern" style="width:100%;" onchange="renderWorksheetPreview()">
+<option value="2">1 Dark Model + 2 Faint Trace + 6 Empty</option>
+<option value="3" selected>1 Dark Model + 3 Faint Trace + 5 Empty</option>
+<option value="5">1 Dark Model + 5 Faint Trace + 3 Empty</option>
+<option value="0">1 Dark Model + 8 Empty Boxes</option>
+</select>
+</div>
+<div>
+<label style="font-size:0.76rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.3rem;">Characters / Words to Practice</label>
+<input type="text" id="ws-chars-input" class="input-modern" style="width:100%; max-width:none;" value="你好今天学习汉语朋友喜欢公园散步" placeholder="Enter Chinese characters..." oninput="renderWorksheetPreview()">
+</div>
+</div>
+</div>
+<div class="worksheet-preview-sheet" id="worksheet-printable-area"></div>
+</section>
+
 <section id="view-sentences" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.25rem;">
 <span class="fact-badge">Open Corpus Search Engine</span>
@@ -1471,6 +1836,7 @@ Enter any Chinese word, character, idiom (成语), or English keyword below to s
 </div>
 <div id="sentence-results-list" class="grammar-stack"></div>
 </section>
+
 <section id="view-bookmarks" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.25rem;">
 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
@@ -1482,6 +1848,7 @@ Star words across any HSK level or Pinyin Converter tile to build your custom st
 </p>
 </div>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+<button class="icon-btn" onclick="navigateApp('worksheet'); document.getElementById('ws-source-select').value='bookmarks'; populateWorksheetFromSource();">🖨️ Print as Worksheet</button>
 <button class="icon-btn primary" onclick="exportBookmarksCSV()">📥 Export CSV (Anki/Excel)</button>
 <button class="icon-btn" onclick="clearAllBookmarks()">🗑️ Clear All</button>
 </div>
@@ -1489,6 +1856,7 @@ Star words across any HSK level or Pinyin Converter tile to build your custom st
 </div>
 <div id="bookmarks-container" class="vocab-grid"></div>
 </section>
+
 <section id="view-facts" style="display:none;">
 <div class="hero-banner" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
 <h1>💡 Need-to-Know Facts & Essential Mandarin Mechanics</h1>
@@ -1541,6 +1909,7 @@ Star words across any HSK level or Pinyin Converter tile to build your custom st
 </div>
 </div>
 </section>
+
 <section id="view-level" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.15rem;">
 <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
@@ -1686,19 +2055,19 @@ Vector stroke order data credited to <a href="https://github.com/chanind/hanzi-w
 </button>
 <button class="mob-nav-item" id="mob-nav-converter" onclick="navigateApp('converter')">
 <span class="mob-nav-icon">🔤</span>
-<span>Pinyin</span>
+<span>Grader</span>
 </button>
-<button class="mob-nav-item" id="mob-nav-sentences" onclick="navigateApp('sentences')">
-<span class="mob-nav-icon">💬</span>
-<span>Sentences</span>
+<button class="mob-nav-item" id="mob-nav-radicals" onclick="navigateApp('radicals')">
+<span class="mob-nav-icon">🧱</span>
+<span>Radicals</span>
 </button>
-<button class="mob-nav-item" id="mob-nav-bookmarks" onclick="navigateApp('bookmarks')">
-<span class="mob-nav-icon">⭐</span>
-<span>Saved</span>
+<button class="mob-nav-item" id="mob-nav-classifiers" onclick="navigateApp('classifiers')">
+<span class="mob-nav-icon">⚖️</span>
+<span>量词</span>
 </button>
-<button class="mob-nav-item" id="mob-nav-vocab" onclick="quickMobileJump('vocab')">
-<span class="mob-nav-icon">📦</span>
-<span>HSK</span>
+<button class="mob-nav-item" id="mob-nav-worksheet" onclick="navigateApp('worksheet')">
+<span class="mob-nav-icon">🖨️</span>
+<span>Print</span>
 </button>
 </nav>
 <div class="toast-container" id="toast-container"></div>
@@ -1713,6 +2082,88 @@ const LEVEL_INFO = {
 7: { cefr: "HSK 3.0 / 3.1 • Advanced Band (Levels 7–9)", title: "HSK Levels 7–9", desc: "Professional, academic, and native-tier mastery introduced in the HSK 3.0 & 3.1 standards." }
 };
 
+const RADICALS_DB = [
+{ rad: "氵", alt: "水", py: "shuǐ", name: "三点水 (Three-dot water)", meaning: "Water, liquid, river, fluid", examples: ["河", "海", "洗", "泳", "汉", "渴", "满", "清", "深", "流"] },
+{ rad: "扌", alt: "手", py: "shǒu", name: "提手旁 (Hand radical)", meaning: "Hand action, hold, strike, motion", examples: ["打", "找", "拿", "把", "拉", "推", "搬", "指", "接", "换"] },
+{ rad: "讠", alt: "言", py: "yán", name: "言字旁 (Speech radical)", meaning: "Speech, language, words, hablar", examples: ["说", "话", "语", "读", "请", "谢", "认识", "讲", "诉", "讨论"] },
+{ rad: "口", alt: "口", py: "kǒu", name: "口字旁 (Mouth radical)", meaning: "Mouth, eating, calling, vocal particle", examples: ["吃", "喝", "叫", "唱", "吗", "呢", "吧", "听", "哭", "味"] },
+{ rad: "艹", alt: "艸", py: "cǎo", name: "草字头 (Grass crown)", meaning: "Grass, plant, herb, flower, vegetation", examples: ["草", "花", "茶", "菜", "药", "苹", "蓝", "香蕉", "节", "苦"] },
+{ rad: "木", alt: "木", py: "mù", name: "木字旁 (Tree / Wood)", meaning: "Trees, wood, wooden objects, forest", examples: ["树", "林", "森", "桌", "椅", "杯", "果", "楼", "桥", "极"] },
+{ rad: "忄", alt: "心", py: "xīn", name: "竖心旁 / 心字底 (Heart / Mind)", meaning: "Emotions, psychology, thought, feelings", examples: ["忙", "快", "慢", "懂", "怕", "急", "情", "想", "念", "忘"] },
+{ rad: "亻", alt: "人", py: "rén", name: "单人旁 (Standing person)", meaning: "People, human traits, pronouns, actions", examples: ["你", "他", "们", "作", "休", "住", "位", "体", "信", "借"] },
+{ rad: "女", alt: "女", py: "nǚ", name: "女字旁 (Female radical)", meaning: "Women, family relations, grace", examples: ["妈", "姐", "妹", "她", "好", "姓", "姑", "娘", "婚", "始"] },
+{ rad: "日", alt: "日", py: "rì", name: "日字旁 (Sun / Day)", meaning: "Sun, time, daylight, clear, warmth", examples: ["明", "早", "晚", "昨", "晴", "时", "春", "星", "暖", "晒"] },
+{ rad: "月", alt: "肉", py: "yuè", name: "月字旁 (Moon / Flesh)", meaning: "Moon, time periods, or body organs/flesh", examples: ["朋", "期", "朝", "胖", "腿", "脚", "脸", "肚", "脑", "背"] },
+{ rad: "钅", alt: "金", py: "jīn", name: "金字旁 (Metal / Gold)", meaning: "Metals, money, tools, sharp instruments", examples: ["钱", "银", "铁", "钟", "错", "镜", "铅", "针", "钢", "钥匙"] },
+{ rad: "饣", alt: "食", py: "shí", name: "食字旁 (Food radical)", meaning: "Food, eating, nourishment, pastry", examples: ["饭", "饿", "饱", "馆", "饺", "饼", "饮", "馒", "餐"] },
+{ rad: "辶", alt: "辵", py: "chuò", name: "走之底 (Walking movement)", meaning: "Walking, road, distance, movement", examples: ["远", "近", "进", "送", "过", "还", "这", "那", "道", "选"] },
+{ rad: "纟", alt: "糸", py: "mì", name: "绞丝旁 (Silk / Thread)", meaning: "Silk, thread, fabric, connection, color", examples: ["红", "绿", "纸", "级", "线", "练", "经", "结", "给", "继续"] },
+{ rad: "火", alt: "灬", py: "huǒ", name: "火字旁 / 四点底 (Fire / Heat)", meaning: "Fire, heat, cooking, light", examples: ["灯", "烧", "烤", "热", "点", "照", "熟", "烟", "然"] },
+{ rad: "宀", alt: "宀", py: "mián", name: "宝盖头 (Roof radical)", meaning: "House, roof, shelter, indoor", examples: ["家", "室", "安", "完", "客", "字", "定", "宝", "宿"] },
+{ rad: "疒", alt: "疒", py: "nè", name: "病字旁 (Sickness frame)", meaning: "Illness, pain, medical condition", examples: ["病", "疼", "痛", "瘦", "疯", "痒", "疲"] },
+{ rad: "目", alt: "目", py: "mù", name: "目字旁 (Eye radical)", meaning: "Eye, vision, looking, sleep", examples: ["看", "眼", "睛", "睡", "着", "眉", "盼"] },
+{ rad: "足", alt: "⻊", py: "zú", name: "足字旁 (Foot radical)", meaning: "Foot, kicking, running, jumping", examples: ["跑", "跳", "踢", "路", "跟", "跌", "距"] }
+];
+
+const PHONO_FAMILIES = [
+{
+root: "青", py: "qīng", rootMeaning: "blue/green; young (Phonetic)",
+members: [
+{ hz: "请", py: "qǐng", rad: "讠(speech)", mean: "please; to invite" },
+{ hz: "清", py: "qīng", rad: "氵(water)", mean: "clear; pure water" },
+{ hz: "情", py: "qíng", rad: "忄(heart)", mean: "feeling; emotion" },
+{ hz: "晴", py: "qíng", rad: "日(sun)", mean: "sunny; clear sky" },
+{ hz: "睛", py: "jīng", rad: "目(eye)", mean: "eyeball (眼睛)" }
+]
+},
+{
+root: "包", py: "bāo", rootMeaning: "to wrap; bag (Phonetic)",
+members: [
+{ hz: "饱", py: "bǎo", rad: "饣(food)", mean: "full (from eating)" },
+{ hz: "抱", py: "bào", rad: "扌(hand)", mean: "to hug; to hold" },
+{ hz: "跑", py: "pǎo", rad: "⻊(foot)", mean: "to run; to escape" },
+{ hz: "泡", py: "pào", rad: "氵(water)", mean: "bubble; to steep/soak" }
+]
+},
+{
+root: "马", py: "mǎ", rootMeaning: "horse (Phonetic)",
+members: [
+{ hz: "妈", py: "mā", rad: "女(female)", mean: "mother; mom" },
+{ hz: "吗", py: "ma", rad: "口(mouth)", mean: "question particle" },
+{ hz: "骂", py: "mà", rad: "口口(mouth)", mean: "to scold; to curse" },
+{ hz: "码", py: "mǎ", rad: "石(stone)", mean: "number; code (号码)" }
+]
+},
+{
+root: "巴", py: "bā", rootMeaning: "to hope; cling to (Phonetic)",
+members: [
+{ hz: "吧", py: "ba", rad: "口(mouth)", mean: "suggestion particle" },
+{ hz: "爸", py: "bà", rad: "父(father)", mean: "father; dad" },
+{ hz: "把", py: "bǎ", rad: "扌(hand)", mean: "to hold; handle classifier" },
+{ hz: "爬", py: "pá", rad: "爪(claw)", mean: "to climb; to crawl" }
+]
+}
+];
+
+const MEASURE_WORDS_DB = [
+{ mw: "个", py: "gè", usage: "General classifier for people, abstract ideas, and round objects", nouns: [{ hz: "人", py: "rén", en: "person" }, { hz: "朋友", py: "péngyou", en: "friend" }, { hz: "问题", py: "wèntí", en: "question/problem" }, { hz: "苹果", py: "píngguǒ", en: "apple" }, { hz: "星期", py: "xīngqī", en: "week" }] },
+{ mw: "本", py: "běn", usage: "Bound printed volumes, books, notebooks, dictionaries, magazines", nouns: [{ hz: "书", py: "shū", en: "book" }, { hz: "词典", py: "cídiǎn", en: "dictionary" }, { hz: "杂志", py: "zázhì", en: "magazine" }, { hz: "笔记本", py: "bǐjìběn", en: "notebook" }] },
+{ mw: "张", py: "zhāng", usage: "Flat surfaces, paper, tickets, tables, beds, faces, mouths", nouns: [{ hz: "桌子", py: "zhuōzi", en: "table/desk" }, { hz: "床", py: "chuáng", en: "bed" }, { hz: "纸", py: "zhǐ", en: "paper" }, { hz: "票", py: "piào", en: "ticket" }, { hz: "照片", py: "zhàopiàn", en: "photo" }] },
+{ mw: "条", py: "tiáo", usage: "Long, narrow, winding, or flexible objects (rivers, roads, fish, pants, news)", nouns: [{ hz: "鱼", py: "yú", en: "fish" }, { hz: "裤子", py: "kùzi", en: "pants/trousers" }, { hz: "河", py: "hé", en: "river" }, { hz: "路", py: "lù", en: "road" }, { hz: "狗", py: "gǒu", en: "dog" }, { hz: "新闻", py: "xīnwén", en: "news item" }] },
+{ mw: "件", py: "jiàn", usage: "Upper-body clothing, luggage, matters, gifts, affairs", nouns: [{ hz: "衣服", py: "yīfu", en: "clothes" }, { hz: "衬衫", py: "chènshān", en: "shirt" }, { hz: "事", py: "shì", en: "matter/affair" }, { hz: "礼物", py: "lǐwù", en: "gift" }, { hz: "行李", py: "xíngli", en: "luggage" }] },
+{ mw: "辆", py: "liàng", usage: "Wheeled land vehicles (cars, buses, bicycles)", nouns: [{ hz: "汽车", py: "qìchē", en: "car" }, { hz: "自行车", py: "zìxíngchē", en: "bicycle" }, { hz: "公共汽车", py: "gōnggòng qìchē", en: "bus" }, { hz: "出租车", py: "chūzūchē", en: "taxi" }] },
+{ mw: "把", py: "bǎ", usage: "Objects with handles or grasped by hand (chairs, knives, umbrellas, keys)", nouns: [{ hz: "椅子", py: "yǐzi", en: "chair" }, { hz: "伞", py: "sǎn", en: "umbrella" }, { hz: "刀", py: "dāo", en: "knife" }, { hz: "钥匙", py: "yàoshi", en: "key" }] },
+{ mw: "位", py: "wèi", usage: "Polite classifier for people (teachers, guests, customers)", nouns: [{ hz: "老师", py: "lǎoshī", en: "teacher" }, { hz: "客人", py: "kèrén", en: "guest" }, { hz: "先生", py: "xiānsheng", en: "gentleman/sir" }, { hz: "顾客", py: "gùkè", en: "customer" }] },
+{ mw: "只", py: "zhī", usage: "Small animals, birds, insects, or one of a pair (hands, shoes, eyes)", nouns: [{ hz: "猫", py: "māo", en: "cat" }, { hz: "鸟", py: "niǎo", en: "bird" }, { hz: "手", py: "shǒu", en: "hand" }, { hz: "眼睛", py: "yǎnjing", en: "eye" }] },
+{ mw: "双", py: "shuāng", usage: "Pairs of对称 items (shoes, socks, chopsticks, eyes)", nouns: [{ hz: "鞋", py: "xié", en: "shoes" }, { hz: "筷子", py: "kuàizi", en: "chopsticks" }, { hz: "袜子", py: "wàzi", en: "socks" }] },
+{ mw: "杯", py: "bēi", usage: "Cup or glass of liquid", nouns: [{ hz: "水", py: "shuǐ", en: "water" }, { hz: "茶", py: "chá", en: "tea" }, { hz: "咖啡", py: "kāfēi", en: "coffee" }, { hz: "牛奶", py: "niúnǎi", en: "milk" }] },
+{ mw: "家", py: "jiā", usage: "Establishments, businesses, restaurants, hospitals, banks", nouns: [{ hz: "医院", py: "yīyuàn", en: "hospital" }, { hz: "公司", py: "gōngsī", en: "company" }, { hz: "饭馆", py: "fànguǎn", en: "restaurant" }, { hz: "银行", py: "yínháng", en: "bank" }] },
+{ mw: "座", py: "zuò", usage: "Large, solid, immovable structures (mountains, bridges, buildings, cities)", nouns: [{ hz: "山", py: "shān", en: "mountain" }, { hz: "桥", py: "qiáo", en: "bridge" }, { hz: "城市", py: "chéngshì", en: "city" }, { hz: "大楼", py: "dàlóu", en: "building" }] },
+{ mw: "棵", py: "kē", usage: "Trees, plants, cabbages", nouns: [{ hz: "树", py: "shù", en: "tree" }, { hz: "草", py: "cǎo", en: "grass/plant" }, { hz: "白菜", py: "báicài", en: "cabbage" }] },
+{ mw: "台", py: "tái", usage: "Machinery, appliances, computers, TVs, performances", nouns: [{ hz: "电脑", py: "diànnǎo", en: "computer" }, { hz: "电视", py: "diànshì", en: "television" }, { hz: "洗衣机", py: "xǐyījī", en: "washing machine" }] },
+{ mw: "封", py: "fēng", usage: "Sealed items (letters, emails)", nouns: [{ hz: "信", py: "xìn", en: "letter" }, { hz: "电子邮件", py: "diànzǐ yóujiàn", en: "email" }] }
+];
+
 const BUILTIN_SENTENCES = [
 { zh: "我非常喜欢学习汉语和了解中国文化。", py: "Wǒ fēicháng xǐhuan xuéxí Hànyǔ hé liǎojiě Zhōngguó wénhuà.", en: "I really like learning Chinese and understanding Chinese culture.", src: "HSK Core Corpus" },
 { zh: "因为今天下大雨，所以我们决定留在家里看书。", py: "Yīnwèi jīntiān xià dàyǔ, suǒyǐ wǒmen juédìng liú zài jiālǐ kànshū.", en: "Because it rained heavily today, we decided to stay home and read.", src: "HSK Core Corpus" },
@@ -1723,93 +2174,94 @@ const BUILTIN_SENTENCES = [
 ];
 
 const BUILTIN_COMMON_DICT = {
-"今": { pinyin: "jīn", meaning: "now; present; current; today" },
-"天": { pinyin: "tiān", meaning: "day; sky; heaven; weather" },
-"气": { pinyin: "qì", meaning: "air; gas; breath; weather; spirit" },
-"公": { pinyin: "gōng", meaning: "public; common; shared; duke" },
-"园": { pinyin: "yuán", meaning: "garden; park; orchard" },
-"散": { pinyin: "sàn", meaning: "to scatter; to disperse; leisurely" },
-"步": { pinyin: "bù", meaning: "step; pace; walk; stage" },
-"们": { pinyin: "men", meaning: "plural marker for pronouns/people" },
-"学": { pinyin: "xué", meaning: "to learn; to study; science" },
-"习": { pinyin: "xí", meaning: "to practice; to exercise; habit" },
-"汉": { pinyin: "hàn", meaning: "Han ethnicity; Chinese" },
-"语": { pinyin: "yǔ", meaning: "language; speech; words" },
-"法": { pinyin: "fǎ", meaning: "law; method; way; rule" },
-"欢": { pinyin: "huān", meaning: "joyous; happy; pleased" },
-"迎": { pinyin: "yíng", meaning: "to welcome; to meet; to greet" },
-"光": { pinyin: "guāng", meaning: "light; ray; bright; honor" },
-"临": { pinyin: "lín", meaning: "to face; to arrive; to be present" },
-"喜": { pinyin: "xǐ", meaning: "to be fond of; happy; delight" },
-"一": { pinyin: "yī", meaning: "one; single; a(n); whole" },
-"起": { pinyin: "qǐ", meaning: "to rise; to start; upward" },
-"道": { pinyin: "dào", meaning: "road; path; principle; to say" },
-"千": { pinyin: "qiān", meaning: "thousand; many" },
-"里": { pinyin: "lǐ", meaning: "inside; Chinese mile (500m)" },
-"之": { pinyin: "zhī", meaning: "of (literary possessive); him/her/it" },
-"行": { pinyin: "xíng", meaning: "to walk; to travel; journey; capable; ok" },
-"始": { pinyin: "shǐ", meaning: "to begin; start; initial" },
-"于": { pinyin: "yú", meaning: "at; in; on; from; by" },
-"足": { pinyin: "zú", meaning: "foot; sufficient; enough" },
-"下": { pinyin: "xià", meaning: "down; below; under; next" },
-"如": { pinyin: "rú", meaning: "if; as; like; according to" },
-"果": { pinyin: "guǒ", meaning: "fruit; result; consequence" },
-"坚": { pinyin: "jiān", meaning: "strong; solid; firm; resolute" },
-"持": { pinyin: "chí", meaning: "to hold; to maintain; to support" },
-"每": { pinyin: "měi", meaning: "every; each" },
-"定": { pinyin: "dìng", meaning: "to set; to fix; to determine; surely" },
-"越": { pinyin: "yuè", meaning: "to exceed; to climb over; the more..." },
-"来": { pinyin: "lái", meaning: "to come; to arrive" },
-"向": { pinyin: "xiàng", meaning: "towards; direction; to face" },
-"上": { pinyin: "shàng", meaning: "up; above; on; previous" },
-"而": { pinyin: "ér", meaning: "and; as well as; but (not); yet" },
-"不": { pinyin: "bù", meaning: "not; no" },
-"思": { pinyin: "sī", meaning: "to think; to consider; to ponder" },
-"则": { pinyin: "zé", meaning: "standard; norm; then; thereupon" },
-"罔": { pinyin: "wǎng", meaning: "confused; deceived" },
-"殆": { pinyin: "dài", meaning: "perilous; in danger; weary" },
-"今天": { pinyin: "jīn tiān", meaning: "today; present; now" },
-"天气": { pinyin: "tiān qì", meaning: "weather" },
-"真": { pinyin: "zhēn", meaning: "really; truly; genuine" },
-"好": { pinyin: "hǎo", meaning: "good; well; proper" },
-"我们": { pinyin: "wǒ men", meaning: "we; us; ourselves" },
-"去": { pinyin: "qù", meaning: "to go; to leave" },
-"公园": { pinyin: "gōng yuán", meaning: "public park" },
-"散步": { pinyin: "sàn bù", meaning: "to take a walk; to stroll" },
-"吧": { pinyin: "ba", meaning: "modal particle indicating suggestion" },
-"你": { pinyin: "nǐ", meaning: "you (singular)" },
-"你好": { pinyin: "nǐ hǎo", meaning: "hello; hi" },
-"我": { pinyin: "wǒ", meaning: "I; me; my" },
-"他": { pinyin: "tā", meaning: "he; him" },
-"她": { pinyin: "tā", meaning: "she; her" },
-"它": { pinyin: "tā", meaning: "it" },
-"很": { pinyin: "hěn", meaning: "very; rather" },
-"是": { pinyin: "shì", meaning: "is; are; am; yes; to be" },
-"的": { pinyin: "de", meaning: "possessive particle; of" },
-"得": { pinyin: "de", meaning: "structural particle after verb" },
-"地": { pinyin: "de", meaning: "-ly; structural particle before verb" },
-"喜欢": { pinyin: "xǐ huan", meaning: "to like; to be fond of" },
-"学习": { pinyin: "xué xí", meaning: "to learn; to study" },
-"汉语": { pinyin: "hàn yǔ", meaning: "Chinese language" },
-"语法": { pinyin: "yǔ fǎ", meaning: "grammar" },
-"欢迎": { pinyin: "huān yíng", meaning: "welcome; to greet" },
-"光临": { pinyin: "guāng lín", meaning: "honorable presence (of a guest)" },
-"一起": { pinyin: "yī qǐ", meaning: "together; in company" },
-"知道": { pinyin: "zhī dào", meaning: "to know; to be aware of" },
-"知": { pinyin: "zhī", meaning: "to know; to understand" },
-"为": { pinyin: "wéi", meaning: "as; to act as; to be" },
-"天天": { pinyin: "tiān tiān", meaning: "every day; daily" },
-"向上": { pinyin: "xiàng shàng", meaning: "upward; to advance" },
-"好好学习": { pinyin: "hǎo hǎo xué xí", meaning: "study hard; study well" },
-"天天向上": { pinyin: "tiān tiān xiàng shàng", meaning: "make progress every day" },
-"千里之行": { pinyin: "qiān lǐ zhī xíng", meaning: "a journey of a thousand miles" },
-"始于足下": { pinyin: "shǐ yú zú xià", meaning: "begins with a single step" },
-"如果": { pinyin: "rú guǒ", meaning: "if; in case; in the event that" },
-"坚持": { pinyin: "jiān chí", meaning: "to persevere; to insist on" },
-"每天": { pinyin: "měi tiān", meaning: "every day; daily" },
-"一定": { pinyin: "yī dìng", meaning: "surely; certainly; necessarily" },
-"会": { pinyin: "huì", meaning: "can; to be able to; will" },
-"越来越": { pinyin: "yuè lái yuè", meaning: "more and more" }
+"今": { pinyin: "jīn", meaning: "now; present; current; today", hsk: 1 },
+"天": { pinyin: "tiān", meaning: "day; sky; heaven; weather", hsk: 1 },
+"气": { pinyin: "qì", meaning: "air; gas; breath; weather; spirit", hsk: 1 },
+"公": { pinyin: "gōng", meaning: "public; common; shared", hsk: 2 },
+"园": { pinyin: "yuán", meaning: "garden; park; orchard", hsk: 2 },
+"散": { pinyin: "sàn", meaning: "to scatter; to disperse; leisurely", hsk: 4 },
+"步": { pinyin: "bù", meaning: "step; pace; walk; stage", hsk: 2 },
+"们": { pinyin: "men", meaning: "plural marker for pronouns/people", hsk: 1 },
+"学": { pinyin: "xué", meaning: "to learn; to study; science", hsk: 1 },
+"习": { pinyin: "xí", meaning: "to practice; to exercise; habit", hsk: 1 },
+"汉": { pinyin: "hàn", meaning: "Han ethnicity; Chinese", hsk: 1 },
+"语": { pinyin: "yǔ", meaning: "language; speech; words", hsk: 1 },
+"法": { pinyin: "fǎ", meaning: "law; method; way; rule", hsk: 3 },
+"欢": { pinyin: "huān", meaning: "joyous; happy; pleased", hsk: 1 },
+"迎": { pinyin: "yíng", meaning: "to welcome; to meet; to greet", hsk: 2 },
+"光": { pinyin: "guāng", meaning: "light; ray; bright; honor", hsk: 4 },
+"临": { pinyin: "lín", meaning: "to face; to arrive; to be present", hsk: 5 },
+"喜": { pinyin: "xǐ", meaning: "to be fond of; happy; delight", hsk: 1 },
+"一": { pinyin: "yī", meaning: "one; single; a(n); whole", hsk: 1 },
+"起": { pinyin: "qǐ", meaning: "to rise; to start; upward", hsk: 1 },
+"道": { pinyin: "dào", meaning: "road; path; principle; to say", hsk: 2 },
+"千": { pinyin: "qiān", meaning: "thousand; many", hsk: 2 },
+"里": { pinyin: "lǐ", meaning: "inside; Chinese mile (500m)", hsk: 1 },
+"之": { pinyin: "zhī", meaning: "of (literary possessive); him/her/it", hsk: 4 },
+"行": { pinyin: "xíng", meaning: "to walk; to travel; journey; capable; ok", hsk: 2 },
+"始": { pinyin: "shǐ", meaning: "to begin; start; initial", hsk: 2 },
+"于": { pinyin: "yú", meaning: "at; in; on; from; by", hsk: 3 },
+"足": { pinyin: "zú", meaning: "foot; sufficient; enough", hsk: 3 },
+"下": { pinyin: "xià", meaning: "down; below; under; next", hsk: 1 },
+"如": { pinyin: "rú", meaning: "if; as; like; according to", hsk: 3 },
+"果": { pinyin: "guǒ", meaning: "fruit; result; consequence", hsk: 1 },
+"坚": { pinyin: "jiān", meaning: "strong; solid; firm; resolute", hsk: 4 },
+"持": { pinyin: "chí", meaning: "to hold; to maintain; to support", hsk: 4 },
+"每": { pinyin: "měi", meaning: "every; each", hsk: 2 },
+"定": { pinyin: "dìng", meaning: "to set; to fix; to determine; surely", hsk: 3 },
+"越": { pinyin: "yuè", meaning: "to exceed; to climb over; the more...", hsk: 3 },
+"来": { pinyin: "lái", meaning: "to come; to arrive", hsk: 1 },
+"向": { pinyin: "xiàng", meaning: "towards; direction; to face", hsk: 3 },
+"上": { pinyin: "shàng", meaning: "up; above; on; previous", hsk: 1 },
+"而": { pinyin: "ér", meaning: "and; as well as; but (not); yet", hsk: 4 },
+"不": { pinyin: "bù", meaning: "not; no", hsk: 1 },
+"思": { pinyin: "sī", meaning: "to think; to consider; to ponder", hsk: 2 },
+"则": { pinyin: "zé", meaning: "standard; norm; then; thereupon", hsk: 4 },
+"罔": { pinyin: "wǎng", meaning: "confused; deceived", hsk: 7 },
+"殆": { pinyin: "dài", meaning: "perilous; in danger; weary", hsk: 7 },
+"今天": { pinyin: "jīn tiān", meaning: "today; present; now", hsk: 1 },
+"天气": { pinyin: "tiān qì", meaning: "weather", hsk: 1 },
+"真": { pinyin: "zhēn", meaning: "really; truly; genuine", hsk: 2 },
+"好": { pinyin: "hǎo", meaning: "good; well; proper", hsk: 1 },
+"我们": { pinyin: "wǒ men", meaning: "we; us; ourselves", hsk: 1 },
+"去": { pinyin: "qù", meaning: "to go; to leave", hsk: 1 },
+"公园": { pinyin: "gōng yuán", meaning: "public park", hsk: 3 },
+"散步": { pinyin: "sàn bù", meaning: "to take a walk; to stroll", hsk: 4 },
+"吧": { pinyin: "ba", meaning: "modal particle indicating suggestion", hsk: 2 },
+"你": { pinyin: "nǐ", meaning: "you (singular)", hsk: 1 },
+"你好": { pinyin: "nǐ hǎo", meaning: "hello; hi", hsk: 1 },
+"我": { pinyin: "wǒ", meaning: "I; me; my", hsk: 1 },
+"他": { pinyin: "tā", meaning: "he; him", hsk: 1 },
+"她": { pinyin: "tā", meaning: "she; her", hsk: 1 },
+"它": { pinyin: "tā", meaning: "it", hsk: 2 },
+"很": { pinyin: "hěn", meaning: "very; rather", hsk: 1 },
+"是": { pinyin: "shì", meaning: "is; are; am; yes; to be", hsk: 1 },
+"的": { pinyin: "de", meaning: "possessive particle; of", hsk: 1 },
+"得": { pinyin: "de", meaning: "structural particle after verb", hsk: 2 },
+"地": { pinyin: "de", meaning: "-ly; structural particle before verb", hsk: 3 },
+"喜欢": { pinyin: "xǐ huan", meaning: "to like; to be fond of", hsk: 1 },
+"学习": { pinyin: "xué xí", meaning: "to learn; to study", hsk: 1 },
+"汉语": { pinyin: "hàn yǔ", meaning: "Chinese language", hsk: 1 },
+"语法": { pinyin: "yǔ fǎ", meaning: "grammar", hsk: 4 },
+"欢迎": { pinyin: "huān yíng", meaning: "welcome; to greet", hsk: 2 },
+"光临": { pinyin: "guāng lín", meaning: "honorable presence (of a guest)", hsk: 5 },
+"一起": { pinyin: "yī qǐ", meaning: "together; in company", hsk: 2 },
+"知道": { pinyin: "zhī dào", meaning: "to know; to be aware of", hsk: 2 },
+"知": { pinyin: "zhī", meaning: "to know; to understand", hsk: 2 },
+"为": { pinyin: "wéi", meaning: "as; to act as; to be", hsk: 3 },
+"天天": { pinyin: "tiān tiān", meaning: "every day; daily", hsk: 1 },
+"向上": { pinyin: "xiàng shàng", meaning: "upward; to advance", hsk: 2 },
+"好好学习": { pinyin: "hǎo hǎo xué xí", meaning: "study hard; study well", hsk: 2 },
+"天天向上": { pinyin: "tiān tiān xiàng shàng", meaning: "make progress every day", hsk: 2 },
+"千里之行": { pinyin: "qiān lǐ zhī xíng", meaning: "a journey of a thousand miles", hsk: 6 },
+"始于足下": { pinyin: "shǐ yú zú xià", meaning: "begins with a single step", hsk: 6 },
+"如果": { pinyin: "rú guǒ", meaning: "if; in case; in the event that", hsk: 3 },
+"坚持": { pinyin: "jiān chí", meaning: "to persevere; to insist on", hsk: 4 },
+"每天": { pinyin: "měi tiān", meaning: "every day; daily", hsk: 2 },
+"一定": { pinyin: "yī dìng", meaning: "surely; certainly; necessarily", hsk: 3 },
+"会": { pinyin: "huì", meaning: "can; to be able to; will", hsk: 1 },
+"越来越": { pinyin: "yuè lái yuè", meaning: "more and more", hsk: 3 },
+"朋友": { pinyin: "péng you", meaning: "friend", hsk: 1 }
 };
 
 const TONE_VOWEL_MAP = {
@@ -1842,6 +2294,7 @@ subTab: 'vocab',
 syllabus: 'all',
 speechRate: 0.85,
 drkMap: new Map(),
+wordLevelMap: new Map(),
 gtCache: new Map(),
 bookmarks: new Map(),
 leonPosMap: {},
@@ -1860,11 +2313,15 @@ fcIndex: 0,
 quizScore: 0,
 quizTotal: 0,
 quizStreak: 0,
+mwScore: 0,
+mwTotal: 0,
+mwStreak: 0,
 writers: []
 };
 
 Object.entries(BUILTIN_COMMON_DICT).forEach(([k, v]) => {
 appState.drkMap.set(k, v);
+if (v.hsk) appState.wordLevelMap.set(k, v.hsk);
 });
 
 function detectToneNumber(syllable) {
@@ -2337,41 +2794,39 @@ c.classList.toggle('active', c.getAttribute('data-target') === String(target));
 });
 document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
 
-document.getElementById('view-overview').style.display = target === 'overview' ? 'block' : 'none';
-document.getElementById('view-converter').style.display = target === 'converter' ? 'block' : 'none';
-document.getElementById('view-sentences').style.display = target === 'sentences' ? 'block' : 'none';
-document.getElementById('view-bookmarks').style.display = target === 'bookmarks' ? 'block' : 'none';
-document.getElementById('view-facts').style.display = target === 'facts' ? 'block' : 'none';
-document.getElementById('view-level').style.display = typeof target === 'number' ? 'block' : 'none';
+const views = ['overview', 'converter', 'radicals', 'classifiers', 'worksheet', 'sentences', 'bookmarks', 'facts', 'level'];
+views.forEach(v => {
+const el = document.getElementById(`view-${v}`);
+if (el) el.style.display = 'none';
+});
 
-if (target === 'overview') {
-appState.view = 'overview';
-document.getElementById('side-overview')?.classList.add('active');
-document.getElementById('mob-nav-overview')?.classList.add('active');
-} else if (target === 'converter') {
-appState.view = 'converter';
-document.getElementById('side-converter')?.classList.add('active');
-document.getElementById('mob-nav-converter')?.classList.add('active');
-updateConverterCounter();
-processTextConverter();
-} else if (target === 'sentences') {
-appState.view = 'sentences';
-document.getElementById('side-sentences')?.classList.add('active');
-document.getElementById('mob-nav-sentences')?.classList.add('active');
-ensureSentenceCorpusLoaded().then(() => runSentenceSearch());
-} else if (target === 'bookmarks') {
-appState.view = 'bookmarks';
-document.getElementById('side-bookmarks')?.classList.add('active');
-document.getElementById('mob-nav-bookmarks')?.classList.add('active');
-renderBookmarksView();
-} else if (target === 'facts') {
-appState.view = 'facts';
-document.getElementById('side-facts')?.classList.add('active');
-} else {
+if (typeof target === 'number') {
+document.getElementById('view-level').style.display = 'block';
 appState.view = 'level';
 document.getElementById(`side-lvl-${target}`)?.classList.add('active');
-document.getElementById('mob-nav-vocab')?.classList.add('active');
 loadHSKLevel(target);
+} else {
+const activeEl = document.getElementById(`view-${target}`);
+if (activeEl) activeEl.style.display = 'block';
+appState.view = target;
+document.getElementById(`side-${target}`)?.classList.add('active');
+document.getElementById(`mob-nav-${target}`)?.classList.add('active');
+
+if (target === 'converter') {
+updateConverterCounter();
+processTextConverter();
+} else if (target === 'radicals') {
+renderRadicalsStudio();
+} else if (target === 'classifiers') {
+renderMeasureWordDirectory();
+if (appState.mwTotal === 0) nextMeasureWordQuestion();
+} else if (target === 'worksheet') {
+renderWorksheetPreview();
+} else if (target === 'sentences') {
+ensureSentenceCorpusLoaded().then(() => runSentenceSearch());
+} else if (target === 'bookmarks') {
+renderBookmarksView();
+}
 }
 window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2419,6 +2874,17 @@ function loadConverterSample(text) {
 document.getElementById('converter-input').value = text;
 updateConverterCounter();
 processTextConverter();
+}
+
+function sendConverterTextToWorksheet() {
+const txt = document.getElementById('converter-input').value.replace(/[^\u4e00-\u9fa5]/g, '').slice(0, 25);
+if (!txt) {
+showToast('Enter some Chinese characters first!');
+return;
+}
+document.getElementById('ws-source-select').value = 'custom';
+document.getElementById('ws-chars-input').value = txt;
+navigateApp('worksheet');
 }
 
 function copyTextValue(elementId, label) {
@@ -2484,6 +2950,71 @@ i++;
 return tokens;
 }
 
+function getWordHSKLevel(word) {
+if (appState.wordLevelMap.has(word)) return appState.wordLevelMap.get(word);
+const chars = Array.from(word);
+let maxCharLvl = 0;
+for (const c of chars) {
+const cl = appState.wordLevelMap.get(c) || 0;
+if (cl > maxCharLvl) maxCharLvl = cl;
+}
+return maxCharLvl;
+}
+
+function renderReadabilityDistribution(zhSegments) {
+const barEl = document.getElementById('readability-bar');
+const legEl = document.getElementById('readability-legend');
+const estEl = document.getElementById('readability-cefr-estimate');
+if (!barEl || !legEl) return;
+
+const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 0: 0 };
+const total = zhSegments.length || 1;
+let weightedSum = 0;
+let gradedCount = 0;
+
+zhSegments.forEach(seg => {
+const lvl = getWordHSKLevel(seg.text);
+counts[lvl] = (counts[lvl] || 0) + 1;
+if (lvl > 0) {
+weightedSum += lvl;
+gradedCount++;
+}
+});
+
+const avgLvl = gradedCount > 0 ? (weightedSum / gradedCount) : 1;
+let cefrText = "HSK 1–2 (Beginner A1–A2)";
+if (avgLvl >= 5.2) cefrText = "HSK 6–9 (Advanced C1–C2)";
+else if (avgLvl >= 3.8) cefrText = "HSK 4–5 (Upper-Intermediate B2–C1)";
+else if (avgLvl >= 2.4) cefrText = "HSK 3–4 (Intermediate B1–B2)";
+if (estEl) estEl.textContent = `Overall Grade: ${cefrText}`;
+
+const bands = [
+{ key: 1, label: "HSK 1", color: "var(--lvl-1)" },
+{ key: 2, label: "HSK 2", color: "var(--lvl-2)" },
+{ key: 3, label: "HSK 3", color: "var(--lvl-3)" },
+{ key: 4, label: "HSK 4", color: "var(--lvl-4)" },
+{ key: 5, label: "HSK 5", color: "var(--lvl-5)" },
+{ key: 6, label: "HSK 6", color: "var(--lvl-6)" },
+{ key: 7, label: "HSK 7–9", color: "var(--lvl-7)" },
+{ key: 0, label: "Unlisted / Proper", color: "var(--lvl-0)" }
+];
+
+barEl.innerHTML = bands.filter(b => counts[b.key] > 0).map(b => {
+const pct = ((counts[b.key] / total) * 100).toFixed(1);
+return `<div class="readability-seg" style="width:${pct}%; background:${b.color};" title="${b.label}: ${counts[b.key]} words (${pct}%)"></div>`;
+}).join('');
+
+legEl.innerHTML = bands.filter(b => counts[b.key] > 0).map(b => {
+const pct = Math.round((counts[b.key] / total) * 100);
+return `
+<span class="readability-chip">
+<span style="width:9px; height:9px; border-radius:50%; background:${b.color}; display:inline-block;"></span>
+<span>${b.label}: ${counts[b.key]} (${pct}%)</span>
+</span>
+`;
+}).join('');
+}
+
 async function fetchGoogleTranslate(text) {
 if (!text || !text.trim()) return "";
 const key = text.trim();
@@ -2539,7 +3070,7 @@ return;
 }
 
 if (submitBtn) submitBtn.disabled = true;
-if (convertBtnText) convertBtnText.textContent = "⏳ Translating...";
+if (convertBtnText) convertBtnText.textContent = "⏳ Analyzing & Translating...";
 
 const fullChars = Array.from(input);
 const fullBaseSyls = getBaseSyllableArrayForText(input);
@@ -2547,6 +3078,8 @@ const fullSandhi = analyzeToneSandhiForSequence(fullChars, fullBaseSyls);
 
 const segments = segmentChineseGreedy(input);
 const zhSegments = segments.filter(seg => seg.isZh);
+
+renderReadabilityDistribution(zhSegments);
 
 const allItemsToTranslate = new Set();
 zhSegments.forEach(seg => {
@@ -2625,6 +3158,7 @@ return;
 }
 
 const item = appState.drkMap.get(seg.text);
+const hskLvl = getWordHSKLevel(seg.text);
 const segSpokenSyls = fullSandhi.spokenSyllables.slice(startIdx, startIdx + segLen);
 const segOrigSyls = fullSandhi.origSyllables.slice(startIdx, startIdx + segLen);
 const segSpokenPy = segSpokenSyls.join(' ');
@@ -2643,6 +3177,12 @@ const isSaved = appState.bookmarks.has(seg.text);
 
 const tile = document.createElement('div');
 tile.className = 'annotated-tile';
+
+const lvlBadge = document.createElement('span');
+lvlBadge.className = `lvl-tag-pill lvl-bg-${hskLvl}`;
+lvlBadge.style.marginBottom = '0.25rem';
+lvlBadge.textContent = hskLvl === 0 ? 'Unlisted' : (hskLvl === 7 ? 'HSK 7–9' : `HSK ${hskLvl}`);
+tile.appendChild(lvlBadge);
 
 const pyEl = document.createElement('div');
 pyEl.className = 'annotated-pinyin';
@@ -2733,7 +3273,7 @@ btnSpeak.onclick = () => speakChinese(seg.text);
 
 const btnStroke = document.createElement('button');
 btnStroke.className = 'mini-btn';
-btnStroke.title = 'Stroke Order';
+btnSpeak.title = 'Stroke Order';
 btnStroke.textContent = '✍️';
 btnStroke.onclick = () => openWordInStrokeLab(seg.text);
 
@@ -2742,7 +3282,7 @@ btnSave.className = 'mini-btn' + (isSaved ? ' bookmarked' : '');
 btnSave.title = 'Bookmark Word';
 btnSave.textContent = '★';
 btnSave.onclick = () => {
-toggleBookmark(seg.text, segSpokenPy, dictMeaning || gtMeaning, 'Pinyin Studio');
+toggleBookmark(seg.text, segSpokenPy, dictMeaning || gtMeaning, hskLvl ? `HSK ${hskLvl}` : 'Pinyin Studio');
 btnSave.classList.toggle('bookmarked', appState.bookmarks.has(seg.text));
 };
 
@@ -2754,9 +3294,241 @@ tile.appendChild(actionsEl);
 tilesContainer.appendChild(tile);
 });
 
-if (convertBtnText) convertBtnText.textContent = "⚡ Convert & Translate";
+if (convertBtnText) convertBtnText.textContent = "⚡ Convert, Translate & Grade";
 if (submitBtn) submitBtn.disabled = false;
 panel.style.display = 'block';
+}
+
+function renderRadicalsStudio() {
+const q = (document.getElementById('radical-search-input')?.value || '').trim().toLowerCase();
+const famContainer = document.getElementById('decomp-families-container');
+const radContainer = document.getElementById('radicals-grid-container');
+if (!famContainer || !radContainer) return;
+
+famContainer.innerHTML = PHONO_FAMILIES.map(f => `
+<div class="radical-card">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<div>
+<span class="fact-badge">Phonetic Root (声旁)</span>
+<div style="font-size:1.3rem; font-weight:800;">${renderToneColoredHanziPerChar(f.root, f.py)} <span style="font-size:0.9rem;">(${renderColoredPinyinHTML(f.py)})</span></div>
+</div>
+<button class="mini-btn" onclick="speakChinese('${f.root}')">🔊</button>
+</div>
+<div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.3rem;">${encodeHTML(f.rootMeaning)}</div>
+<div style="display:flex; flex-direction:column; gap:0.35rem; border-top:1px solid var(--border); padding-top:0.5rem;">
+${f.members.map(m => `
+<div style="display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; background:var(--bg-elevated); padding:0.35rem 0.6rem; border-radius:6px; cursor:pointer;" onclick="speakChinese('${m.hz}')">
+<div>
+<strong style="font-size:1.05rem;">${renderToneColoredHanziPerChar(m.hz, m.py)}</strong>
+<span style="margin-left:0.25rem;">${renderColoredPinyinHTML(m.py)}</span>
+<span class="pos-badge" style="margin-left:0.3rem;">+ ${encodeHTML(m.rad)}</span>
+</div>
+<span style="color:var(--text-muted); font-size:0.76rem;">${encodeHTML(m.mean)}</span>
+</div>
+`).join('')}
+</div>
+</div>
+`).join('');
+
+const filteredRads = RADICALS_DB.filter(r =>
+!q ||
+r.rad.includes(q) ||
+r.alt.includes(q) ||
+r.name.toLowerCase().includes(q) ||
+r.meaning.toLowerCase().includes(q) ||
+r.examples.some(ex => ex.includes(q))
+);
+
+radContainer.innerHTML = filteredRads.map(r => `
+<div class="radical-card">
+<div style="display:flex; gap:0.75rem; align-items:center;">
+<div class="radical-glyph-box">${encodeHTML(r.rad)}</div>
+<div>
+<div style="font-weight:800; font-size:0.95rem;">${encodeHTML(r.name)}</div>
+<div style="font-size:0.82rem;">${renderColoredPinyinHTML(r.py)} ${r.alt !== r.rad ? `<span style="color:var(--text-muted);">(Full: ${encodeHTML(r.alt)})</span>` : ''}</div>
+</div>
+</div>
+<div style="font-size:0.83rem; color:var(--text-main); font-weight:600; margin-top:0.2rem;">Meaning: <span style="color:var(--text-muted); font-weight:500;">${encodeHTML(r.meaning)}</span></div>
+<div style="display:flex; flex-wrap:wrap; gap:0.3rem; margin-top:0.3rem;">
+${r.examples.map(ex => `
+<button class="mini-btn" style="width:auto; padding:0 0.45rem; font-weight:700;" title="Click to pronounce or view strokes" onclick="speakChinese('${ex}')">${encodeHTML(ex)}</button>
+`).join('')}
+</div>
+</div>
+`).join('');
+}
+
+function setMeasureWordSubTab(tab) {
+document.getElementById('mw-tab-quiz')?.classList.toggle('active', tab === 'quiz');
+document.getElementById('mw-tab-ref')?.classList.toggle('active', tab === 'ref');
+document.getElementById('mw-panel-quiz').style.display = tab === 'quiz' ? 'block' : 'none';
+document.getElementById('mw-panel-ref').style.display = tab === 'ref' ? 'block' : 'none';
+}
+
+function nextMeasureWordQuestion() {
+const allPairs = [];
+MEASURE_WORDS_DB.forEach(group => {
+group.nouns.forEach(n => {
+allPairs.push({ mw: group.mw, mwPy: group.py, usage: group.usage, noun: n });
+});
+});
+const target = allPairs[Math.floor(Math.random() * allPairs.length)];
+const options = [target];
+while (options.length < 4) {
+const candGroup = MEASURE_WORDS_DB[Math.floor(Math.random() * MEASURE_WORDS_DB.length)];
+if (!options.some(o => o.mw === candGroup.mw)) {
+options.push({ mw: candGroup.mw, mwPy: candGroup.py, usage: candGroup.usage });
+}
+}
+options.sort(() => Math.random() - 0.5);
+
+document.getElementById('mw-quiz-prompt').innerHTML = `一 ( <span style="color:var(--primary);">?</span> ) ${encodeHTML(target.noun.hz)}`;
+document.getElementById('mw-quiz-noun-info').innerHTML = `${renderColoredPinyinHTML(target.noun.py)} — <strong>${encodeHTML(target.noun.en)}</strong>`;
+const fb = document.getElementById('mw-quiz-feedback');
+fb.textContent = '';
+
+const box = document.getElementById('mw-quiz-options');
+box.innerHTML = '';
+options.forEach(opt => {
+const btn = document.createElement('button');
+btn.className = 'quiz-opt-btn';
+btn.style.textAlign = 'center';
+btn.innerHTML = `<div style="font-size:1.5rem; font-weight:800;">${encodeHTML(opt.mw)}</div><div style="font-size:0.82rem;">${renderColoredPinyinHTML(opt.mwPy)}</div>`;
+btn.onclick = () => {
+const allBtns = box.querySelectorAll('.quiz-opt-btn');
+allBtns.forEach(b => b.disabled = true);
+appState.mwTotal++;
+const fullPhrase = `一${target.mw}${target.noun.hz}`;
+if (opt.mw === target.mw) {
+btn.classList.add('correct');
+appState.mwScore++;
+appState.mwStreak++;
+document.getElementById('mw-quiz-prompt').innerHTML = `${renderToneColoredHanziPerChar(fullPhrase)}`;
+fb.style.color = 'var(--success)';
+fb.innerHTML = `✅ Correct! <strong>${encodeHTML(fullPhrase)}</strong> (${renderColoredPinyinHTML(computePinyinSafe(fullPhrase))}) — ${encodeHTML(target.usage)}`;
+speakChinese(fullPhrase);
+} else {
+btn.classList.add('wrong');
+appState.mwStreak = 0;
+allBtns.forEach(b => {
+if (b.textContent.includes(target.mw)) b.classList.add('correct');
+});
+fb.style.color = 'var(--danger)';
+fb.innerHTML = `❌ Uses <strong>${encodeHTML(target.mw)} (${encodeHTML(target.mwPy)})</strong>: ${encodeHTML(fullPhrase)} — ${encodeHTML(target.usage)}`;
+speakChinese(fullPhrase);
+}
+document.getElementById('mw-score-pill').textContent = `Score: ${appState.mwScore} / ${appState.mwTotal}`;
+document.getElementById('mw-streak-pill').textContent = `🔥 Streak: ${appState.mwStreak}`;
+};
+box.appendChild(btn);
+});
+}
+
+function renderMeasureWordDirectory() {
+const q = (document.getElementById('mw-search-input')?.value || '').trim().toLowerCase();
+const grid = document.getElementById('mw-ref-grid');
+if (!grid) return;
+
+const filtered = MEASURE_WORDS_DB.filter(item =>
+!q ||
+item.mw.includes(q) ||
+item.py.toLowerCase().includes(q) ||
+item.usage.toLowerCase().includes(q) ||
+item.nouns.some(n => n.hz.includes(q) || n.en.toLowerCase().includes(q))
+);
+
+document.getElementById('mw-count-pill').textContent = `${filtered.length} Classifiers`;
+
+grid.innerHTML = filtered.map(item => `
+<div class="mw-card">
+<div style="display:flex; justify-content:space-between; align-items:center;">
+<div style="display:flex; align-items:baseline; gap:0.5rem;">
+<span style="font-size:1.75rem; font-weight:800;">${renderToneColoredHanziPerChar(item.mw, item.py)}</span>
+<span style="font-size:1rem;">${renderColoredPinyinHTML(item.py)}</span>
+</div>
+<button class="mini-btn" onclick="speakChinese('一个'.replace('个','${item.mw}'))">🔊</button>
+</div>
+<div style="font-size:0.8rem; color:var(--text-muted);">${encodeHTML(item.usage)}</div>
+<div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.35rem;">
+${item.nouns.map(n => {
+const phrase = `一${item.mw}${n.hz}`;
+return `<span class="status-pill" style="cursor:pointer; font-size:0.75rem;" onclick="speakChinese('${phrase}')" title="Click to hear: ${phrase}">一<strong>${encodeHTML(item.mw)}</strong>${encodeHTML(n.hz)} (${encodeHTML(n.en)}) 🔊</span>`;
+}).join('')}
+</div>
+</div>
+`).join('');
+}
+
+function populateWorksheetFromSource() {
+const src = document.getElementById('ws-source-select').value;
+const inputEl = document.getElementById('ws-chars-input');
+if (src === 'bookmarks') {
+const list = Array.from(appState.bookmarks.keys()).join('');
+inputEl.value = list || '你好今天学习汉语朋友喜欢';
+} else if (src === 'hsk1') {
+inputEl.value = '你好我他她们今天水茶饭书家爱学';
+} else if (src === 'hsk2') {
+inputEl.value = '因为所以虽然但是希望准备开始完';
+} else if (src === 'hsk3') {
+inputEl.value = '环境历史世界文化健康办法决定奇怪';
+}
+renderWorksheetPreview();
+}
+
+function renderWorksheetPreview() {
+const sheet = document.getElementById('worksheet-printable-area');
+if (!sheet) return;
+const title = document.getElementById('ws-title-input')?.value || 'HSK Character Practice Sheet';
+const rawText = document.getElementById('ws-chars-input')?.value || '';
+const traceCount = parseInt(document.getElementById('ws-trace-count')?.value || '3', 10);
+const totalBoxes = 9;
+
+const uniqueChars = Array.from(new Set(Array.from(rawText).filter(c => /[\u4e00-\u9fa5]/.test(c)))).slice(0, 30);
+
+if (uniqueChars.length === 0) {
+sheet.innerHTML = `<p style="text-align:center; padding:2rem; color:#64748b;">Please enter at least one Chinese character above to generate your Mi Zi Ge worksheet.</p>`;
+return;
+}
+
+const rowsHTML = uniqueChars.map(ch => {
+const dict = appState.drkMap.get(ch);
+const py = dict?.pinyin || getBaseCharSyllable(ch);
+const mean = dict?.meaning || 'Chinese character';
+const boxes = [];
+for (let i = 0; i < totalBoxes; i++) {
+if (i === 0) {
+boxes.push(`<div class="mizige-box"><span class="mizige-char model">${encodeHTML(ch)}</span></div>`);
+} else if (i <= traceCount) {
+boxes.push(`<div class="mizige-box"><span class="mizige-char trace">${encodeHTML(ch)}</span></div>`);
+} else {
+boxes.push(`<div class="mizige-box"></div>`);
+}
+}
+return `
+<div class="ws-row">
+<div class="ws-meta">
+<div class="ws-meta-hz">${encodeHTML(ch)} <span class="ws-meta-py">${encodeHTML(py)}</span></div>
+<div class="ws-meta-en">${encodeHTML(mean)}</div>
+</div>
+<div class="ws-boxes">
+${boxes.join('')}
+</div>
+</div>
+`;
+}).join('');
+
+sheet.innerHTML = `
+<div class="ws-header">
+<div>
+<h2 style="font-size:1.35rem; font-weight:800; color:#0f172a; margin:0;">${encodeHTML(title)}</h2>
+<div style="font-size:0.78rem; color:#475569;">HSK 1–9 Pro Hub • Mi Zi Ge (米字格) Standard Character Grid</div>
+</div>
+<div style="font-size:0.82rem; color:#0f172a;">
+Name (姓名): ___________________ &nbsp;&nbsp; Date (日期): ____________
+</div>
+</div>
+${rowsHTML}
+`;
 }
 
 async function fetchJSONSafe(url) {
@@ -2779,7 +3551,7 @@ return null;
 }
 }
 
-function normalizeDrkList(data) {
+function normalizeDrkList(data, lvl) {
 if (!Array.isArray(data)) return [];
 const out = [];
 for (const item of data) {
@@ -2789,10 +3561,14 @@ const entry = {
 hanzi: item.simplified || '',
 pinyin: trans.pinyin || '',
 pos: (item.pos || []).join(', '),
-meaning: (form.meanings || []).join('; ')
+meaning: (form.meanings || []).join('; '),
+hsk: lvl
 };
 if (entry.hanzi) {
 appState.drkMap.set(entry.hanzi, entry);
+if (lvl && !appState.wordLevelMap.has(entry.hanzi)) {
+appState.wordLevelMap.set(entry.hanzi, lvl);
+}
 out.push(entry);
 }
 }
@@ -2847,8 +3623,8 @@ if (leon20Pos && typeof leon20Pos === 'object') {
 appState.leonPosMap = leon20Pos;
 }
 
-const drkOld = normalizeDrkList(drkOldRaw);
-const drkNew = normalizeDrkList(drkNewRaw);
+const drkOld = normalizeDrkList(drkOldRaw, lvl);
+const drkNew = normalizeDrkList(drkNewRaw, lvl);
 const leon20 = parseLeonList(leon20Raw);
 const leon30 = parseLeonList(leon30Raw);
 const leon31 = parseLeonList(leon31Raw);
@@ -2858,6 +3634,9 @@ const unifiedMap = new Map();
 
 function upsertWord(hanziKey, displayHanzi, versionTag, fallbackObj) {
 if (!hanziKey) return;
+if (!appState.wordLevelMap.has(hanziKey)) {
+appState.wordLevelMap.set(hanziKey, lvl);
+}
 const dict = appState.drkMap.get(hanziKey) || (fallbackObj && fallbackObj.meaning ? fallbackObj : null);
 const existing = unifiedMap.get(hanziKey);
 const leonPos = appState.leonPosMap[hanziKey] ? appState.leonPosMap[hanziKey].join(', ') : '';
@@ -2884,7 +3663,8 @@ if (!appState.drkMap.has(hanziKey)) {
 appState.drkMap.set(hanziKey, {
 hanzi: hanziKey,
 pinyin: entryObj.pinyin,
-meaning: entryObj.meaning
+meaning: entryObj.meaning,
+hsk: lvl
 });
 }
 }
@@ -3624,11 +4404,7 @@ stepFlashcard(-1);
 initTheme();
 loadBookmarksFromStorage();
 detectAndApplyDeviceMode();
-Promise.all([
-loadUnifiedVocabForLevel(1),
-loadUnifiedVocabForLevel(2),
-loadUnifiedVocabForLevel(3)
-]);
+Promise.all([1, 2, 3, 4, 5, 6].map(l => loadUnifiedVocabForLevel(l)));
 </script>
 </body>
 </html>
