@@ -70,6 +70,10 @@ display: flex;
 flex-direction: column;
 z-index: 200;
 padding: 1.25rem;
+transition: transform 0.3s ease;
+}
+.pc-sidebar.hidden {
+transform: translateX(-100%);
 }
 .brand-box {
 display: flex;
@@ -164,6 +168,10 @@ margin-left: var(--sidebar-w);
 display: flex;
 flex-direction: column;
 min-width: 0;
+transition: margin-left 0.3s ease;
+}
+.main-workspace.expanded {
+margin-left: 0;
 }
 .top-header {
 height: var(--header-h);
@@ -184,6 +192,16 @@ align-items: center;
 gap: 0.5rem;
 flex: 1;
 max-width: 520px;
+}
+.hamburger-btn {
+background: none;
+border: none;
+font-size: 1.5rem;
+cursor: pointer;
+color: var(--text-main);
+padding-right: 0.5rem;
+display: flex;
+align-items: center;
 }
 .header-actions {
 display: flex;
@@ -833,6 +851,7 @@ max-width: 100%;
 <div class="main-workspace">
 <header class="top-header">
 <div class="header-search-quick">
+<button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
 <input type="text" id="quick-sentence-input" class="input-modern" placeholder="Input Chinese word/phrase for full sentences (e.g. 喜欢, 差不多)..." onkeydown="if(event.key==='Enter') triggerQuickSentenceSearch()">
 <button class="icon-btn" onclick="triggerQuickSentenceSearch()">💬 Sentences</button>
 </div>
@@ -1008,14 +1027,14 @@ This platform streams and unifies live data from the following open-source proje
 </section>
 <section id="view-converter" style="display:none;">
 <div class="surface-card" style="margin-bottom:1.25rem;">
-<span class="fact-badge">Instant Text Processing</span>
+<span class="fact-badge">Instant Text Processing & AI Translation</span>
 <h2>🔤 Sentence & Word to Pinyin + Meaning Converter</h2>
 <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1rem;">
-Input any Chinese words, phrases, or full sentences. The platform converts text into tone-marked Pinyin, matches dictionary meanings, and generates interactive character/word tiles.
+Input any Chinese words, phrases, or full sentences. The platform converts text into tone-marked Pinyin, matches dictionary meanings, and translates parts using Google Translate.
 </p>
 <textarea id="converter-input" class="textarea-modern" placeholder="Paste or type Chinese characters here (e.g. 欢迎光临！今天我们一起学习汉语语法。)...">学而不思则罔，思而不学则殆。今天天气真好，我们去公园散步吧！</textarea>
 <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.85rem; align-items:center;">
-<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="processTextConverter()">⚡ Convert to Pinyin & Meanings</button>
+<button class="icon-btn" style="background:var(--primary); color:#fff; border:none;" onclick="processTextConverter()"><span id="convert-btn-text">⚡ Convert to Pinyin & Meanings</span></button>
 <button class="icon-btn" onclick="speakChinese(document.getElementById('converter-input').value)">🔊 Read Aloud</button>
 <button class="icon-btn" onclick="copyPinyinResult()">📋 Copy Pinyin</button>
 <button class="icon-btn" onclick="clearConverterInput()">🗑️ Clear</button>
@@ -1030,6 +1049,10 @@ Input any Chinese words, phrases, or full sentences. The platform converts text 
 <button class="icon-btn" style="font-size:0.75rem; padding:0.25rem 0.6rem;" onclick="copyPinyinResult()">Copy</button>
 </div>
 <div class="pinyin-banner-box" id="converter-pinyin-text"></div>
+</div>
+<div class="surface-card" style="margin-bottom:1.25rem;">
+<h2>🌍 Full English Translation</h2>
+<div class="pinyin-banner-box" id="converter-translation-text" style="color:var(--text-main); font-weight: 500;"></div>
 </div>
 <div class="surface-card">
 <h2>🧩 Word & Character Breakdown (with Definitions)</h2>
@@ -1321,6 +1344,11 @@ const current = document.documentElement.getAttribute('data-theme') || 'light';
 applyTheme(current === 'dark' ? 'light' : 'dark');
 }
 
+function toggleSidebar() {
+document.querySelector('.pc-sidebar').classList.toggle('hidden');
+document.querySelector('.main-workspace').classList.toggle('expanded');
+}
+
 function initTheme() {
 let saved = 'light';
 try {
@@ -1473,22 +1501,47 @@ i++;
 return tokens;
 }
 
-function processTextConverter() {
+async function fetchGoogleTranslate(text) {
+if(!text) return "";
+try {
+const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+const data = await res.json();
+return data[0].map(x => x[0]).join('');
+} catch(e) {
+return "Translation unavailable";
+}
+}
+
+async function processTextConverter() {
 const input = document.getElementById('converter-input').value.trim();
 const panel = document.getElementById('converter-output-panel');
 const pinyinBanner = document.getElementById('converter-pinyin-text');
+const translationBanner = document.getElementById('converter-translation-text');
 const tilesContainer = document.getElementById('converter-tiles-container');
+const convertBtnText = document.getElementById('convert-btn-text');
 
 if (!input) {
 panel.style.display = 'none';
 return;
 }
 
+convertBtnText.textContent = "⏳ Translating...";
+
 const fullPinyin = computePinyinSafe(input);
 pinyinBanner.textContent = fullPinyin;
 
+const wholeTranslation = await fetchGoogleTranslate(input);
+translationBanner.textContent = wholeTranslation;
+
 const segments = segmentChineseGreedy(input);
 tilesContainer.innerHTML = '';
+
+const zhSegments = segments.filter(seg => seg.isZh);
+const bulkText = zhSegments.map(seg => seg.text).join(' \n ');
+const bulkTranslationStr = zhSegments.length > 0 ? await fetchGoogleTranslate(bulkText) : "";
+const bulkTranslations = bulkTranslationStr.split('\n').map(s => s.trim());
+
+let zhIndex = 0;
 
 segments.forEach(seg => {
 if (!seg.isZh) {
@@ -1505,7 +1558,13 @@ return;
 
 const item = appState.drkMap.get(seg.text);
 const pinyinVal = item?.pinyin || computePinyinSafe(seg.text);
-const meaningVal = item?.meaning || 'Common Chinese character/word';
+let meaningVal = item?.meaning || 'Common Chinese character/word';
+const gtMeaning = bulkTranslations[zhIndex] || '';
+zhIndex++;
+
+if (gtMeaning && gtMeaning.toLowerCase() !== seg.text.toLowerCase()) {
+meaningVal = `<strong style="color:var(--primary)">[GT: ${gtMeaning}]</strong><br>` + meaningVal;
+}
 
 const tile = document.createElement('div');
 tile.className = 'annotated-tile';
@@ -1525,7 +1584,7 @@ openWordInStrokeLab(seg.text);
 
 const meanEl = document.createElement('div');
 meanEl.className = 'annotated-meaning';
-meanEl.textContent = meaningVal;
+meanEl.innerHTML = meaningVal;
 
 tile.appendChild(pyEl);
 tile.appendChild(hanziEl);
@@ -1533,6 +1592,7 @@ tile.appendChild(meanEl);
 tilesContainer.appendChild(tile);
 });
 
+convertBtnText.textContent = "⚡ Convert to Pinyin & Meanings";
 panel.style.display = 'block';
 }
 
