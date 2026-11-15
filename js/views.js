@@ -98,6 +98,9 @@ $$("#an-views button").forEach(b => b.classList.toggle("on", b.dataset.v === AN.
 const target = anTarget();
 const unique = $("#an-unique").checked;
 $("#an-unique").closest("label").hidden = AN.view === "ruby";
+$("#an-ext").closest("label").hidden = AN.view === "ruby";
+const ext = !!S.settings.extBreakdown;
+if (ext) ensureDecomp();
 if (AN.view === "ruby") {
 box.innerHTML = `<div class="ruby-view">${AN.tokens
 .map(t => {
@@ -119,14 +122,14 @@ box.innerHTML = `<div class="tile-wrap">${shown
 const mean = anMeaning(w);
 const e = getEntry(w.key);
 const chars = Array.from(w.key);
-return `<div class="tile"><span class="t-py">${pinyinHTML(w.spoken)}</span><span class="t-hz han" data-act="open-word" data-key="${esc(w.key)}">${hanziHTML(w.key, w.key, e ? e.pinyin : "")}</span>${levelTagHTML(w.level)}<span class="t-mn">${mean ? esc(mean) : '<span class="faint">…</span>'}</span>${chars.length > 1 ? `<div class="t-chars">${chars.map((c, i) => `<span class="t-ch" data-act="open-word" data-key="${esc(c)}"><b>${esc(c)}</b>${esc(shortMeaning((getEntry(c) || {}).meaning, 1))}</span>`).join("")}</div>` : ""}<div class="t-acts"><button class="mini" data-act="speak" data-t="${esc(w.key)}" aria-label="Listen">${ico("volume")}</button><button class="mini ${S.deck.has(w.key) ? "on" : ""}" data-act="save" data-key="${esc(w.key)}" aria-label="Save">${ico("star")}</button></div></div>`;
+return `<div class="tile"><span class="t-py">${pinyinHTML(w.spoken)}</span><span class="t-hz han" data-act="open-word" data-key="${esc(w.key)}">${hanziHTML(w.key, w.key, e ? e.pinyin : "")}</span>${levelTagHTML(w.level)}<span class="t-mn">${mean ? esc(mean) : '<span class="faint">…</span>'}</span>${chars.length > 1 ? `<div class="t-chars">${chars.map((c, i) => `<span class="t-ch" data-act="open-word" data-key="${esc(c)}"><b>${esc(c)}</b>${esc(shortMeaning((getEntry(c) || {}).meaning, 1))}</span>`).join("")}</div>` : ""}${ext ? `<div class="t-struct">${chars.filter(isZh).map(decompHTML).join("")}</div>` : ""}<div class="t-acts"><button class="mini" data-act="speak" data-t="${esc(w.key)}" aria-label="Listen">${ico("volume")}</button><button class="mini ${S.deck.has(w.key) ? "on" : ""}" data-act="save" data-key="${esc(w.key)}" aria-label="Save">${ico("star")}</button></div></div>`;
 })
 .join("")}</div>${list.length > shown.length ? `<p class="small muted mt-s">Showing the first ${shown.length} of ${list.length}.</p>` : ""}`;
 return;
 }
-box.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>Word</th><th>Pinyin</th><th>Meaning</th><th>Level</th>${unique ? "<th>Count</th>" : ""}<th></th></tr></thead><tbody>${list
+box.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>Word</th><th>Pinyin</th><th>Meaning</th><th>Level</th>${unique ? "<th>Count</th>" : ""}${ext ? "<th>Components</th>" : ""}<th></th></tr></thead><tbody>${list
 .slice(0, 400)
-.map(w => `<tr><td class="hz-cell"><a href="#" data-act="open-word" data-key="${esc(w.key)}" style="color:inherit">${esc(w.key)}</a></td><td class="py">${pinyinHTML(w.spoken)}</td><td>${esc(anMeaning(w)) || '<span class="faint">…</span>'}</td><td>${levelTagHTML(w.level)}</td>${unique ? `<td>${w.count}</td>` : ""}<td><button class="mini ${S.deck.has(w.key) ? "on" : ""}" data-act="save" data-key="${esc(w.key)}" aria-label="Save">${ico("star")}</button></td></tr>`)
+.map(w => `<tr><td class="hz-cell"><a href="#" data-act="open-word" data-key="${esc(w.key)}" style="color:inherit">${esc(w.key)}</a></td><td class="py">${pinyinHTML(w.spoken)}</td><td>${esc(anMeaning(w)) || '<span class="faint">…</span>'}</td><td>${levelTagHTML(w.level)}</td>${unique ? `<td>${w.count}</td>` : ""}${ext ? `<td class="han">${Array.from(w.key).filter(isZh).map(c => { const t = compTree(c); return t.kids.length ? `${esc(c)} ⇒ ${esc(compFlat(t))}` : `${esc(c)} ⇒ basic`; }).join("<br>")}</td>` : ""}<td><button class="mini ${S.deck.has(w.key) ? "on" : ""}" data-act="save" data-key="${esc(w.key)}" aria-label="Save">${ico("star")}</button></td></tr>`)
 .join("")}</tbody></table></div><div class="row mt-s"><button class="btn sm" data-act="an-copy" data-what="table">${ico("copy")}Copy as TSV</button></div>`;
 }
 
@@ -702,6 +705,7 @@ if (typeof v === "number" && !Number.isFinite(v)) return;
 S.settings[k] = v;
 persist.settings();
 applySettings();
+if (k === "extBreakdown") extRefresh();
 }
 function backupObject() {
 return { app: "hsk-hub", version: 1, exported: new Date().toISOString(), settings: S.settings, deck: Array.from(S.deck.values()), srs: S.srs, stats: S.stats, misc: S.misc };
