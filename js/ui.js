@@ -261,6 +261,7 @@ ${a.notes.length ? `<div class="mt-s">${sandhiPill(a, true)}</div><p class="tiny
 ${meanings.length ? `<ol style="padding-left:1.2rem;display:flex;flex-direction:column;gap:.2rem">${meanings.map(m => `<li>${esc(m)}</li>`).join("")}</ol>` : `<p class="muted small" id="gloss-slot">No definition in the offline dictionary. <button class="btn sm" data-act="gloss" data-key="${esc(key)}">${ico("globe")}Translate</button></p>`}
 <div class="row mt-s">${entry.pos ? `<span class="pos">${esc(entry.pos)}</span>` : ""}${vers ? Array.from(vers).map(v => `<span class="ver">${v === "hsk20" ? "HSK 2.0" : v === "hsk30" ? "HSK 3.0" : "HSK 3.1"}</span>`).join("") : ""}${st !== "new" ? `<span class="chip ${st === "due" ? "seal" : "jade"}">${st}</span>` : ""}</div></div>
 ${charRows ? `<div class="d-sec"><h3 class="sub">Characters</h3>${charRows}</div>` : ""}
+${chars.length ? `<div class="d-sec" id="d-struct">${structInnerHTML(chars.slice(0, 6))}</div>` : ""}
 ${chars.length ? `<div class="d-sec"><h3 class="sub">Stroke order <span class="faint" style="text-transform:none;letter-spacing:0">· tap to animate</span></h3><div class="stroke-stage" id="d-strokes" style="justify-content:flex-start;margin:.3rem 0"></div></div>` : ""}
 <div class="d-sec"><h3 class="sub">Example sentences</h3><div id="d-examples"></div></div>
 ${related.length ? `<div class="d-sec"><h3 class="sub">Related words</h3><div class="row">${related.slice(0, 14).map(k => `<button class="chip" data-act="open-word" data-key="${esc(k)}"><span class="han">${esc(k)}</span></button>`).join("")}</div></div>` : ""}
