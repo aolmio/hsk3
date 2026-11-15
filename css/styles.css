@@ -542,6 +542,16 @@ html, body { background: #fff !important; color: #000 !important; }
 .chip.jade { background: var(--jade-soft, var(--sunken)); color: var(--jade); }
 .zbox svg { width: 90%; height: 90%; display: block; }
 .zbox.step { background-color: transparent; }
+.dc { margin-top: 0.5rem; padding: 0.5rem 0.6rem; border-radius: 8px; background: var(--sunken); text-align: left; }
+.dc-head { display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; }
+.dc-head b { font-size: 1.3rem; }
+.dc-arrow { color: var(--seal); font-weight: 800; }
+.dc-tree { list-style: none; margin: 0.25rem 0 0 0.2rem; padding: 0 0 0 0.8rem; border-left: 2px solid var(--line-2); display: flex; flex-direction: column; gap: 0.25rem; }
+.dc-chip { display: inline-flex; align-items: baseline; gap: 0.4rem; padding: 0.1rem 0.4rem; border-radius: 6px; border: 0; background: transparent; font-size: 0.78rem; text-align: left; }
+.dc-chip:hover { background: var(--seal-soft); }
+.dc-chip b { font-size: 1.15rem; }
+.dc-chip small { color: var(--ink-2); }
+.t-struct { width: 100%; }
 .prog-wrap { margin-top: 0.6rem; }
 #dlg-install .steps { margin: 0.7rem 0 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.9rem; }
 #dlg-install .opt { display: flex; align-items: flex-start; gap: 0.6rem; margin-top: 0.9rem; font-size: 0.88rem; }
