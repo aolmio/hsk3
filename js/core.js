@@ -76,7 +76,8 @@ voiceURI: "",
 autoSpeak: false,
 dailyGoal: 20,
 newPerSession: 10,
-fcDirection: "zh"
+fcDirection: "zh",
+extBreakdown: false
 };
 
 const S = {
