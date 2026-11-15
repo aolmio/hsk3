@@ -101,8 +101,9 @@ overflow-x: hidden;
 text-rendering: optimizeLegibility;
 -webkit-font-smoothing: antialiased;
 }
-body.han-serif { --font-han: "Noto Serif SC", "Songti SC", "Source Han Serif SC", "STSong", "SimSun", serif; }
-body.han-kai { --font-han: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", "DFKai-SB", "AR PL UKai CN", serif; }
+body { font-synthesis: none; }
+.sy, .py, .py *, .tile .t-py, .ws-py { font-family: var(--font-ui); font-style: normal; letter-spacing: 0; font-variant-ligatures: none; }
+.font-preview { margin-top: 0.7rem; padding: 0.8rem 1rem; border-radius: var(--r-md); background: var(--sunken); font-size: 1.6rem; line-height: 1.5; }
 [hidden] { display: none !important; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -411,12 +412,12 @@ td.hz-cell { font-family: var(--font-han); font-size: 1.2rem; font-weight: 700; 
 .sheet .ws-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.5rem; border-bottom: 2px solid #111; padding-bottom: 0.7rem; margin-bottom: 1.2rem; }
 .sheet .ws-row { display: flex; align-items: center; gap: 0.7rem; padding-bottom: 0.8rem; margin-bottom: 0.9rem; border-bottom: 1px dashed #c8c8c8; break-inside: avoid; page-break-inside: avoid; }
 .sheet .ws-meta { width: 130px; flex-shrink: 0; }
-.sheet .ws-hz { font-family: var(--font-han); font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+.sheet .ws-hz { font-family: var(--wsf, var(--font-han)); font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
 .sheet .ws-py { font-size: 0.85rem; font-weight: 700; color: #c8372d; }
 .sheet .ws-en { font-size: 0.72rem; color: #444; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .sheet .ws-boxes { display: flex; flex-wrap: wrap; gap: 0.3rem; flex: 1; }
-.zbox { width: var(--bs, 56px); height: var(--bs, 56px); border: 1.5px solid var(--gc); position: relative; display: grid; place-items: center; font-family: "KaiTi", "Kaiti SC", "STKaiti", "BiauKai", var(--font-han), serif; font-size: calc(var(--bs, 56px) * 0.66); line-height: 1; user-select: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-.zbox.model { color: #111; }
+.zbox { width: var(--bs, 56px); height: var(--bs, 56px); border: 1.5px solid var(--gc); position: relative; display: grid; place-items: center; font-family: var(--wsf, var(--font-han)); font-size: calc(var(--bs, 56px) * 0.66); line-height: 1; user-select: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.zbox.model { color: #111; font-weight: 400; }
 .zbox.trace { color: rgba(17, 17, 17, 0.2); }
 .sheet.g-mi .zbox { background-image: linear-gradient(to right, transparent calc(50% - 0.5px), var(--gc) calc(50% - 0.5px), var(--gc) calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--gc) calc(50% - 0.5px), var(--gc) calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(45deg, transparent calc(50% - 0.5px), rgba(210, 40, 30, 0.3) calc(50% - 0.5px), rgba(210, 40, 30, 0.3) calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(-45deg, transparent calc(50% - 0.5px), rgba(210, 40, 30, 0.3) calc(50% - 0.5px), rgba(210, 40, 30, 0.3) calc(50% + 0.5px), transparent calc(50% + 0.5px)); }
 .sheet.g-tian .zbox { background-image: linear-gradient(to right, transparent calc(50% - 0.5px), var(--gc) calc(50% - 0.5px), var(--gc) calc(50% + 0.5px), transparent calc(50% + 0.5px)), linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--gc) calc(50% - 0.5px), var(--gc) calc(50% + 0.5px), transparent calc(50% + 0.5px)); }
@@ -737,7 +738,7 @@ html, body { background: #fff !important; color: #000 !important; }
 <div class="card">
 <div class="row between"><h2 class="sec">Spoken pinyin</h2>
 <div class="row"><button class="btn sm" data-act="an-speak"><svg class="ico"><use href="#i-volume"/></svg>Read aloud</button><button class="btn sm icon" data-act="an-copy" data-what="pinyin" aria-label="Copy pinyin"><svg class="ico"><use href="#i-copy"/></svg></button></div></div>
-<div class="line-box han" id="an-pinyin"></div>
+<div class="line-box" id="an-pinyin"></div>
 <div id="an-sandhi"></div>
 </div>
 <div class="card">
@@ -826,6 +827,8 @@ html, body { background: #fff !important; color: #000 !important; }
 <div><label class="lbl" for="ws-title">Title</label><input class="input" id="ws-title" value="Chinese character practice"></div>
 <div><label class="lbl" for="ws-style">Practice style</label>
 <select class="select" style="width:100%" id="ws-style"><option value="classic">Classic: model + faint tracing</option><option value="progressive">Progressive: stroke by stroke</option></select></div>
+<div><label class="lbl" for="ws-font">Character font</label>
+<select class="select" style="width:100%" id="ws-font"></select></div>
 <div><label class="lbl" for="ws-grid">Grid</label>
 <select class="select" style="width:100%" id="ws-grid"><option value="mi">米字格 (diagonals)</option><option value="tian">田字格 (cross)</option><option value="hui">回字格 (inner box)</option><option value="none">Plain box</option></select></div>
 <div><label class="lbl" for="ws-trace">Tracing copies</label>
@@ -1001,8 +1004,9 @@ html, body { background: #fff !important; color: #000 !important; }
 <select class="select" data-setting="theme"><option value="auto">Automatic</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
 <div class="setting"><div><b>Text size</b><span class="d">Scales the whole interface.</span></div>
 <select class="select" data-setting="scale" data-type="number"><option value="0.9">Small</option><option value="1">Default</option><option value="1.1">Large</option><option value="1.25">Extra large</option></select></div>
-<div class="setting"><div><b>Hanzi typeface</b><span class="d">Sans, serif (Song) or brush-style (Kai).</span></div>
-<select class="select" data-setting="hanFont"><option value="sans">Sans</option><option value="serif">Serif</option><option value="kai">Kai</option></select></div>
+<div class="setting"><div><b>Hanzi typeface</b><span class="d">Sans, serif, Kai, brush and other handwriting styles. Fonts download the first time you pick them.</span></div>
+<select class="select" data-setting="hanFont" style="max-width:220px"></select></div>
+<div class="font-preview han" id="font-preview">你好，我爱学习汉语。永字八法</div>
 <div class="setting"><div><b>Reduce motion</b><span class="d">Turns off animations and flips.</span></div>
 <label class="switch"><input type="checkbox" data-setting="reduceMotion" data-type="bool" aria-label="Reduce motion"><span></span></label></div>
 </div>
@@ -1019,7 +1023,7 @@ html, body { background: #fff !important; color: #000 !important; }
 </div>
 <div class="card">
 <h2 class="sec">Audio</h2>
-<div class="setting"><div><b>Voice</b><span class="d" id="voice-note">Uses your device's Chinese voices.</span></div>
+<div class="setting"><div><b>Voice</b><span class="d" id="voice-note">Uses your device's Chinese voices. On iPhone, switch off silent mode and raise the volume.</span></div>
 <select class="select" id="voice-select" style="max-width:220px"></select></div>
 <div class="setting"><div><b>Speech speed <span id="rate-val"></span></b><span class="d">Slower is easier for tones.</span></div>
 <input class="range" type="range" min="0.5" max="1.2" step="0.05" data-setting="speechRate" data-type="number" style="width:140px" aria-label="Speech speed"></div>
@@ -2035,7 +2039,7 @@ else out.push(t);
 return out;
 }
 function sylHTML(s) {
-return `<span class="tone-${toneOf(s)}">${esc(fmtSyl(s))}</span>`;
+return `<span class="sy tone-${toneOf(s)}">${esc(fmtSyl(s))}</span>`;
 }
 function pinyinHTML(arr) {
 let out = "";
@@ -2917,35 +2921,111 @@ return e ? e.n : 0;
 }
 
 let VOICES = [];
+const TTS = { unlocked: false };
+const FONTS = [
+{ id: "sans", label: "Sans (Noto Sans)", stack: '"Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", "WenQuanYi Micro Hei", sans-serif', gf: "Noto+Sans+SC:wght@400;500;700" },
+{ id: "serif", label: "Serif (Song / Ming)", stack: '"Noto Serif SC", "Songti SC", "Source Han Serif SC", "STSong", "SimSun", serif', gf: "Noto+Serif+SC:wght@400;600;700" },
+{ id: "kai", label: "Kai (regular script)", stack: '"LXGW WenKai TC", "Kaiti SC", "STKaiti", "KaiTi", "BiauKai", "DFKai-SB", "AR PL UKai CN", "Noto Serif SC", serif', gf: "LXGW+WenKai+TC:wght@400;700" },
+{ id: "brush", label: "Brush calligraphy (Ma Shan Zheng)", stack: '"Ma Shan Zheng", "Kaiti SC", "KaiTi", "Noto Sans SC", sans-serif', gf: "Ma+Shan+Zheng" },
+{ id: "running", label: "Running script (Zhi Mang Xing)", stack: '"Zhi Mang Xing", "Kaiti SC", "KaiTi", "Noto Sans SC", sans-serif', gf: "Zhi+Mang+Xing" },
+{ id: "cursive", label: "Cursive (Liu Jian Mao Cao)", stack: '"Liu Jian Mao Cao", "Kaiti SC", "KaiTi", "Noto Sans SC", sans-serif', gf: "Liu+Jian+Mao+Cao" },
+{ id: "hand", label: "Casual handwriting (Long Cang)", stack: '"Long Cang", "Kaiti SC", "KaiTi", "Noto Sans SC", sans-serif', gf: "Long+Cang" },
+{ id: "playful", label: "Playful hand (ZCOOL KuaiLe)", stack: '"ZCOOL KuaiLe", "Noto Sans SC", sans-serif', gf: "ZCOOL+KuaiLe" },
+{ id: "elegant", label: "Elegant display (ZCOOL XiaoWei)", stack: '"ZCOOL XiaoWei", "Noto Serif SC", serif', gf: "ZCOOL+XiaoWei" },
+{ id: "bold", label: "Bold display (ZCOOL QingKe HuangYou)", stack: '"ZCOOL QingKe HuangYou", "Noto Sans SC", sans-serif', gf: "ZCOOL+QingKe+HuangYou" }
+];
+const fontById = id => FONTS.find(f => f.id === id) || FONTS[0];
+const fontLoaded = new Set();
+function ensureFont(id) {
+const f = fontById(id);
+if (!f.gf || fontLoaded.has(f.id)) return;
+fontLoaded.add(f.id);
+const l = document.createElement("link");
+l.rel = "stylesheet";
+l.href = `https://fonts.googleapis.com/css2?family=${f.gf}&display=swap`;
+document.head.append(l);
+}
+function fillFontSelects() {
+const opts = FONTS.map(f => `<option value="${f.id}">${esc(f.label)}</option>`).join("");
+$$('[data-setting="hanFont"]').forEach(el => (el.innerHTML = opts));
+const ws = $("#ws-font");
+if (ws) ws.innerHTML = opts;
+}
+function applyFont(id) {
+const f = fontById(id);
+ensureFont(f.id);
+document.documentElement.style.setProperty("--font-han", f.stack);
+}
+
+function normLang(l) {
+return String(l || "").replace("_", "-");
+}
 function loadVoices() {
-if (!("speechSynthesis" in window)) return;
-VOICES = speechSynthesis.getVoices().filter(v => /^(zh|cmn|yue)/i.test(v.lang));
+if (!("speechSynthesis" in window)) return 0;
+const all = speechSynthesis.getVoices() || [];
+VOICES = all.filter(v => /^(zh|cmn|yue)/i.test(normLang(v.lang)) || /chinese|mandarin|普通话|國語|国语|中文/i.test(v.name));
+VOICES.sort((a, b) => (/^zh-CN/i.test(normLang(b.lang)) ? 1 : 0) - (/^zh-CN/i.test(normLang(a.lang)) ? 1 : 0));
 const sel = $("#voice-select");
 if (sel) {
 sel.innerHTML = VOICES.length
-? VOICES.map(v => `<option value="${esc(v.voiceURI)}">${esc(v.name)} (${esc(v.lang)})</option>`).join("")
-: '<option value="">No Chinese voice found</option>';
+? VOICES.map(v => `<option value="${esc(v.voiceURI)}">${esc(v.name)} (${esc(normLang(v.lang))})</option>`).join("")
+: '<option value="">Default system voice</option>';
 sel.value = VOICES.some(v => v.voiceURI === S.settings.voiceURI) ? S.settings.voiceURI : VOICES[0] ? VOICES[0].voiceURI : "";
 }
+return VOICES.length;
+}
+function retryVoices() {
+let n = 0;
+const t = setInterval(() => {
+if (loadVoices() || ++n > 16) clearInterval(t);
+}, 400);
+}
+function unlockSpeech() {
+if (TTS.unlocked || !("speechSynthesis" in window)) return;
+TTS.unlocked = true;
+try {
+const u = new SpeechSynthesisUtterance(" ");
+u.volume = 0;
+u.lang = "zh-CN";
+speechSynthesis.speak(u);
+} catch (e) {}
+loadVoices();
 }
 function speak(text, slow) {
 if (!("speechSynthesis" in window) || !text) {
 toast("Speech is not supported in this browser");
 return;
 }
-speechSynthesis.cancel();
-const u = new SpeechSynthesisUtterance(text);
-u.lang = "zh-CN";
-const v = VOICES.find(x => x.voiceURI === S.settings.voiceURI) || VOICES.find(x => /zh[-_]CN|cmn/i.test(x.lang)) || VOICES[0];
-if (v) {
-u.voice = v;
-u.lang = v.lang;
-} else if (!S.noVoiceWarned) {
+const synth = speechSynthesis;
+if (!VOICES.length) loadVoices();
+const raw = String(text).trim();
+const parts = splitSentences(raw);
+const chunks = parts.length ? parts : [raw];
+const v = VOICES.find(x => x.voiceURI === S.settings.voiceURI) || VOICES.find(x => /^zh-CN/i.test(normLang(x.lang))) || VOICES[0];
+if (!v && !S.noVoiceWarned && (synth.getVoices() || []).length > 0) {
 S.noVoiceWarned = true;
-toast("No Chinese voice found on this device. Audio may be silent.");
+toast("No Chinese voice found on this device. Add one in your system speech settings.");
 }
-u.rate = slow ? Math.min(0.6, S.settings.speechRate) : S.settings.speechRate;
-speechSynthesis.speak(u);
+const rate = slow ? Math.min(0.6, S.settings.speechRate) : S.settings.speechRate;
+const run = () => {
+chunks.forEach(chunk => {
+const u = new SpeechSynthesisUtterance(chunk);
+u.lang = v ? normLang(v.lang) : "zh-CN";
+if (v) u.voice = v;
+u.rate = rate;
+u.onerror = ev => {
+if (ev && ev.error && ev.error !== "canceled" && ev.error !== "interrupted") toast(`Speech failed (${ev.error}). On iPhone, check the silent switch and volume.`);
+};
+synth.speak(u);
+});
+try {
+if (synth.paused) synth.resume();
+} catch (e) {}
+};
+if (synth.speaking || synth.pending) {
+synth.cancel();
+setTimeout(run, 90);
+} else run();
 }
 
 function applySettings() {
@@ -2954,8 +3034,7 @@ const root = document.documentElement;
 const dark = st.theme === "dark" || (st.theme === "auto" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
 root.setAttribute("data-theme", dark ? "dark" : "light");
 root.style.setProperty("--scale", String(st.scale));
-document.body.classList.toggle("han-serif", st.hanFont === "serif");
-document.body.classList.toggle("han-kai", st.hanFont === "kai");
+applyFont(st.hanFont);
 document.body.classList.toggle("no-tone", !st.toneColors);
 document.body.classList.toggle("hide-py", !!st.hidePinyin);
 document.body.classList.toggle("hide-mn", !!st.hideMeaning);
@@ -3105,7 +3184,7 @@ let { name, args } = parseHash();
 if (!ROUTE_TITLES[name]) name = "home";
 const prev = S.route.name;
 S.route = { name, args };
-speechSynthesis && "speechSynthesis" in window && speechSynthesis.cancel();
+if ("speechSynthesis" in window) speechSynthesis.cancel();
 $$(".view").forEach(v => (v.hidden = true));
 const view = $(`#v-${name}`);
 view.hidden = false;
@@ -4599,6 +4678,7 @@ $("#mw-grid").innerHTML = list.length
 
 const WS = { token: 0, strokes: new Map(), loading: false, failed: false };
 VIEW_ENTER.worksheet = async () => {
+$("#ws-font").value = S.misc.wsFont || "kai";
 const src = S.misc.wsSource;
 if (src) {
 $("#ws-source").value = src;
@@ -4643,6 +4723,12 @@ const cols = Number($("#ws-cols").value);
 const size = Number($("#ws-size").value);
 $("#ws-size-val").textContent = String(size);
 const sheet = $("#ws-sheet");
+const wf = fontById($("#ws-font").value || "kai");
+S.misc.wsFont = wf.id;
+persist.misc();
+sheet.style.setProperty("--wsf", wf.stack);
+ensureFont(wf.id);
+if (document.fonts && document.fonts.load && wf.gf) document.fonts.load(`${size}px ${wf.stack.split(",")[0]}`, list.join("")).then(() => {}, () => {});
 sheet.className = `sheet g-${grid}`;
 sheet.style.setProperty("--bs", size + "px");
 const progressive = $("#ws-style").value === "progressive";
@@ -4680,11 +4766,14 @@ return `<div class="ws-row"><div class="ws-meta"><div class="ws-hz">${esc(c)}</d
 });
 sheet.innerHTML = `<div class="ws-head"><div><h2 style="font-size:1.4rem;font-family:var(--font-display)">${esc($("#ws-title").value || "Practice sheet")}</h2><div style="font-size:.8rem;color:#555">${list.length} characters · ${new Date().toLocaleDateString()}</div></div><div style="font-size:.85rem">Name: ______________</div></div>${progressive && WS.loading ? '<p class="no-print small" style="color:#777">Loading stroke data…</p>' : ""}${progressive && WS.failed ? '<p class="no-print small" style="color:#b45309">Stroke data could not be downloaded, so the classic layout is shown. Check your connection.</p>' : ""}${rows.join("") || '<p style="color:#777;text-align:center;padding:2rem">Enter some Chinese characters above to build a sheet.</p>'}`;
 }
-A["ws-print"] = () => {
+A["ws-print"] = async () => {
 if (!$("#ws-chars").value.trim()) {
 toast("Add some characters first");
 return;
 }
+try {
+if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]);
+} catch (e) {}
 window.print();
 };
 
@@ -5151,7 +5240,7 @@ else if (t.id === "sv-sort" || t.id === "sv-tag") renderSaved();
 else if (t.id === "ws-source" || t.id === "ws-level" || t.id === "ws-offset") {
 await wsFillFromSource();
 wsRender();
-} else if (["ws-style", "ws-grid", "ws-trace", "ws-cols", "ws-py", "ws-en"].includes(t.id)) wsRender();
+} else if (["ws-font", "ws-style", "ws-grid", "ws-trace", "ws-cols", "ws-py", "ws-en"].includes(t.id)) wsRender();
 else if (t.id === "sen-src") {
 if (SEN.q) A["sen-search"]();
 } else if (t.id === "voice-select") {
@@ -5215,7 +5304,11 @@ loadDeck();
 seedDictionary();
 initCorpus();
 applySettings();
+fillFontSelects();
+applySettings();
 loadVoices();
+retryVoices();
+["pointerdown", "touchend", "keydown"].forEach(ev => document.addEventListener(ev, unlockSpeech, { once: true, capture: true, passive: true }));
 if (!navigator.onLine) document.body.classList.add("offline");
 renderNav();
 if (!location.hash) history.replaceState(null, "", "#/home");
