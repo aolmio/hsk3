@@ -24,6 +24,7 @@
 <script src="js/ui.js" defer></script>
 <script src="js/level.js" defer></script>
 <script src="js/confuse.js" defer></script>
+<script src="js/decomp.js" defer></script>
 <script src="js/pwa.js" defer></script>
 <script src="js/offline.js" defer></script>
 <script src="js/views.js" defer></script>
@@ -229,6 +230,7 @@
 <button data-act="an-view" data-v="cards">Cards</button>
 <button data-act="an-view" data-v="table">Table</button>
 </div>
+<label class="row small muted" style="gap:.4rem"><span class="switch"><input type="checkbox" id="an-ext" data-setting="extBreakdown" data-type="bool" aria-label="Extended breakdown"><span></span></span>Extended breakdown</label>
 <label class="row small muted" style="gap:.4rem"><span class="switch"><input type="checkbox" id="an-unique" checked aria-label="Unique words only"><span></span></span>Unique words</label>
 </div>
 </div>
@@ -509,6 +511,7 @@
 <select class="select" data-setting="dailyGoal" data-type="number"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="50">50</option><option value="100">100</option></select></div>
 <div class="setting"><div><b>New cards per session</b><span class="d">How many unseen words each study round adds.</span></div>
 <select class="select" data-setting="newPerSession" data-type="number"><option value="5">5</option><option value="10">10</option><option value="15">15</option><option value="20">20</option></select></div>
+<div class="setting"><div><b>Extended character breakdown</b><span class="d">Split characters into their components in the analyzer and word details.</span></div><label class="switch"><input type="checkbox" data-setting="extBreakdown" data-type="bool" aria-label="Extended breakdown"><span></span></label></div>
 <div class="setting"><div><b>Flashcard front</b><span class="d">What you see before flipping.</span></div>
 <select class="select" data-setting="fcDirection"><option value="zh">Hanzi</option><option value="en">Meaning</option><option value="audio">Audio only</option></select></div>
 </div>
@@ -540,6 +543,7 @@
 <div><a href="https://github.com/drkameleon/complete-hsk-vocabulary" target="_blank" rel="noopener">drkameleon/complete-hsk-vocabulary</a><p class="small muted">HSK 2.0 and 3.0 word lists with pinyin, CC-CEDICT definitions and parts of speech.</p></div>
 <div><a href="https://github.com/leonsilicon/hsk3.1" target="_blank" rel="noopener">leonsilicon/hsk2.0 · hsk3.0 · hsk3.1</a><p class="small muted">Structured word lists, chengyu, four-character phrases and sentence pairs.</p></div>
 <div><a href="https://github.com/krmanik/HSK-3.0" target="_blank" rel="noopener">krmanik/HSK-3.0</a> · <a href="https://github.com/krmanik/Chinese-Grammar" target="_blank" rel="noopener">Chinese-Grammar</a><p class="small muted">Official 2025 word lists, grammar syllabus and AllSet grammar CSVs.</p></div>
+<div><a href="https://github.com/skishore/makemeahanzi" target="_blank" rel="noopener">skishore/makemeahanzi</a><p class="small muted">Character decomposition used by the extended breakdown.</p></div>
 <div><a href="https://github.com/chanind/hanzi-writer-data" target="_blank" rel="noopener">chanind/hanzi-writer-data</a> · <a href="https://pinyin-pro.cn" target="_blank" rel="noopener">pinyin-pro</a><p class="small muted">Stroke order data and context-aware pinyin conversion.</p></div>
 </div>
 </div>
