@@ -95,6 +95,11 @@ if (S.corpus.length < 200) failed++;
 p(1);
 } });
 }
+plan.push({ label: "Character structure", w: 8, run: async p => {
+const ok = await ensureDecomp();
+if (!ok) failed++;
+p(1);
+} });
 if (opts.strokes) {
 plan.push({ label: "Stroke order data", w: 40, run: async p => {
 const chars = strokeChars();
