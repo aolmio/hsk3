@@ -147,7 +147,7 @@ anGlossRender();
 });
 }
 
-async function analyzerTranslate(text) {
+async function analyzerTranslate(text, force) {
 const runId = ++AN.run;
 const box = $("#an-trans");
 const note = $("#an-trans-note");
@@ -162,7 +162,7 @@ if (!Array.from(p).some(isZh)) {
 results[i] = p;
 return;
 }
-const t = await translateText(p);
+const t = await translateText(p, { force });
 if (runId !== AN.run) return;
 results[i] = t || null;
 if (t) anyOk = true;
@@ -173,7 +173,9 @@ if (runId !== AN.run) return;
 if (anyOk) {
 AN.trans = results.map(r => r || "").join(" ").trim();
 box.textContent = AN.trans;
-note.textContent = results.some(r => !r) ? "Some sentences could not be translated." : "Machine translation (Google Translate). Treat it as a guide, not a reference.";
+const names = Array.from(new Set(parts.map(p => TR.src.get(p.trim())).filter(Boolean)));
+const missing = results.some(r => !r);
+note.innerHTML = `${missing ? "Some sentences could not be translated. " : ""}Machine translation${names.length ? ` by ${esc(names.join(", "))}` : ""}. Treat it as a guide, not a reference.${missing ? ' <button class="btn sm" data-act="an-retranslate">Retry</button>' : ""}`;
 } else {
 const gloss = AN.words
 .filter(w => w.meaning)
@@ -181,10 +183,17 @@ const gloss = AN.words
 .map(w => `${w.key}: ${shortMeaning(w.meaning, 1)}`)
 .join(" · ");
 AN.trans = "";
-box.textContent = gloss || "Translation unavailable offline.";
-note.textContent = gloss ? "You appear to be offline, so these are dictionary glosses rather than a translation." : "";
+box.textContent = gloss || "Translation is unavailable right now.";
+const offline = navigator.onLine === false;
+note.innerHTML = `${offline ? "You are offline, so these are dictionary glosses rather than a translation." : "The translation services could not be reached just now, so these are dictionary glosses."} <button class="btn sm" data-act="an-retranslate">Try again</button>${!offline && TR.report ? `<br><span class="tiny faint">${esc(TR.report)}</span>` : ""}`;
 }
 }
+A["an-retranslate"] = () => {
+if (!AN.text) return;
+TR.cool = {};
+TR.fail.clear();
+analyzerTranslate(AN.text, true);
+};
 
 const analyzerLive = debounce(() => {
 if ($("#an-live").checked) analyzerRun(false);
