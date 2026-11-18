@@ -312,7 +312,7 @@ el.disabled = true;
 el.textContent = "Translating…";
 const t = await translateText(key);
 const slot = $("#gloss-slot");
-if (slot) slot.innerHTML = t ? esc(t) + ' <span class="tiny faint">· Google Translate</span>' : "Translation unavailable offline.";
+if (slot) slot.innerHTML = t ? esc(t) + ' <span class="tiny faint">· Google Translate</span>' : "Translation is unavailable right now. Try again in a moment.";
 };
 A["analyze-word"] = el => {
 $("#an-input").value = el.dataset.key;
