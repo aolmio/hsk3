@@ -998,20 +998,148 @@ level: S.levelOf.get(key) || (sr && sr.l) || 0
 };
 }
 
-const glossPending = new Map();
-async function translateText(text) {
-const key = text.trim();
+const TR = { pref: store.get("hsk_hub_tr_pref", ""), cool: {}, fail: new Map(), src: new Map(), report: "", edge: null, pending: new Map() };
+const TR_TTL = 365 * DAY;
+
+async function trFetch(url, init, ms = 7000) {
+const ctl = new AbortController();
+const timer = setTimeout(() => ctl.abort(), ms);
+try {
+const res = await fetch(url, Object.assign({ signal: ctl.signal, credentials: "omit", referrerPolicy: "no-referrer" }, init || {}));
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+return await res.json();
+} catch (e) {
+throw new Error(e && e.name === "AbortError" ? "timeout" : e && e.message ? e.message : "network error");
+} finally {
+clearTimeout(timer);
+}
+}
+
+const trGoogle = base => async text => {
+const d = await trFetch(`${base}/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(text)}`);
+return d && Array.isArray(d[0]) ? d[0].map(x => (x && x[0]) || "").join("") : "";
+};
+
+const TR_PROVIDERS = [
+{ id: "google", name: "Google Translate", run: trGoogle("https://translate.googleapis.com") },
+{ id: "google-web", name: "Google Translate (web)", run: trGoogle("https://translate.google.com") },
+{ id: "google-dict", name: "Google Translate (dictionary)", run: async text => {
+const d = await trFetch(`https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=zh-CN&tl=en&q=${encodeURIComponent(text)}`);
+if (d && Array.isArray(d.sentences)) return d.sentences.map(x => x.trans || "").join("");
+if (Array.isArray(d)) {
+if (typeof d[0] === "string") return d[0];
+if (Array.isArray(d[0]) && typeof d[0][0] === "string") return d[0][0];
+}
+return "";
+} },
+{ id: "mymemory", name: "MyMemory", run: async text => {
+const d = await trFetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent("zh-CN|en")}`);
+if (!d || Number(d.responseStatus) !== 200 || !d.responseData) return "";
+const t = String(d.responseData.translatedText || "");
+const div = document.createElement("textarea");
+div.innerHTML = t;
+return div.value;
+} },
+{ id: "lingva", name: "Lingva Translate", run: async text => {
+const bases = ["https://lingva.ml", "https://lingva.thedaviddelta.com", "https://lingva.lunar.icu"];
+let last = null;
+for (const b of bases) {
+try {
+const d = await trFetch(`${b}/api/v1/zh/en/${encodeURIComponent(text)}`, null, 6000);
+if (d && d.translation) return String(d.translation);
+} catch (e) {
+last = e;
+}
+}
+throw last || new Error("no result");
+} },
+{ id: "edge", name: "Microsoft Translator", run: async text => {
+if (!TR.edge || TR.edge.exp < Date.now()) {
+const res = await fetch("https://edge.microsoft.com/translate/auth", { credentials: "omit", referrerPolicy: "no-referrer" });
+if (!res.ok) throw new Error(`HTTP ${res.status}`);
+TR.edge = { tok: (await res.text()).trim(), exp: Date.now() + 8 * 60000 };
+}
+const d = await trFetch("https://api-edge.cognitive.microsofttranslator.com/translate?from=zh-Hans&to=en&api-version=3.0", {
+method: "POST",
+headers: { "Content-Type": "application/json", Authorization: `Bearer ${TR.edge.tok}` },
+body: JSON.stringify([{ Text: text }])
+});
+return d && d[0] && d[0].translations && d[0].translations[0] ? d[0].translations[0].text : "";
+} },
+{ id: "libre", name: "LibreTranslate", run: async text => {
+const bases = ["https://translate.argosopentech.com", "https://libretranslate.de", "https://translate.terraprint.co"];
+let last = null;
+for (const b of bases) {
+try {
+const d = await trFetch(`${b}/translate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ q: text, source: "zh", target: "en", format: "text" }) }, 6000);
+if (d && d.translatedText) return String(d.translatedText);
+} catch (e) {
+last = e;
+}
+}
+throw last || new Error("no result");
+} }
+];
+
+function trValid(input, out) {
+const t = String(out || "").trim();
+if (!t || t === input) return false;
+if (/MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID|PLEASE SELECT|NO QUERY SPECIFIED/i.test(t)) return false;
+const chars = Array.from(t);
+const zh = chars.filter(isZh).length;
+return zh / chars.length < 0.4;
+}
+
+function trOrder() {
+const now = Date.now();
+const list = TR_PROVIDERS.slice();
+list.sort((a, b) => (a.id === TR.pref ? -1 : 0) - (b.id === TR.pref ? -1 : 0));
+const ready = list.filter(p => !(TR.cool[p.id] > now));
+return ready.length ? ready : list;
+}
+
+async function translateText(text, opts = {}) {
+const key = String(text || "").trim();
 if (!key) return "";
 if (S.gt.has(key)) return S.gt.get(key);
-if (glossPending.has(key)) return glossPending.get(key);
+if (opts.force) TR.fail.delete(key);
+const failedAt = TR.fail.get(key);
+if (failedAt && Date.now() - failedAt < 30000) return "";
+if (TR.pending.has(key)) return TR.pending.get(key);
 const p = (async () => {
-const data = await fetchRemote(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(key)}`);
-const result = data && Array.isArray(data[0]) ? data[0].map(x => (x && x[0]) || "").join("") : "";
-if (result) S.gt.set(key, result);
-return result;
+const hit = await idb.get(`tr|${key}`);
+if (hit && hit.v && Date.now() - hit.t < TR_TTL) {
+S.gt.set(key, hit.v);
+TR.src.set(key, hit.s || "saved copy");
+return hit.v;
+}
+const errors = [];
+for (const prov of trOrder()) {
+try {
+const out = await prov.run(key);
+if (trValid(key, out)) {
+const clean = String(out).trim();
+S.gt.set(key, clean);
+TR.src.set(key, prov.name);
+TR.pref = prov.id;
+store.set("hsk_hub_tr_pref", prov.id);
+delete TR.cool[prov.id];
+idb.set(`tr|${key}`, { t: Date.now(), v: clean, s: prov.name });
+return clean;
+}
+errors.push(`${prov.name}: empty result`);
+TR.cool[prov.id] = Date.now() + 20000;
+} catch (e) {
+errors.push(`${prov.name}: ${e.message}`);
+TR.cool[prov.id] = Date.now() + 60000;
+}
+}
+TR.report = errors.slice(0, 6).join("; ");
+TR.fail.set(key, Date.now());
+return "";
 })();
-glossPending.set(key, p);
-p.finally(() => glossPending.delete(key));
+TR.pending.set(key, p);
+p.finally(() => TR.pending.delete(key));
 return p;
 }
 
