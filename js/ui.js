@@ -162,7 +162,7 @@ $("#app").classList.remove("menu-open");
 A["close-menu"] = closeMenu;
 A["toggle-side"] = () => {
 const app = $("#app");
-if (window.innerWidth <= 960) app.classList.toggle("menu-open");
+if (window.innerWidth <= 640) app.classList.toggle("menu-open");
 else app.classList.toggle("collapsed");
 };
 A["toggle-theme"] = () => {
@@ -172,8 +172,19 @@ persist.settings();
 applySettings();
 };
 A["open-more"] = () => {
-$("#more-grid").innerHTML = NAV_ITEMS.map(i => `<a class="tool-card" href="#/${i.id}" data-act="close-more">${`<span class="ti">${ico(i.icon)}</span>`}<div><b>${i.label}</b></div></a>`).join("") +
-[1, 2, 3, 4, 5, 6, 7].map(l => `<a class="tool-card" href="#/level/${l}/vocab" data-act="close-more"><span class="ti">${l === 7 ? "9" : l}</span><div><b>${LEVELS[l].name}</b><span>${LEVELS[l].cefr}</span></div></a>`).join("");
+const card = (href, icon, title, sub) => `<a class="tool-card" href="${href}" data-act="close-more"><span class="ti">${icon}</span><div><b>${title}</b>${sub ? `<span>${sub}</span>` : ""}</div></a>`;
+let html = "";
+["", "Learn", "Tools", "Library", "Guide"].forEach(g => {
+const items = NAV_ITEMS.filter(i => i.group === g);
+if (!items.length) return;
+if (g) html += `<div class="ms-group" style="grid-column:1/-1">${g}</div>`;
+html += items.map(i => card(`#/${i.id}`, ico(i.icon), i.label)).join("");
+if (g === "Learn") {
+html += '<div class="ms-group" style="grid-column:1/-1">HSK levels</div>';
+html += [1, 2, 3, 4, 5, 6, 7].map(l => card(`#/level/${l}/vocab`, l === 7 ? "9" : l, LEVELS[l].name, LEVELS[l].cefr)).join("");
+}
+});
+$("#more-grid").innerHTML = html;
 $("#dlg-more").showModal();
 };
 A["close-more"] = () => $("#dlg-more").close();
