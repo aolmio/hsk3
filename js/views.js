@@ -27,7 +27,9 @@ return clamp(parseInt($("#an-target").value, 10) || 3, 1, 7);
 function analyzerRun(force) {
 const text = $("#an-input").value.replace(/\r/g, "").trim();
 anCount();
-if (!text) {
+const hasZh = Array.from(text).some(isZh);
+$("#an-nonzh").hidden = !text || hasZh || !/\p{L}/u.test(text);
+if (!text || !hasZh) {
 AN.text = "";
 $("#an-out").hidden = true;
 return;

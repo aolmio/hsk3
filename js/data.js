@@ -27,6 +27,7 @@ const NAV_ITEMS = [
 { id: "radicals", label: "Radicals", icon: "blocks", group: "Tools" },
 { id: "measure", label: "Measure words", icon: "scale", group: "Tools" },
 { id: "worksheet", label: "Worksheets", icon: "print", group: "Tools" },
+{ id: "translate", label: "Translator", icon: "globe", group: "Tools" },
 { id: "sentences", label: "Sentence search", icon: "chat", group: "Tools" },
 { id: "confuse", label: "Confusables", icon: "shuffle", group: "Tools" },
 { id: "saved", label: "Saved words", icon: "star", group: "Library" },

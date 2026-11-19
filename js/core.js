@@ -998,7 +998,7 @@ level: S.levelOf.get(key) || (sr && sr.l) || 0
 };
 }
 
-const TR = { pref: store.get("hsk_hub_tr_pref", ""), cool: {}, fail: new Map(), src: new Map(), report: "", edge: null, pending: new Map() };
+const TR = { pref: store.get("hsk_hub_tr_pref", ""), cool: {}, fail: new Map(), src: new Map(), report: "", edge: null, pending: new Map(), mem: new Map() };
 const TR_TTL = 365 * DAY;
 
 async function trFetch(url, init, ms = 7000) {
@@ -1015,64 +1015,78 @@ clearTimeout(timer);
 }
 }
 
-const trGoogle = base => async text => {
-const d = await trFetch(`${base}/translate_a/single?client=gtx&sl=zh-CN&tl=en&dt=t&q=${encodeURIComponent(text)}`);
-return d && Array.isArray(d[0]) ? d[0].map(x => (x && x[0]) || "").join("") : "";
+function trLang(id, lang) {
+if (id === "mymemory") return lang === "auto" ? "Autodetect" : lang;
+if (id === "lingva") return lang === "zh-CN" ? "zh" : lang === "zh-TW" ? "zh_HANT" : lang;
+if (id === "edge") return lang === "zh-CN" ? "zh-Hans" : lang === "zh-TW" ? "zh-Hant" : lang === "tl" ? "fil" : lang;
+if (id === "libre") {
+if (lang === "zh-TW") throw new Error("traditional Chinese unsupported");
+return lang === "zh-CN" ? "zh" : lang;
+}
+return lang;
+}
+
+const trGoogle = (id, base) => async (text, from, to) => {
+const d = await trFetch(`${base}/translate_a/single?client=gtx&sl=${encodeURIComponent(trLang(id, from))}&tl=${encodeURIComponent(trLang(id, to))}&dt=t&q=${encodeURIComponent(text)}`);
+return { text: d && Array.isArray(d[0]) ? d[0].map(x => (x && x[0]) || "").join("") : "", detected: d && typeof d[2] === "string" ? d[2] : "" };
 };
 
 const TR_PROVIDERS = [
-{ id: "google", name: "Google Translate", run: trGoogle("https://translate.googleapis.com") },
-{ id: "google-web", name: "Google Translate (web)", run: trGoogle("https://translate.google.com") },
-{ id: "google-dict", name: "Google Translate (dictionary)", run: async text => {
-const d = await trFetch(`https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=zh-CN&tl=en&q=${encodeURIComponent(text)}`);
-if (d && Array.isArray(d.sentences)) return d.sentences.map(x => x.trans || "").join("");
+{ id: "google", name: "Google Translate", run: trGoogle("google", "https://translate.googleapis.com") },
+{ id: "google-web", name: "Google Translate (web)", run: trGoogle("google-web", "https://translate.google.com") },
+{ id: "google-dict", name: "Google Translate (dictionary)", run: async (text, from, to) => {
+const d = await trFetch(`https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=${encodeURIComponent(from)}&tl=${encodeURIComponent(to)}&q=${encodeURIComponent(text)}`);
+if (d && Array.isArray(d.sentences)) return { text: d.sentences.map(x => x.trans || "").join(""), detected: d.src || "" };
 if (Array.isArray(d)) {
-if (typeof d[0] === "string") return d[0];
-if (Array.isArray(d[0]) && typeof d[0][0] === "string") return d[0][0];
+if (typeof d[0] === "string") return { text: d[0], detected: "" };
+if (Array.isArray(d[0]) && typeof d[0][0] === "string") return { text: d[0][0], detected: typeof d[0][1] === "string" ? d[0][1] : "" };
 }
-return "";
+return { text: "", detected: "" };
 } },
-{ id: "mymemory", name: "MyMemory", run: async text => {
-const d = await trFetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent("zh-CN|en")}`);
-if (!d || Number(d.responseStatus) !== 200 || !d.responseData) return "";
-const t = String(d.responseData.translatedText || "");
-const div = document.createElement("textarea");
-div.innerHTML = t;
-return div.value;
+{ id: "mymemory", name: "MyMemory", run: async (text, from, to) => {
+const d = await trFetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${encodeURIComponent(trLang("mymemory", from) + "|" + trLang("mymemory", to))}`);
+if (!d || Number(d.responseStatus) !== 200 || !d.responseData) return { text: "", detected: "" };
+const box = document.createElement("textarea");
+box.innerHTML = String(d.responseData.translatedText || "");
+return { text: box.value, detected: "" };
 } },
-{ id: "lingva", name: "Lingva Translate", run: async text => {
+{ id: "lingva", name: "Lingva Translate", run: async (text, from, to) => {
 const bases = ["https://lingva.ml", "https://lingva.thedaviddelta.com", "https://lingva.lunar.icu"];
 let last = null;
 for (const b of bases) {
 try {
-const d = await trFetch(`${b}/api/v1/zh/en/${encodeURIComponent(text)}`, null, 6000);
-if (d && d.translation) return String(d.translation);
+const d = await trFetch(`${b}/api/v1/${encodeURIComponent(trLang("lingva", from))}/${encodeURIComponent(trLang("lingva", to))}/${encodeURIComponent(text)}`, null, 6000);
+if (d && d.translation) return { text: String(d.translation), detected: d.info && d.info.detectedSource ? String(d.info.detectedSource) : "" };
 } catch (e) {
 last = e;
 }
 }
 throw last || new Error("no result");
 } },
-{ id: "edge", name: "Microsoft Translator", run: async text => {
+{ id: "edge", name: "Microsoft Translator", run: async (text, from, to) => {
 if (!TR.edge || TR.edge.exp < Date.now()) {
 const res = await fetch("https://edge.microsoft.com/translate/auth", { credentials: "omit", referrerPolicy: "no-referrer" });
 if (!res.ok) throw new Error(`HTTP ${res.status}`);
 TR.edge = { tok: (await res.text()).trim(), exp: Date.now() + 8 * 60000 };
 }
-const d = await trFetch("https://api-edge.cognitive.microsofttranslator.com/translate?from=zh-Hans&to=en&api-version=3.0", {
+const f = from === "auto" ? "" : `from=${encodeURIComponent(trLang("edge", from))}&`;
+const d = await trFetch(`https://api-edge.cognitive.microsofttranslator.com/translate?${f}to=${encodeURIComponent(trLang("edge", to))}&api-version=3.0`, {
 method: "POST",
 headers: { "Content-Type": "application/json", Authorization: `Bearer ${TR.edge.tok}` },
 body: JSON.stringify([{ Text: text }])
 });
-return d && d[0] && d[0].translations && d[0].translations[0] ? d[0].translations[0].text : "";
+const first = d && d[0];
+return { text: first && first.translations && first.translations[0] ? first.translations[0].text : "", detected: first && first.detectedLanguage ? first.detectedLanguage.language : "" };
 } },
-{ id: "libre", name: "LibreTranslate", run: async text => {
+{ id: "libre", name: "LibreTranslate", run: async (text, from, to) => {
 const bases = ["https://translate.argosopentech.com", "https://libretranslate.de", "https://translate.terraprint.co"];
+const src = trLang("libre", from);
+const tgt = trLang("libre", to);
 let last = null;
 for (const b of bases) {
 try {
-const d = await trFetch(`${b}/translate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ q: text, source: "zh", target: "en", format: "text" }) }, 6000);
-if (d && d.translatedText) return String(d.translatedText);
+const d = await trFetch(`${b}/translate`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ q: text, source: src, target: tgt, format: "text" }) }, 6000);
+if (d && d.translatedText) return { text: String(d.translatedText), detected: d.detectedLanguage && d.detectedLanguage.language ? d.detectedLanguage.language : "" };
 } catch (e) {
 last = e;
 }
@@ -1081,12 +1095,14 @@ throw last || new Error("no result");
 } }
 ];
 
-function trValid(input, out) {
+function trValid(input, out, to) {
 const t = String(out || "").trim();
 if (!t || t === input) return false;
 if (/MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID|PLEASE SELECT|NO QUERY SPECIFIED/i.test(t)) return false;
 const chars = Array.from(t);
 const zh = chars.filter(isZh).length;
+if (String(to).startsWith("zh")) return zh / chars.length > 0.3 || zh >= 1;
+if (to === "ja" || to === "ko") return true;
 return zh / chars.length < 0.4;
 }
 
@@ -1098,34 +1114,39 @@ const ready = list.filter(p => !(TR.cool[p.id] > now));
 return ready.length ? ready : list;
 }
 
-async function translateText(text, opts = {}) {
+async function translateFull(text, opts = {}) {
 const key = String(text || "").trim();
-if (!key) return "";
-if (S.gt.has(key)) return S.gt.get(key);
-if (opts.force) TR.fail.delete(key);
-const failedAt = TR.fail.get(key);
-if (failedAt && Date.now() - failedAt < 30000) return "";
-if (TR.pending.has(key)) return TR.pending.get(key);
+const from = opts.from || "zh-CN";
+const to = opts.to || "en";
+if (!key) return { text: "", provider: "", detected: "" };
+if (from === to) return { text: key, provider: "", detected: from };
+const ck = from === "zh-CN" && to === "en" ? key : `${from}>${to}|${key}`;
+if (TR.mem.has(ck)) return TR.mem.get(ck);
+if (opts.force) TR.fail.delete(ck);
+const failedAt = TR.fail.get(ck);
+if (failedAt && Date.now() - failedAt < 30000) return { text: "", provider: "", detected: "" };
+if (TR.pending.has(ck)) return TR.pending.get(ck);
 const p = (async () => {
-const hit = await idb.get(`tr|${key}`);
+const hit = await idb.get(`tr|${ck}`);
 if (hit && hit.v && Date.now() - hit.t < TR_TTL) {
-S.gt.set(key, hit.v);
-TR.src.set(key, hit.s || "saved copy");
-return hit.v;
+const r = { text: hit.v, provider: hit.s || "saved copy", detected: hit.d || "" };
+TR.mem.set(ck, r);
+TR.src.set(ck, r.provider);
+return r;
 }
 const errors = [];
 for (const prov of trOrder()) {
 try {
-const out = await prov.run(key);
-if (trValid(key, out)) {
-const clean = String(out).trim();
-S.gt.set(key, clean);
-TR.src.set(key, prov.name);
+const out = await prov.run(key, from, to);
+if (trValid(key, out.text, to)) {
+const r = { text: String(out.text).trim(), provider: prov.name, detected: out.detected || "" };
+TR.mem.set(ck, r);
+TR.src.set(ck, prov.name);
 TR.pref = prov.id;
 store.set("hsk_hub_tr_pref", prov.id);
 delete TR.cool[prov.id];
-idb.set(`tr|${key}`, { t: Date.now(), v: clean, s: prov.name });
-return clean;
+idb.set(`tr|${ck}`, { t: Date.now(), v: r.text, s: prov.name, d: r.detected });
+return r;
 }
 errors.push(`${prov.name}: empty result`);
 TR.cool[prov.id] = Date.now() + 20000;
@@ -1135,12 +1156,52 @@ TR.cool[prov.id] = Date.now() + 60000;
 }
 }
 TR.report = errors.slice(0, 6).join("; ");
-TR.fail.set(key, Date.now());
-return "";
+TR.fail.set(ck, Date.now());
+return { text: "", provider: "", detected: "" };
 })();
-TR.pending.set(key, p);
-p.finally(() => TR.pending.delete(key));
+TR.pending.set(ck, p);
+p.finally(() => TR.pending.delete(ck));
 return p;
+}
+
+async function translateText(text, opts = {}) {
+return (await translateFull(text, opts)).text;
+}
+
+function splitForTranslate(text) {
+const src = String(text || "").replace(/\r/g, "").trim();
+if (!src) return [];
+const enc = new TextEncoder();
+const pieces = src.split(/(?<=[。！？…；।။؟])|(?<=[.!?;])\s+|\n+/u).map(x => x.trim()).filter(Boolean);
+const chunks = [];
+let cur = "";
+const fits = s => Array.from(s).length <= 200 && enc.encode(s).length <= 450;
+const push = piece => {
+if (fits(piece)) {
+if (cur && fits(cur + " " + piece)) cur += " " + piece;
+else {
+if (cur) chunks.push(cur);
+cur = piece;
+}
+return;
+}
+if (cur) {
+chunks.push(cur);
+cur = "";
+}
+let buf = "";
+for (const ch of Array.from(piece)) {
+if (!fits(buf + ch)) {
+chunks.push(buf);
+buf = "";
+}
+buf += ch;
+}
+cur = buf;
+};
+pieces.forEach(push);
+if (cur) chunks.push(cur);
+return chunks;
 }
 
 function splitSentences(text) {

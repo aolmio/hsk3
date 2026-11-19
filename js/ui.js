@@ -114,7 +114,7 @@ nav.innerHTML = html;
 $$(".bn[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === cur));
 }
 
-const ROUTE_TITLES = { home: "Home", review: "Daily review", analyzer: "Text analyzer", radicals: "Radicals", measure: "Measure words", worksheet: "Worksheets", sentences: "Sentence search", confuse: "Confusables", saved: "Saved words", stats: "Progress", facts: "Facts & tips", settings: "Settings", level: "Level" };
+const ROUTE_TITLES = { home: "Home", review: "Daily review", analyzer: "Text analyzer", radicals: "Radicals", measure: "Measure words", worksheet: "Worksheets", sentences: "Sentence search", confuse: "Confusables", translate: "Translator", saved: "Saved words", stats: "Progress", facts: "Facts & tips", settings: "Settings", level: "Level" };
 const VIEW_ENTER = {};
 
 function parseHash() {
@@ -447,6 +447,7 @@ return `<a class="level-card" href="#/level/${l}/vocab"><div class="row between"
 <a class="tool-card" href="#/measure"><span class="ti">${ico("scale")}</span><div><b>Measure words</b><span>Quiz and reference for 40 classifiers.</span></div></a>
 <a class="tool-card" href="#/worksheet"><span class="ti">${ico("print")}</span><div><b>Worksheets</b><span>Printable grid sheets from your own words.</span></div></a>
 <a class="tool-card" href="#/sentences"><span class="ti">${ico("chat")}</span><div><b>Sentence search</b><span>Real example sentences for any word.</span></div></a>
+<a class="tool-card" href="#/translate"><span class="ti">${ico("globe")}</span><div><b>Translator</b><span>Any language to Chinese with pinyin, or Chinese to English.</span></div></a>
 <a class="tool-card" href="#/stats"><span class="ti">${ico("chart")}</span><div><b>Progress</b><span>Streaks, accuracy and mastery by level.</span></div></a>
 </div>
 <details class="fold"><summary>HSK 2.0 vs 3.0 / 3.1 at a glance</summary><div class="in"><div class="tbl-wrap"><table><thead><tr><th>Level</th><th>HSK 2.0 words (cumulative)</th><th>HSK 3.0 words (cumulative)</th><th>HSK 3.0 characters</th><th>Milestone</th></tr></thead><tbody>${SPEC_ROWS.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</tbody></table></div></div></details>`;
