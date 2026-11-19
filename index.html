@@ -24,6 +24,7 @@
 <script src="js/ui.js" defer></script>
 <script src="js/level.js" defer></script>
 <script src="js/confuse.js" defer></script>
+<script src="js/translate.js" defer></script>
 <script src="js/decomp.js" defer></script>
 <script src="js/pwa.js" defer></script>
 <script src="js/offline.js" defer></script>
@@ -192,6 +193,7 @@
 </div>
 </div>
 </div>
+<div class="banner mt" id="an-nonzh" hidden><span class="grow">This text has no Chinese characters. Translate it to Chinese first to analyze it.</span><button class="btn primary sm" data-act="an-to-zh"><svg class="ico"><use href="#i-globe"/></svg>Translate to Chinese</button></div>
 <div id="an-out" hidden class="stack mt">
 <div class="card">
 <div class="row between">
@@ -578,6 +580,41 @@
 <div class="grid g-wide" id="cf-look-grid"></div>
 </div>
 <div id="cf-drill" hidden></div>
+</section>
+
+<section class="view" id="v-translate" hidden>
+<div class="page-head">
+<div>
+<span class="eyebrow">Translator · 翻译</span>
+<h1 class="title" tabindex="-1">Translate to and from Chinese</h1>
+<p class="lede">Translate from almost any language into Chinese with pinyin and audio, or from Chinese into English and other languages.</p>
+</div>
+<div class="seg" id="tr-mode">
+<button data-act="tr-mode" data-m="to" class="on">Any language → Chinese</button>
+<button data-act="tr-mode" data-m="from">Chinese → English</button>
+</div>
+</div>
+<div class="card">
+<div class="row mb">
+<label class="small muted" for="tr-from">From</label>
+<select class="select" id="tr-from" aria-label="Source language"></select>
+<button class="btn ghost icon" data-act="tr-swap" aria-label="Swap languages"><svg class="ico"><use href="#i-shuffle"/></svg></button>
+<label class="small muted" for="tr-to">To</label>
+<select class="select" id="tr-to" aria-label="Target language"></select>
+</div>
+<textarea class="textarea" id="tr-input" maxlength="3000" spellcheck="false" aria-label="Text to translate"></textarea>
+<div class="row between mt-s">
+<div class="row">
+<button class="btn primary" data-act="tr-run"><svg class="ico"><use href="#i-globe"/></svg>Translate</button>
+<button class="btn ghost" data-act="tr-paste"><svg class="ico"><use href="#i-copy"/></svg>Paste</button>
+<button class="btn ghost" data-act="tr-clear"><svg class="ico"><use href="#i-trash"/></svg>Clear</button>
+</div>
+<span class="chip" id="tr-count">0 / 3000</span>
+</div>
+<p class="hint mt-s">Press Ctrl or Cmd + Enter to translate. Machine translation is a guide, not a reference.</p>
+</div>
+<div class="mt" id="tr-out" hidden></div>
+<div class="card mt" id="tr-hist" hidden></div>
 </section>
 
 </main>
