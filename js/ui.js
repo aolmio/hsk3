@@ -98,14 +98,25 @@ const badge = c ? `<span class="nav-count${it.id === "review" ? " alert" : ""}">
 return `<a class="nav-item${on}" href="#/${it.id}" ${on ? 'aria-current="page"' : ""}>${ico(it.icon)}<span class="grow">${it.label}</span>${badge}</a>`;
 };
 NAV_ITEMS.filter(i => i.id === "home").forEach(i => (html += item(i)));
+const fold = (key, label, count, body) => {
+const st = S.misc.navFold || {};
+const open = key in st ? st[key] : key === "hsk";
+return `<div class="nav-fold${open ? "" : " shut"}"><button class="nav-fold-h" data-act="nav-fold" data-f="${key}" aria-expanded="${open}"><span class="grow">${label}</span><span class="nf-count">${count}</span><svg class="ico nf-chev"><use href="#i-right"/></svg></button><div class="nav-fold-body">${body}</div></div>`;
+};
 html += '<div class="nav-label">Learn</div>';
 NAV_ITEMS.filter(i => i.group === "Learn").forEach(i => (html += item(i)));
+let lv = "";
 for (let l = 1; l <= 7; l++) {
 const learned = Object.values(S.srs).filter(r => r.l === l && r.reps >= 1).length;
 const pct = Math.min(100, Math.round((learned / LEVELS[l].total) * 100));
 const on = cur === "level" && S.level === l ? " on" : "";
-html += `<a class="nav-item nav-level${on}" href="#/level/${l}/${on ? S.tab : "vocab"}"><span class="lv-top"><span class="lv-dot l-${l}">${l === 7 ? "9" : l}</span><span class="grow">${LEVELS[l].name}</span><span class="nav-count">${LEVELS[l].cefr}</span></span><span class="lv-bar"><i style="width:${pct}%"></i></span></a>`;
+lv += `<a class="nav-item nav-level${on}" href="#/level/${l}/${on ? S.tab : "vocab"}"><span class="lv-top"><span class="lv-dot l-${l}">${l === 7 ? "9" : l}</span><span class="grow">${LEVELS[l].name}</span><span class="nav-count">${LEVELS[l].cefr}</span></span><span class="lv-bar"><i style="width:${pct}%"></i></span></a>`;
 }
+html += fold("hsk", "HSK levels", "1–9", lv);
+const wArg = S.route.args[0];
+let wb = `<a class="nav-item${cur === "words" && !wArg ? " on" : ""}" href="#/words">${ico("book")}<span class="grow">Overview</span></a>`;
+WORD_CATS.forEach(c => (wb += `<a class="nav-item${cur === "words" && wArg === c.id ? " on" : ""}" href="#/words/${c.id}">${ico(c.icon)}<span class="grow">${c.short}</span></a>`));
+html += fold("words", "Function words", WORD_CATS.length, wb);
 ["Tools", "Library", "Guide"].forEach(g => {
 html += `<div class="nav-label">${g}</div>`;
 NAV_ITEMS.filter(i => i.group === g).forEach(i => (html += item(i)));
@@ -114,7 +125,7 @@ nav.innerHTML = html;
 $$(".bn[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === cur));
 }
 
-const ROUTE_TITLES = { home: "Home", review: "Daily review", analyzer: "Text analyzer", radicals: "Radicals", measure: "Measure words", worksheet: "Worksheets", sentences: "Sentence search", confuse: "Confusables", translate: "Translator", saved: "Saved words", stats: "Progress", facts: "Facts & tips", settings: "Settings", level: "Level" };
+const ROUTE_TITLES = { home: "Home", review: "Daily review", analyzer: "Text analyzer", radicals: "Radicals", measure: "Measure words", worksheet: "Worksheets", sentences: "Sentence search", confuse: "Confusables", translate: "Translator", words: "Function words", saved: "Saved words", stats: "Progress", facts: "Facts & tips", settings: "Settings", level: "Level" };
 const VIEW_ENTER = {};
 
 function parseHash() {
@@ -138,6 +149,7 @@ view.style.animation = "none";
 void view.offsetWidth;
 view.style.animation = "";
 let title = ROUTE_TITLES[name];
+if (name === "words") title = wordsTitle(args[0]);
 if (name === "level") {
 const lvl = clamp(parseInt(args[0], 10) || 1, 1, 7);
 const tab = ["vocab", "flash", "quiz", "grammar", "idioms", "strokes"].includes(args[1]) ? args[1] : "vocab";
@@ -174,7 +186,12 @@ applySettings();
 A["open-more"] = () => {
 const card = (href, icon, title, sub) => `<a class="tool-card" href="${href}" data-act="close-more"><span class="ti">${icon}</span><div><b>${title}</b>${sub ? `<span>${sub}</span>` : ""}</div></a>`;
 let html = "";
-["", "Learn", "Tools", "Library", "Guide"].forEach(g => {
+["", "Learn", "Words", "Tools", "Library", "Guide"].forEach(g => {
+if (g === "Words") {
+html += '<div class="ms-group" style="grid-column:1/-1">Function words</div>';
+html += card("#/words", ico("book"), "Overview") + WORD_CATS.map(c => card(`#/words/${c.id}`, ico(c.icon), c.short, c.zh)).join("");
+return;
+}
 const items = NAV_ITEMS.filter(i => i.group === g);
 if (!items.length) return;
 if (g) html += `<div class="ms-group" style="grid-column:1/-1">${g}</div>`;
@@ -337,6 +354,9 @@ const query = q.trim();
 const low = query.toLowerCase();
 const navMatches = NAV_ITEMS.filter(i => !low || i.label.toLowerCase().includes(low));
 navMatches.forEach(i => items.push({ group: "Go to", icon: i.icon, label: i.label, run: () => go(`/${i.id}`) }));
+WORD_CATS.forEach(c => {
+if (!low || c.title.toLowerCase().includes(low) || c.short.toLowerCase().includes(low) || c.zh.includes(low) || "function words".includes(low)) items.push({ group: "Go to", icon: c.icon, label: `${c.title} · ${c.zh}`, run: () => go(`/words/${c.id}`) });
+});
 for (let l = 1; l <= 7; l++) {
 if (!low || LEVELS[l].name.toLowerCase().includes(low) || `hsk ${l}`.includes(low) || LEVELS[l].cefr.toLowerCase() === low) items.push({ group: "Go to", icon: "book", label: `${LEVELS[l].name} · ${LEVELS[l].band}`, run: () => go(`/level/${l}/vocab`) });
 }
@@ -455,6 +475,7 @@ return `<a class="level-card" href="#/level/${l}/vocab"><div class="row between"
 <div class="grid g-auto mb">
 <a class="tool-card" href="#/analyzer"><span class="ti">${ico("type")}</span><div><b>Text analyzer</b><span>Pinyin with tone sandhi, translation and HSK difficulty for any passage.</span></div></a>
 <a class="tool-card" href="#/radicals"><span class="ti">${ico("blocks")}</span><div><b>Radicals</b><span>43 radicals and phonetic families that explain how characters are built.</span></div></a>
+<a class="tool-card" href="#/words"><span class="ti">${ico("book")}</span><div><b>Function words</b><span>Questions, prepositions, modals, conjunctions and more.</span></div></a>
 <a class="tool-card" href="#/measure"><span class="ti">${ico("scale")}</span><div><b>Measure words</b><span>Quiz and reference for 40 classifiers.</span></div></a>
 <a class="tool-card" href="#/worksheet"><span class="ti">${ico("print")}</span><div><b>Worksheets</b><span>Printable grid sheets from your own words.</span></div></a>
 <a class="tool-card" href="#/sentences"><span class="ti">${ico("chat")}</span><div><b>Sentence search</b><span>Real example sentences for any word.</span></div></a>

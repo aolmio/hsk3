@@ -1,5 +1,5 @@
 "use strict";
-const APP_VERSION = "e918dfd5a6";
+const APP_VERSION = "b5eec94b19";
 const ASK_KEY = "hsk_hub_install_asked";
 const PWA = { reg: null, deferred: null, timer: null, reloading: false };
 
