@@ -1,4 +1,4 @@
-const VERSION = "e92b5f0a31";
+const VERSION = "f07d3c8b54";
 const SHELL = `hsk-hub-shell-${VERSION}`;
 const RUNTIME = "hsk-hub-runtime-v1";
 const SHELL_FILES = ["./", "index.html", "manifest.webmanifest", "css/styles.css", "js/data.js", "js/core.js", "js/ui.js", "js/level.js", "js/confuse.js", "js/translate.js", "js/wdata.js", "js/words.js", "js/decomp.js", "js/pwa.js", "js/offline.js", "js/views.js", "js/script.js", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
