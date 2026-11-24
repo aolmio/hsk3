@@ -13,6 +13,11 @@ const ATTR_ORIG = new WeakMap();
 let lastMode = null;
 let curWord = "";
 let observer = null;
+let libLoading = null;
+const LIB_URLS = ["https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js", "https://unpkg.com/opencc-js@1.0.5/dist/umd/full.js", "https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/full.js"];
+const PLACE_KEY = "hsk_hub_place";
+let placeSaving = false;
+let placeTimer = 0;
 
 function converters() {
 if (!CV.tried && window.OpenCC && typeof window.OpenCC.Converter === "function") {
@@ -26,6 +31,41 @@ CV.t2s = null;
 }
 }
 return CV;
+}
+function loadOne(url) {
+return new Promise(resolve => {
+const el = document.createElement("script");
+el.src = url;
+el.async = true;
+el.onload = () => resolve(!!window.OpenCC);
+el.onerror = () => {
+el.remove();
+resolve(false);
+};
+document.head.append(el);
+});
+}
+function loadLib() {
+if (window.OpenCC) return Promise.resolve(true);
+if (libLoading) return libLoading;
+libLoading = (async () => {
+for (const url of LIB_URLS) {
+if (window.OpenCC) return true;
+if (await loadOne(url)) return true;
+}
+return !!window.OpenCC;
+})().then(ok => {
+libLoading = null;
+return ok;
+});
+return libLoading;
+}
+function afterLibReady() {
+cacheT.clear();
+cacheS.clear();
+updateButton();
+lastMode = null;
+applyScript(true);
 }
 function ready() {
 const c = converters();
@@ -222,10 +262,6 @@ const first = lastMode === null;
 lastMode = m;
 processTree(document.body);
 if (!first) refreshWidgets();
-if (!ready() && m === "trad" && !CV.warned && !first) {
-CV.warned = true;
-toast("Conversion data is not loaded yet. Connect to the internet once so it can be saved for offline use.");
-}
 }
 
 function formsHTML(key) {
@@ -315,8 +351,72 @@ A["toggle-script"] = () => {
 S.settings.script = mode() === "trad" ? "simp" : "trad";
 persist.settings();
 applyScript(false);
+if (ready()) {
 toast(mode() === "trad" ? "Showing traditional hanzi 繁體" : "Showing simplified hanzi 简体");
+return;
+}
+toast("Loading conversion data…");
+loadLib().then(ok => {
+if (ok) {
+afterLibReady();
+toast(mode() === "trad" ? "Showing traditional hanzi 繁體" : "Showing simplified hanzi 简体");
+} else toast("Could not load conversion data. Check your connection and try again.");
+});
 };
+
+function savePlace() {
+if (!placeSaving) return;
+try {
+localStorage.setItem(PLACE_KEY, JSON.stringify({ hash: location.hash, y: Math.round(window.scrollY || 0), t: Date.now() }));
+} catch (e) {}
+}
+function savePlaceSoon() {
+if (placeTimer) return;
+placeTimer = setTimeout(() => {
+placeTimer = 0;
+savePlace();
+}, 250);
+}
+function restorePlace() {
+let p = null;
+try {
+p = JSON.parse(localStorage.getItem(PLACE_KEY) || "null");
+} catch (e) {}
+const start = () => {
+placeSaving = true;
+};
+if (!p || !p.hash || Date.now() - (p.t || 0) > 30 * 86400000) {
+start();
+return;
+}
+const cur = location.hash;
+if (cur !== p.hash) {
+if (cur === "" || cur === "#" || cur === "#/home") location.hash = p.hash;
+else {
+start();
+return;
+}
+}
+const target = Number(p.y) || 0;
+let tries = 0;
+let done = false;
+const finish = () => {
+if (done) return;
+done = true;
+clearInterval(timer);
+["touchstart", "wheel", "keydown", "mousedown"].forEach(ev => window.removeEventListener(ev, finish, true));
+start();
+};
+["touchstart", "wheel", "keydown", "mousedown"].forEach(ev => window.addEventListener(ev, finish, { capture: true, passive: true }));
+const timer = setInterval(() => {
+tries++;
+const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+if (max >= target || tries > 30) {
+window.scrollTo(0, Math.min(target, max));
+if (max >= target || tries > 30) setTimeout(finish, 200);
+}
+}, 150);
+}
 
 function boot() {
 if (!S.settings.script) S.settings.script = "simp";
@@ -341,6 +441,14 @@ cacheS.clear();
 processTree(document.body);
 }
 });
+if (!ready()) loadLib().then(ok => ok && afterLibReady());
+window.addEventListener("scroll", savePlaceSoon, { passive: true });
+window.addEventListener("hashchange", () => setTimeout(savePlace, 400));
+window.addEventListener("pagehide", savePlace);
+document.addEventListener("visibilitychange", () => {
+if (document.visibilityState === "hidden") savePlace();
+});
+restorePlace();
 }
 
 if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
