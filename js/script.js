@@ -15,6 +15,8 @@ let curWord = "";
 let observer = null;
 let libLoading = null;
 const LIB_URLS = ["https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js", "https://unpkg.com/opencc-js@1.0.5/dist/umd/full.js", "https://cdnjs.cloudflare.com/ajax/libs/opencc-js/1.0.5/full.js"];
+const FONT_MIRRORS = { sans: "noto-sans-sc", serif: "noto-serif-sc", kai: "lxgw-wen-kai-tc", brush: "ma-shan-zheng", running: "zhi-mang-xing", cursive: "liu-jian-mao-cao", hand: "long-cang", playful: "zcool-kuaile", elegant: "zcool-xiaowei", bold: "zcool-qingke-huangyou" };
+const fontWarned = new Set();
 const PLACE_KEY = "hsk_hub_place";
 let placeSaving = false;
 let placeTimer = 0;
@@ -275,7 +277,51 @@ const inner = same
 return `<div class="script-forms small" data-no-conv style="display:flex;gap:1rem;flex-wrap:wrap;margin:.35rem 0;opacity:.85">${inner}</div>`;
 }
 
+function loadFontCss(f) {
+const family = f.stack.split(",")[0].replace(/["']/g, "").trim();
+const urls = [`https://fonts.googleapis.com/css2?family=${f.gf}&display=swap`];
+if (FONT_MIRRORS[f.id]) urls.push(`https://cdn.jsdelivr.net/npm/@fontsource/${FONT_MIRRORS[f.id]}/index.css`);
+let i = 0;
+const fail = () => {
+fontLoaded.delete(f.id);
+if (!fontWarned.has(f.id)) {
+fontWarned.add(f.id);
+toast("This font could not be downloaded. Check your connection or content blocker, then pick it again.");
+}
+};
+const next = () => {
+if (i >= urls.length) {
+fail();
+return;
+}
+const link = document.createElement("link");
+link.rel = "stylesheet";
+link.crossOrigin = "anonymous";
+link.href = urls[i++];
+const bad = () => {
+link.remove();
+next();
+};
+link.onerror = bad;
+link.onload = () => {
+if (!document.fonts || !document.fonts.load) return;
+document.fonts.load(`16px "${family}"`, "你好汉语學習").then(list => {
+if (!list || !list.length) bad();
+}, bad);
+};
+document.head.append(link);
+};
+next();
+}
+
 function wrapAll() {
+window.ensureFont = function (id) {
+const f = fontById(id);
+if (!f.gf || fontLoaded.has(f.id)) return;
+fontLoaded.add(f.id);
+loadFontCss(f);
+};
+
 const oHanzi = window.hanziHTML;
 window.hanziHTML = function (display, key, raw) {
 return `<span class="hzw" data-zw="${esc(display || "")}" style="display:contents">${oHanzi(display, key, raw)}</span>`;
@@ -421,6 +467,13 @@ if (max >= target || tries > 30) setTimeout(finish, 200);
 function boot() {
 if (!S.settings.script) S.settings.script = "simp";
 wrapAll();
+try {
+const cf = fontById(S.settings.hanFont);
+if (cf.gf) {
+fontLoaded.delete(cf.id);
+window.ensureFont(cf.id);
+}
+} catch (e) {}
 hookInputs(document);
 applyScript(true);
 observer = new MutationObserver(records => {
