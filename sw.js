@@ -1,10 +1,11 @@
-const VERSION = "b5eec94b19";
+const VERSION = "d41c9a7e62";
 const SHELL = `hsk-hub-shell-${VERSION}`;
 const RUNTIME = "hsk-hub-runtime-v1";
-const SHELL_FILES = ["./", "index.html", "manifest.webmanifest", "css/styles.css", "js/data.js", "js/core.js", "js/ui.js", "js/level.js", "js/confuse.js", "js/translate.js", "js/wdata.js", "js/words.js", "js/decomp.js", "js/pwa.js", "js/offline.js", "js/views.js", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
+const SHELL_FILES = ["./", "index.html", "manifest.webmanifest", "css/styles.css", "js/data.js", "js/core.js", "js/ui.js", "js/level.js", "js/confuse.js", "js/translate.js", "js/wdata.js", "js/words.js", "js/decomp.js", "js/pwa.js", "js/offline.js", "js/views.js", "js/script.js", "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png", "icons/favicon-32.png"];
 const LIBS = [
 "https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js",
-"https://cdn.jsdelivr.net/npm/pinyin-pro@3.27.0/dist/index.js"
+"https://cdn.jsdelivr.net/npm/pinyin-pro@3.27.0/dist/index.js",
+"https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"
 ];
 const RUNTIME_HOSTS = ["cdn.jsdelivr.net", "fonts.googleapis.com", "fonts.gstatic.com"];
 
