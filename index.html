@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="css/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js" defer crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.27.0/dist/index.js" defer crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js" defer crossorigin="anonymous"></script>
 <script src="js/data.js" defer></script>
 <script src="js/core.js" defer></script>
 <script src="js/ui.js" defer></script>
@@ -31,6 +32,7 @@
 <script src="js/pwa.js" defer></script>
 <script src="js/offline.js" defer></script>
 <script src="js/views.js" defer></script>
+<script src="js/script.js" defer></script>
 </head>
 <body>
 <noscript><p style="padding:2rem;font-family:sans-serif">HSK Hub needs JavaScript to run.</p></noscript>
@@ -106,6 +108,7 @@
 <div class="top-actions">
 <span class="net-pill off"><svg class="ico"><use href="#i-wifi-off"/></svg>Offline</span>
 <span class="net-pill dict" id="dict-pill"></span>
+<button class="btn ghost" data-act="toggle-script" id="script-btn" data-no-conv aria-label="Switch between simplified and traditional hanzi" style="min-width:44px;padding:0 .6rem"><span>简</span>/<span>繁</span></button>
 <button class="btn ghost icon" data-act="toggle-theme" id="theme-btn" aria-label="Toggle theme"><svg class="ico"><use href="#i-moon"/></svg></button>
 <a class="btn ghost icon hide-s" href="#/settings" aria-label="Settings"><svg class="ico"><use href="#i-sliders"/></svg></a>
 </div>
@@ -480,6 +483,8 @@
 <h2 class="sec">Appearance</h2>
 <div class="setting"><div><b>Theme</b><span class="d">Match your device or force a mode.</span></div>
 <select class="select" data-setting="theme"><option value="auto">Automatic</option><option value="light">Light</option><option value="dark">Dark</option></select></div>
+<div class="setting"><div><b>Hanzi script</b><span class="d">Show every character on the site as simplified or traditional. Search accepts both.</span></div>
+<select class="select" data-setting="script"><option value="simp">Simplified 简体</option><option value="trad">Traditional 繁體</option></select></div>
 <div class="setting"><div><b>Text size</b><span class="d">Scales the whole interface.</span></div>
 <select class="select" data-setting="scale" data-type="number"><option value="0.9">Small</option><option value="1">Default</option><option value="1.1">Large</option><option value="1.25">Extra large</option></select></div>
 <div class="setting"><div><b>Hanzi typeface</b><span class="d">Sans, serif, Kai, brush and other handwriting styles. Fonts download the first time you pick them.</span></div>
