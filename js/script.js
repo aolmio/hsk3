@@ -410,6 +410,74 @@ toast(mode() === "trad" ? "Showing traditional hanzi 繁體" : "Showing simplifi
 });
 };
 
+let skipPop = 0;
+function backOne() {
+skipPop++;
+history.back();
+}
+function layerOpen(kind, id) {
+history.pushState({ hh: 1, [kind]: id || 1 }, "", location.href);
+}
+function watchDialog(d) {
+if (d.__hhWatch) return;
+d.__hhWatch = true;
+new MutationObserver(() => {
+if (d.open && !d.__pushed) {
+d.__pushed = true;
+layerOpen("dlg", d.id || "dialog");
+} else if (!d.open && d.__pushed) {
+d.__pushed = false;
+if (d.__byBack) d.__byBack = false;
+else if (history.state && history.state.dlg === (d.id || "dialog")) backOne();
+}
+}).observe(d, { attributes: true, attributeFilter: ["open"] });
+}
+function initHistory() {
+const st = history.state;
+const h = location.hash || "#/home";
+if (!(st && st.hh)) {
+if (h !== "#/home") {
+history.replaceState({ hh: 1 }, "", "#/home");
+history.pushState({ hh: 1 }, "", h);
+} else history.replaceState({ hh: 1 }, "", h);
+} else if (st.dlg || st.menu) history.replaceState({ hh: 1 }, "", location.href);
+document.querySelectorAll("dialog").forEach(watchDialog);
+const app = document.getElementById("app");
+if (app) {
+let menuPushed = false;
+new MutationObserver(() => {
+const on = app.classList.contains("menu-open");
+if (on && !menuPushed) {
+menuPushed = true;
+layerOpen("menu");
+} else if (!on && menuPushed) {
+menuPushed = false;
+if (history.state && history.state.menu) backOne();
+}
+}).observe(app, { attributes: true, attributeFilter: ["class"] });
+window.addEventListener("popstate", () => {
+if (skipPop > 0) {
+skipPop--;
+return;
+}
+const open = Array.from(document.querySelectorAll("dialog")).filter(d => d.open && d.__pushed);
+if (open.length) {
+const d = open[open.length - 1];
+d.__byBack = true;
+d.close();
+return;
+}
+if (app.classList.contains("menu-open")) {
+menuPushed = false;
+app.classList.remove("menu-open");
+return;
+}
+const cur = history.state;
+if (cur && (cur.dlg || cur.menu)) backOne();
+});
+}
+}
+
 function savePlace() {
 if (!placeSaving) return;
 try {
@@ -501,6 +569,7 @@ window.addEventListener("pagehide", savePlace);
 document.addEventListener("visibilitychange", () => {
 if (document.visibilityState === "hidden") savePlace();
 });
+initHistory();
 restorePlace();
 }
 
