@@ -336,6 +336,7 @@ if (s !== key && (S.dict.has(s) || S.levelOf.has(s))) key = s;
 }
 curWord = key;
 oOpen(key);
+if (!silentWord) wordLayer(key);
 const top = document.querySelector("#word-body .d-hanzi");
 if (top) {
 const html = formsHTML(key);
@@ -411,71 +412,180 @@ toast(mode() === "trad" ? "Showing traditional hanzi 繁體" : "Showing simplifi
 };
 
 let skipPop = 0;
-function backOne() {
-skipPop++;
-history.back();
+let pending = false;
+let queued = [];
+let settleTimer = 0;
+let trail = [];
+let idx = 0;
+let silentWord = false;
+const TRAIL_KEY = "hsk_hub_trail";
+function settle() {
+clearTimeout(settleTimer);
+pending = false;
+const q = queued;
+queued = [];
+q.forEach(f => f());
 }
-function layerOpen(kind, id) {
-history.pushState({ hh: 1, [kind]: id || 1 }, "", location.href);
+function runOrQueue(f) {
+if (pending) queued.push(f);
+else f();
+}
+function goBackBy(n) {
+if (n <= 0) return;
+pending = true;
+skipPop++;
+history.go(-n);
+clearTimeout(settleTimer);
+settleTimer = setTimeout(() => {
+skipPop = 0;
+settle();
+}, 900);
+}
+function pushLayer(extra) {
+history.pushState(Object.assign({ hh: 1, i: idx }, extra), "", location.href);
+}
+function saveTrail() {
+try {
+const off = Math.max(0, trail.length - 40);
+localStorage.setItem(TRAIL_KEY, JSON.stringify({ trail: trail.slice(off), idx: Math.max(0, idx - off) }));
+} catch (e) {}
+}
+function loadTrail() {
+try {
+const t = JSON.parse(localStorage.getItem(TRAIL_KEY) || "null");
+if (t && Array.isArray(t.trail) && t.trail.length && typeof t.idx === "number" && t.trail[t.idx]) return t;
+} catch (e) {}
+return null;
+}
+function wordLayer(key) {
+const d = document.getElementById("dlg-word");
+if (!d || !d.open) return;
+if (!d.__pushed) {
+d.__pushed = true;
+d.__depth = 1;
+d.__last = key;
+runOrQueue(() => pushLayer({ dlg: "dlg-word", n: 1, w: key }));
+return;
+}
+if (d.__last === key) return;
+d.__last = key;
+d.__depth = (d.__depth || 1) + 1;
+const n = d.__depth;
+runOrQueue(() => pushLayer({ dlg: "dlg-word", n, w: key }));
 }
 function watchDialog(d) {
 if (d.__hhWatch) return;
 d.__hhWatch = true;
 new MutationObserver(() => {
 if (d.open && !d.__pushed) {
+if (d.id === "dlg-word") return;
 d.__pushed = true;
-layerOpen("dlg", d.id || "dialog");
+d.__depth = 1;
+runOrQueue(() => pushLayer({ dlg: d.id || "dialog", n: 1 }));
 } else if (!d.open && d.__pushed) {
+const n = d.__depth || 1;
+const id = d.id || "dialog";
 d.__pushed = false;
+d.__depth = 0;
+d.__last = "";
 if (d.__byBack) d.__byBack = false;
-else if (history.state && history.state.dlg === (d.id || "dialog")) backOne();
+else
+runOrQueue(() => {
+if (history.state && history.state.dlg === id) goBackBy(n);
+});
 }
 }).observe(d, { attributes: true, attributeFilter: ["open"] });
 }
 function initHistory() {
 const st = history.state;
 const h = location.hash || "#/home";
-if (!(st && st.hh)) {
-if (h !== "#/home") {
-history.replaceState({ hh: 1 }, "", "#/home");
-history.pushState({ hh: 1 }, "", h);
-} else history.replaceState({ hh: 1 }, "", h);
-} else if (st.dlg || st.menu) history.replaceState({ hh: 1 }, "", location.href);
+const saved = loadTrail();
+if (st && st.hh && typeof st.i === "number") {
+idx = st.i;
+if (saved && saved.trail[idx] === h) trail = saved.trail.slice();
+else trail = [];
+trail[idx] = h;
+if (st.dlg || st.menu) history.replaceState({ hh: 1, i: idx }, "", location.href);
+} else if (saved && (h === "#/home" || !location.hash)) {
+trail = saved.trail.slice(0, saved.idx + 1);
+history.replaceState({ hh: 1, i: 0 }, "", trail[0]);
+for (let k = 1; k < trail.length; k++) history.pushState({ hh: 1, i: k }, "", trail[k]);
+idx = trail.length - 1;
+if (location.hash !== h) {
+try {
+route();
+} catch (e) {}
+}
+} else {
+trail = [h];
+idx = 0;
+history.replaceState({ hh: 1, i: 0 }, "", h);
+}
+saveTrail();
+window.addEventListener("hashchange", () => {
+const cs = history.state;
+if (cs && cs.hh && typeof cs.i === "number") {
+idx = cs.i;
+trail[idx] = location.hash || "#/home";
+} else {
+idx += 1;
+trail.length = idx;
+trail[idx] = location.hash || "#/home";
+history.replaceState({ hh: 1, i: idx }, "", location.href);
+}
+saveTrail();
+});
 document.querySelectorAll("dialog").forEach(watchDialog);
 const app = document.getElementById("app");
-if (app) {
 let menuPushed = false;
+if (app) {
 new MutationObserver(() => {
 const on = app.classList.contains("menu-open");
 if (on && !menuPushed) {
 menuPushed = true;
-layerOpen("menu");
+runOrQueue(() => pushLayer({ menu: 1 }));
 } else if (!on && menuPushed) {
 menuPushed = false;
-if (history.state && history.state.menu) backOne();
+runOrQueue(() => {
+if (history.state && history.state.menu) goBackBy(1);
+});
 }
 }).observe(app, { attributes: true, attributeFilter: ["class"] });
+}
 window.addEventListener("popstate", () => {
+const cs = history.state || {};
+if (typeof cs.i === "number") idx = cs.i;
 if (skipPop > 0) {
 skipPop--;
+if (skipPop === 0) settle();
 return;
 }
 const open = Array.from(document.querySelectorAll("dialog")).filter(d => d.open && d.__pushed);
 if (open.length) {
 const d = open[open.length - 1];
+if (cs.dlg === d.id && d.id === "dlg-word" && cs.w) {
+silentWord = true;
+try {
+window.openWord(cs.w);
+} finally {
+silentWord = false;
+}
+d.__last = cs.w;
+d.__depth = cs.n || 1;
+return;
+}
+if (cs.dlg === d.id) return;
 d.__byBack = true;
 d.close();
 return;
 }
-if (app.classList.contains("menu-open")) {
+if (app && app.classList.contains("menu-open")) {
 menuPushed = false;
 app.classList.remove("menu-open");
 return;
 }
-const cur = history.state;
-if (cur && (cur.dlg || cur.menu)) backOne();
+if (cs.dlg || cs.menu) history.back();
 });
-}
 }
 
 function savePlace() {
